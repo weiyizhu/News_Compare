@@ -3,12 +3,13 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const usersRouter = require("./routes/users");
+const newsRoute = require("./routes/news");
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-// app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 // Connect to DB
 const uri = process.env.ATLAS_URI;
@@ -25,6 +26,9 @@ conn.once("open", () => console.log("Connected to database"));
 
 // User Routes
 app.use("/users", usersRouter);
+
+// News Route
+app.use("/news", newsRoute);
 
 // Listen to port
 app.listen(port, () => {
