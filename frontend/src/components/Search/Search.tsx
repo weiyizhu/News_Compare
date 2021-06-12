@@ -1,5 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import axios from "axios";
+import {
+  Card,
+  Container,
+  TextField,
+  CardContent,
+  Paper,
+  Collapse,
+  Tabs,
+  Tab,
+} from "@material-ui/core";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -17,10 +27,65 @@ const getEverything = () => {
 };
 
 const Search: React.FC = () => {
+  const [tabVal, setTabVal] = useState(0)
+
+  const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
+    setTabVal(newVal)
+  };
+
   return (
-    <div>
-      <button onClick={getEverything}>get Everything</button>
-    </div>
+    // <div>
+    //   <button onClick={getEverything}>get Everything</button>
+    // </div>
+    <Container>
+      {/* <Paper elevation={3}>
+          <TextField
+            autoFocus
+            label="search"
+            margin="normal"
+            variant="outlined"
+          ></TextField>
+      </Paper> */}
+      <Paper square elevation={3}>
+        <Tabs
+          value={tabVal}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleTabChange}
+        >
+          <Tab label="Top Headlines" />
+          <Tab label="Everything" />
+        </Tabs>
+      </Paper>
+      <Card raised>
+        <CardContent>
+          <TextField
+            autoFocus
+            label="search"
+            margin="normal"
+            variant="outlined"
+          ></TextField>
+          <TextField
+            autoFocus
+            margin="normal"
+            variant="outlined"
+            type="date"
+            label="from"
+            InputLabelProps={{ shrink: true, focused: true }}
+            disabled={tabVal === 0}
+          ></TextField>
+          <TextField
+            autoFocus
+            margin="normal"
+            variant="outlined"
+            type="date"
+            label="to"
+            InputLabelProps={{ shrink: true, focused: true }}
+            disabled={tabVal === 0}
+          ></TextField>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 export default Search;
