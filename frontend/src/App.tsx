@@ -1,10 +1,13 @@
 import React from "react";
-import Login from "./components/Login/Login";
-import Search from "./components/Search/Search";
+import Login from "./components/Login";
+import NavBar from './components/NavBar'
+import Search from "./components/Search";
 
 function App() {
   return (
     <div className="App">
+      {/* <Login /> */}
+      <NavBar />
       <Login />
       <Search />
     </div>
