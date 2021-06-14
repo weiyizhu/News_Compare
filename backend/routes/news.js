@@ -6,13 +6,21 @@ const axios = require("axios");
 const newsAPIUrl = process.env.NEWS_API_URI;
 const newsAPIKey = process.env.NEWS_API_KEY;
 
+const getConfig = (paramsData) => {
+  return {
+    params: paramsData,
+    headers: {
+      "X-Api-Key": newsAPIKey,
+    },
+  };
+}
+
 // Everything endpoint
 router.post("/everything", (req, res) => {
-  const query = req.body.query;
-  console.log(query);
-  const url = encodeURI(`${newsAPIUrl}/everything?${query}&apiKey=${newsAPIKey}`);
+  const params = req.body.params;
+  const url = encodeURI(`${newsAPIUrl}/everything`);
   axios
-    .get(url)
+    .get(url, getConfig(params))
     .then((result) => {
       res.json(result.data.articles);
     })
@@ -23,7 +31,34 @@ router.post("/everything", (req, res) => {
 });
 
 // Top Headlines endpoint
+router.post("/top-headlines", (req, res) => {
+  const params = req.body.params;
+  const url = encodeURI(`${newsAPIUrl}/top-headlines`);
+  axios
+    .get(url, getConfig(params))
+    .then((result) => {
+      console.log(result.data);
+      res.json(result.data.articles);
+    })
+    .catch((err) => {
+      res.status(err.response.status).json(err.response.data);
+    });
+});
 
 // Soures endpoint
+router.post("/sources", (req, res) => {
+  const params = req.body.params;
+  const url = encodeURI(`${newsAPIUrl}/sources`);
+  axios
+    .get(url, getConfig(params))
+    .then((result) => {
+      console.log(result.data);
+      res.json(result.data.sources);
+    })
+    .catch((err) => {
+      res.status(err.response.status).json(err.response.data);
+    });
+});
+
 
 module.exports = router;
