@@ -9,7 +9,9 @@ import {
   Collapse,
   Tabs,
   Tab,
+  Button,
 } from "@material-ui/core";
+import {Search as SearchIcon} from '@material-ui/icons'
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -117,6 +119,11 @@ const Search: React.FC = () => {
             InputLabelProps={{ shrink: true, focused: true }}
             disabled={tabVal === 0}
           ></TextField>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SearchIcon />}
+          >Search</Button>
         </CardContent>
       </Card>
     </Container>
