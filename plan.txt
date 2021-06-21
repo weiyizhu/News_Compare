@@ -1,4 +1,4 @@
-6/21-6/27 search box (news sources)
+6/21-6/27 search box (news sources), backend typescript
 6/28-7/4 display news (pagination, like and share)
 7/5-7/11 login/signup/forgot/jwt
 7/12-7/18 redux
