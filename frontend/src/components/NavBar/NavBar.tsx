@@ -18,7 +18,9 @@ const NavBar: React.FC = () => {
   return (
     <AppBar>
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>News Compare</Typography>
+        <Typography variant="h6" className={classes.title}>
+          News Compare
+        </Typography>
         <Button color="inherit">Log In</Button>
       </Toolbar>
     </AppBar>

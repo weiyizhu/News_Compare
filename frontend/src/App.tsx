@@ -6,9 +6,8 @@ import Search from "./components/Search";
 function App() {
   return (
     <div className="App">
+      {/* <NavBar /> */}
       {/* <Login /> */}
-      <NavBar />
-      <Login />
       <Search />
     </div>
   );
