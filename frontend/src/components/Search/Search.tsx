@@ -11,8 +11,16 @@ import {
   Tab,
   Button,
   Grid,
+  Divider,
+  InputBase,
+  IconButton,
+  InputAdornment,
+  Box,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
 } from "@material-ui/core";
-import {Search as SearchIcon} from '@material-ui/icons'
+import { FavoriteBorder, Search as SearchIcon, Visibility } from "@material-ui/icons";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -100,7 +108,7 @@ const Search: React.FC = () => {
     //   <button onClick={getSources}>get Headlines</button>
     // </div>
     <Container>
-      <Card raised>
+      <Card raised style={{ position: "relative" }}>
         <Tabs
           value={tabVal}
           indicatorColor="primary"
@@ -114,16 +122,48 @@ const Search: React.FC = () => {
           <CardContent>
             <Grid container spacing={2}>
               <Grid item style={{ flexGrow: 1 }}>
-                <TextField
+                <FormControl variant="outlined">
+                  <InputLabel>Search</InputLabel>
+                  <OutlinedInput
+                    // startAdornment={
+                    //   <InputAdornment position="start">
+                    //     <SearchIcon />
+                    //   </InputAdornment>
+                    // }
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton>
+                          <Visibility />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  ></OutlinedInput>
+                </FormControl>
+                {/* <TextField
                   autoFocus
                   label="search"
                   margin="normal"
                   variant="outlined"
                   fullWidth
-                ></TextField>
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <FavoriteBorder />
+                      </InputAdornment>
+                    ),
+                  }}
+                /> */}
               </Grid>
               {tabVal === 1 && (
                 <>
+                  {/* <Grid item>
+                    <Divider orientation="vertical" />
+                  </Grid> */}
                   <Grid item>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
@@ -141,6 +181,7 @@ const Search: React.FC = () => {
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>
+
                   <Grid item>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
@@ -161,15 +202,19 @@ const Search: React.FC = () => {
                 </>
               )}
             </Grid>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<SearchIcon />}
-            >
-              Search
-            </Button>
           </CardContent>
         </Container>
+        <Box
+          style={{ display: "flex", justifyContent: "center", zIndex: 10000 }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SearchIcon />}
+          >
+            Search
+          </Button>
+        </Box>
       </Card>
     </Container>
   );
