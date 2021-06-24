@@ -69,29 +69,41 @@ const getSources = () => {
     });
 };
 
+type Props = {
+  tabVal: number;
+  fromDate: Date | null;
+  toDate: Date | null
+}
+
 const Search: React.FC = () => {
-  const [tabVal, setTabVal] = useState(0);
-  const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(
-    new Date()
-  );
-  const [selectedToDate, setSelectedToDate] = useState<Date | null>(new Date());
+  const [values, setValues] = useState({
+    tabVal: 0,
+    selectedFromDate: new Date(),
+    selectedToDdate: new Date(),
+  });
+
+  // const [tabVal, setTabVal] = useState(0);
+  // const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(
+  //   new Date()
+  // );
+  // const [selectedToDate, setSelectedToDate] = useState<Date | null>(new Date());
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
-    setTabVal(newVal);
+    setValues({ ...values, tabVal: newVal });
   };
 
   const handleFromDateChange = (
     date: MaterialUiPickersDate,
     value?: string | null | undefined
   ) => {
-    setSelectedFromDate(date);
+    setValues({ ...values, selectedFromDate: value });
   };
 
   const handleToDateChange = (
     date: MaterialUiPickersDate,
     value?: string | null | undefined
   ) => {
-    setSelectedToDate(date);
+    setValues({ ...values, selectedToDdate: value });
   };
 
   return (
@@ -104,7 +116,7 @@ const Search: React.FC = () => {
       <Box style={{ position: "relative" }}>
         <Card raised style={{ paddingBottom: "1em" }}>
           <Tabs
-            value={tabVal}
+            value={values.tabVal}
             indicatorColor="primary"
             textColor="primary"
             onChange={handleTabChange}
@@ -140,7 +152,7 @@ const Search: React.FC = () => {
                     }}
                   />
                 </Grid>
-                {tabVal === 1 && (
+                {values.tabVal === 1 && (
                   <>
                     <Grid item xs={12} sm={3}>
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -151,7 +163,7 @@ const Search: React.FC = () => {
                           variant="inline"
                           format="MM/dd/yyyy"
                           label="from"
-                          value={selectedFromDate}
+                          value={values.selectedFromDate}
                           onChange={handleFromDateChange}
                           minDate={moment().subtract(1, "month")}
                           inputVariant="outlined"
@@ -170,7 +182,7 @@ const Search: React.FC = () => {
                           variant="inline"
                           format="MM/dd/yyyy"
                           label="to"
-                          value={selectedToDate}
+                          value={values.selectedToDdate}
                           onChange={handleToDateChange}
                           minDate={moment().subtract(1, "month")}
                           inputVariant="outlined"
@@ -198,7 +210,11 @@ const Search: React.FC = () => {
             variant="contained"
             color="primary"
             startIcon={<SearchIcon />}
-            style={{ borderRadius: "24px", backgroundColor: "#1a73e8", height: "40px" }}
+            style={{
+              borderRadius: "24px",
+              backgroundColor: "#1a73e8",
+              height: "40px",
+            }}
           >
             Search
           </Button>
