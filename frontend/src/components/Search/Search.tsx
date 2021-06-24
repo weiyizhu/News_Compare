@@ -5,22 +5,15 @@ import {
   Container,
   TextField,
   CardContent,
-  Paper,
-  Collapse,
   Tabs,
   Tab,
   Button,
   Grid,
-  Divider,
-  InputBase,
   IconButton,
   InputAdornment,
   Box,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
 } from "@material-ui/core";
-import { FavoriteBorder, Search as SearchIcon, Visibility } from "@material-ui/icons";
+import { FavoriteBorder, Search as SearchIcon } from "@material-ui/icons";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -108,114 +101,109 @@ const Search: React.FC = () => {
     //   <button onClick={getSources}>get Headlines</button>
     // </div>
     <Container>
-      <Card raised style={{ position: "relative" }}>
-        <Tabs
-          value={tabVal}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleTabChange}
-        >
-          <Tab label="Top Headlines" />
-          <Tab label="Everything" />
-        </Tabs>
-        <Container>
-          <CardContent>
-            <Grid container spacing={2}>
-              <Grid item style={{ flexGrow: 1 }}>
-                <FormControl variant="outlined">
-                  <InputLabel>Search</InputLabel>
-                  <OutlinedInput
-                    // startAdornment={
-                    //   <InputAdornment position="start">
-                    //     <SearchIcon />
-                    //   </InputAdornment>
-                    // }
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton>
-                          <Visibility />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  ></OutlinedInput>
-                </FormControl>
-                {/* <TextField
-                  autoFocus
-                  label="search"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <FavoriteBorder />
-                      </InputAdornment>
-                    ),
-                  }}
-                /> */}
-              </Grid>
-              {tabVal === 1 && (
-                <>
-                  {/* <Grid item>
-                    <Divider orientation="vertical" />
-                  </Grid> */}
-                  <Grid item>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        autoOk
-                        disableFuture
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        label="from"
-                        value={selectedFromDate}
-                        onChange={handleFromDateChange}
-                        minDate={moment().subtract(1, "month")}
-                        inputVariant="outlined"
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
+      <Box style={{ position: "relative" }}>
+        <Card raised style={{ paddingBottom: "1em" }}>
+          <Tabs
+            value={tabVal}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleTabChange}
+          >
+            <Tab label="Top Headlines" />
+            <Tab label="Everything" />
+          </Tabs>
+          <Container>
+            <CardContent>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} sm>
+                  <TextField
+                    autoFocus
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Enter Search Keyword"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton>
+                            <SearchIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton>
+                            <FavoriteBorder />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                {tabVal === 1 && (
+                  <>
+                    <Grid item xs={12} sm={3}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          autoOk
+                          disableFuture
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          label="from"
+                          value={selectedFromDate}
+                          onChange={handleFromDateChange}
+                          minDate={moment().subtract(1, "month")}
+                          inputVariant="outlined"
+                          margin="normal"
+                          style={{ width: "100%" }}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </Grid>
 
-                  <Grid item>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        autoOk
-                        disableFuture
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        label="to"
-                        value={selectedToDate}
-                        onChange={handleToDateChange}
-                        minDate={moment().subtract(1, "month")}
-                        inputVariant="outlined"
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-                </>
-              )}
-            </Grid>
-          </CardContent>
-        </Container>
+                    <Grid item xs={12} sm={3}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          autoOk
+                          disableFuture
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          label="to"
+                          value={selectedToDate}
+                          onChange={handleToDateChange}
+                          minDate={moment().subtract(1, "month")}
+                          inputVariant="outlined"
+                          margin="normal"
+                          style={{ width: "100%" }}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+            </CardContent>
+          </Container>
+        </Card>
         <Box
-          style={{ display: "flex", justifyContent: "center", zIndex: 10000 }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            position: "absolute",
+            bottom: "-20px",
+            width: "100%",
+          }}
         >
           <Button
             variant="contained"
             color="primary"
             startIcon={<SearchIcon />}
+            style={{ borderRadius: "24px", backgroundColor: "#1a73e8", height: "40px" }}
           >
             Search
           </Button>
         </Box>
-      </Card>
+      </Box>
     </Container>
   );
 };
