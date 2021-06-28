@@ -9,7 +9,7 @@ export interface getEverythingProps {
     fromDate: ParsableDate,
     toDate: ParsableDate,
     sources?: string
-  ): string;
+  ): void;
 }
 
 export const getEverything: getEverythingProps = (
@@ -17,13 +17,13 @@ export const getEverything: getEverythingProps = (
   fromDate,
   toDate,
   sources = "cnn, the-wall-street-journal, fox-news"
-): string => {
+) => {
   axios
     .post(url + "/news/everything", {
       params: {
         q: keywords,
-        from: fromDate,
-        to: toDate,
+        from: fromDate?.toString(),
+        to: toDate?.toString(),
         sources: sources,
       },
     })
@@ -33,7 +33,6 @@ export const getEverything: getEverythingProps = (
     .catch((err: any) => {
       console.error(err.message);
     });
-  return "";
 };
 
 export const getTopHeadlines = () => {
