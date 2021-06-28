@@ -21,6 +21,8 @@ const SearchBox: React.FC<Props> = ({ values, setValues }: Props) => {
       variant="outlined"
       fullWidth
       placeholder="Enter Keyword"
+      error={values.searchError}
+      helperText={values.searchError && values.errorText}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
