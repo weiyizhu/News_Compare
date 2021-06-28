@@ -1,117 +1,97 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Container,
-  TextField,
   CardContent,
   Tabs,
   Tab,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
   Box,
 } from "@material-ui/core";
-import { FavoriteBorder, Search as SearchIcon } from "@material-ui/icons";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import moment from "moment";
+import { Search as SearchIcon } from "@material-ui/icons";
+import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
+import SourcesMenu from "../SourcesMenu";
+import { getEverything, getTopHeadlines, Sources } from "../../api/news";
+import DatePicker from "../DatePicker";
+import SearchBox from "../SearchBox";
+import PickSources from "../PickSources";
 
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
-const getEverything = () => {
-  axios
-    .post(url + "/news/everything", {
-      params: {
-        q: "keyword",
-      },
-    })
-    .then((res: any) => {
-      console.log(res.data);
-    })
-    .catch((err: any) => {
-      console.error(err.message);
-    });
-};
-
-const getTopHeadlines = () => {
-  axios
-    .post(url + "/news/top-headlines", {
-      params: {
-        sources: "cnn, the-wall-street-journal, fox-news",
-      },
-    })
-    .then((res: any) => {
-      console.log(res.data);
-    })
-    .catch((err: any) => {
-      console.error(err.message);
-    });
-};
-
-const getSources = () => {
-  axios
-    .post(url + "/news/sources", {
-      params: {
-        country: "us",
-      },
-    })
-    .then((res: any) => {
-      console.log(res.data);
-    })
-    .catch((err: any) => {
-      console.error(err.message);
-    });
-};
-
-type Props = {
+export interface StateProps {
+  keywords: string;
   tabVal: number;
-  fromDate: Date | null;
-  toDate: Date | null
+  selectedFromDate: ParsableDate;
+  selectedToDate: ParsableDate;
+  sources: string[];
+  openMenu: boolean;
+  allSources: Sources[];
+  searchError: boolean;
+  errorText: string;
 }
 
 const Search: React.FC = () => {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<StateProps>({
+    keywords: "",
     tabVal: 0,
     selectedFromDate: new Date(),
-    selectedToDdate: new Date(),
+    selectedToDate: new Date(),
+    sources: ["cnn", "the-wall-street-journal", "fox-news"],
+    openMenu: false,
+    searchError: false,
+    errorText: "",
+    allSources: [
+      {
+        id: "cnn",
+        name: "CNN",
+      },
+      {
+        id: "fox-news",
+        name: "Fox News",
+      },
+      {
+        id: "the-wall-street-journal",
+        name: "The Wall Street Journal",
+      },
+      {
+        id: "abc-news",
+        name: "ABC News",
+      },
+      {
+        id: "news24",
+        name: "News24",
+      },
+      {
+        id: "new-york-magazine",
+        name: "New York Magazine",
+      },
+    ],
   });
-
-  // const [tabVal, setTabVal] = useState(0);
-  // const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(
-  //   new Date()
-  // );
-  // const [selectedToDate, setSelectedToDate] = useState<Date | null>(new Date());
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
     setValues({ ...values, tabVal: newVal });
   };
 
-  const handleFromDateChange = (
-    date: MaterialUiPickersDate,
-    value?: string | null | undefined
-  ) => {
-    setValues({ ...values, selectedFromDate: value });
-  };
-
-  const handleToDateChange = (
-    date: MaterialUiPickersDate,
-    value?: string | null | undefined
-  ) => {
-    setValues({ ...values, selectedToDdate: value });
-  };
+  const handleSearch: React.MouseEventHandler<HTMLButtonElement> | undefined =
+    () => {
+      if (values.sources.length > 3) {
+        setValues({
+          ...values,
+          searchError: true,
+          errorText: "Sources cannot be more than three.",
+        });
+        return;
+      }
+      if (values.tabVal === 0) getTopHeadlines();
+      else if (values.tabVal === 1) {
+        getEverything(
+          values.keywords,
+          values.selectedFromDate,
+          values.selectedToDate
+        );
+      }
+    };
 
   return (
-    // <div>
-    //   <button onClick={getEverything}>get Everything</button>
-    //   <button onClick={getTopHeadlines}>get Headlines</button>
-    //   <button onClick={getSources}>get Headlines</button>
-    // </div>
     <Container>
       <Box style={{ position: "relative" }}>
         <Card raised style={{ paddingBottom: "1em" }}>
@@ -128,72 +108,28 @@ const Search: React.FC = () => {
             <CardContent>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} sm>
-                  <TextField
-                    autoFocus
-                    margin="normal"
-                    variant="outlined"
-                    fullWidth
-                    placeholder="Enter Search Keyword"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <IconButton>
-                            <SearchIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton>
-                            <FavoriteBorder />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+                  <SearchBox values={values} setValues={setValues} />
                 </Grid>
                 {values.tabVal === 1 && (
                   <>
                     <Grid item xs={12} sm={3}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                          disableToolbar
-                          autoOk
-                          disableFuture
-                          variant="inline"
-                          format="MM/dd/yyyy"
-                          label="from"
-                          value={values.selectedFromDate}
-                          onChange={handleFromDateChange}
-                          minDate={moment().subtract(1, "month")}
-                          inputVariant="outlined"
-                          margin="normal"
-                          style={{ width: "100%" }}
-                        />
-                      </MuiPickersUtilsProvider>
+                      <DatePicker
+                        values={values}
+                        setValues={setValues}
+                        label="from"
+                      />
                     </Grid>
-
                     <Grid item xs={12} sm={3}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                          disableToolbar
-                          autoOk
-                          disableFuture
-                          variant="inline"
-                          format="MM/dd/yyyy"
-                          label="to"
-                          value={values.selectedToDdate}
-                          onChange={handleToDateChange}
-                          minDate={moment().subtract(1, "month")}
-                          inputVariant="outlined"
-                          margin="normal"
-                          style={{ width: "100%" }}
-                        />
-                      </MuiPickersUtilsProvider>
+                      <DatePicker
+                        values={values}
+                        setValues={setValues}
+                        label="to"
+                      />
                     </Grid>
                   </>
                 )}
               </Grid>
+              <PickSources values={values} setValues={setValues} />
             </CardContent>
           </Container>
         </Card>
@@ -215,10 +151,12 @@ const Search: React.FC = () => {
               backgroundColor: "#1a73e8",
               height: "40px",
             }}
+            onClick={handleSearch}
           >
             Search
           </Button>
         </Box>
+        <SourcesMenu values={values} setValues={setValues} />
       </Box>
     </Container>
   );
