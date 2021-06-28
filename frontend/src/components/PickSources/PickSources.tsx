@@ -19,7 +19,7 @@ const PickSources: React.FC<Props> = ({ values, setValues }: Props) => {
       <Grid item>
         <Button
           onClick={() => {
-            setValues({ ...values, openDialogue: true });
+            setValues({ ...values, openMenu: true });
           }}
         >
           Sources:{" "}

@@ -51,13 +51,15 @@ export const getTopHeadlines = () => {
 };
 
 export interface Sources {
-  category: string;
-  country: string;
-  description: string;
+  // category: string;
+  // country: string;
+  // description: string;
+  // id: string;
+  // language: string;
+  // name: string;
+  // url: string;
   id: string;
-  language: string;
-  name: string;
-  url: string;
+  name:string
 }
 
 export const getSources = (): Sources[] | void => {
