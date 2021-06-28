@@ -14,7 +14,11 @@ interface Props {
   label: string;
 }
 
-const DatePicker: React.FC<Props> = ({ values, setValues, label }: Props) => {
+const DatePicker: React.FC<Props> = ({
+  values,
+  setValues,
+  label,
+}: Props) => {
   const handleDateChange = (
     date: MaterialUiPickersDate,
     value?: string | null | undefined
@@ -33,7 +37,7 @@ const DatePicker: React.FC<Props> = ({ values, setValues, label }: Props) => {
         format="MM/dd/yyyy"
         label={label}
         value={
-          label === "from" ? values.selectedFromDate : values.selectedToDate
+          label === "from" ? values.selectedFromDate : values.selectedFromDate
         }
         onChange={handleDateChange}
         minDate={moment().subtract(1, "month")}
