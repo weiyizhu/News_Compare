@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
-import { Sources, StateProps } from "../Search/Search";
+import { StateProps } from "../Search/Search";
 import React from "react";
 
 interface Props {
