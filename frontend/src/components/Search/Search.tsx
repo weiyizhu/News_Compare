@@ -24,7 +24,6 @@ export interface StateProps {
   selectedToDate: ParsableDate;
   sources: string[];
   openMenu: boolean;
-  allSources: Sources[];
   searchError: boolean;
   errorText: string;
 }
@@ -39,32 +38,6 @@ const Search: React.FC = () => {
     openMenu: false,
     searchError: false,
     errorText: "",
-    allSources: [
-      {
-        id: "cnn",
-        name: "CNN",
-      },
-      {
-        id: "fox-news",
-        name: "Fox News",
-      },
-      {
-        id: "the-wall-street-journal",
-        name: "The Wall Street Journal",
-      },
-      {
-        id: "abc-news",
-        name: "ABC News",
-      },
-      {
-        id: "news24",
-        name: "News24",
-      },
-      {
-        id: "new-york-magazine",
-        name: "New York Magazine",
-      },
-    ],
   });
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
@@ -81,12 +54,14 @@ const Search: React.FC = () => {
         });
         return;
       }
-      if (values.tabVal === 0) getTopHeadlines();
+      if (values.tabVal === 0)
+        getTopHeadlines(values.keywords, values.sources.join());
       else if (values.tabVal === 1) {
         getEverything(
           values.keywords,
           values.selectedFromDate,
-          values.selectedToDate
+          values.selectedToDate,
+          values.sources.join()
         );
       }
     };

@@ -1,5 +1,6 @@
 import { Button, Chip, Grid } from "@material-ui/core";
 import React from "react";
+import { allSources } from "../../static/allSources";
 import { StateProps } from "../Search/Search";
 
 interface Props {
@@ -30,7 +31,7 @@ const PickSources: React.FC<Props> = ({ values, setValues }: Props) => {
           return (
             <Grid item key={source}>
               <Chip
-                label={source}
+                label={allSources.filter(newsSource => newsSource.id === source)[0].name}
                 onDelete={handleSourcesDelete(source)}
               ></Chip>
             </Grid>

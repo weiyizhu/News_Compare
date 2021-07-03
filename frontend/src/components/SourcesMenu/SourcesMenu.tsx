@@ -1,13 +1,9 @@
-import {
-  Checkbox,
-  FormControlLabel,
-  Menu,
-  MenuItem,
-} from "@material-ui/core";
+import { Checkbox, FormControlLabel, Menu, MenuItem } from "@material-ui/core";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import { StateProps } from "../Search/Search";
 import React from "react";
 import { EventNoteRounded } from "@material-ui/icons";
+import {allSources} from '../../static/allSources'
 
 interface Props {
   values: StateProps;
@@ -38,8 +34,15 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => void = (event, checked) => {
-    if (checked) setValues({...values, sources: [...values.sources, event.target.name]})
-    else setValues({ ...values, sources: [...values.sources].filter(source => source !== event.target.name) });
+    if (checked)
+      setValues({ ...values, sources: [...values.sources, event.target.name] });
+    else
+      setValues({
+        ...values,
+        sources: [...values.sources].filter(
+          (source) => source !== event.target.name
+        ),
+      });
   };
 
   return (
@@ -49,22 +52,23 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
       style={{ maxHeight: 300, minWidth: 1000 }}
     >
       {/* <Slider step={null} marks={marks} style={{ width: "80%", left: "10%" }} /> */}
-      {values.allSources?.map((entry) => (
-        <MenuItem key={entry.id}>
-          {/* <Checkbox checked={values.sources.includes(entry.id)} onChange={handleCheckBoxClick}/>
-          <ListItemText primary={entry.name} /> */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                name={entry.id}
-                checked={values.sources.includes(entry.id)}
-                onChange={handleCheckBoxClick}
-              />
-            }
-            label={entry.name}
-          />
-        </MenuItem>
-      ))}
+      { 
+        allSources?.map((entry) => {
+        return (
+          <MenuItem key={entry.id}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name={entry.id}
+                  checked={values.sources.includes(entry.id)}
+                  onChange={handleCheckBoxClick}
+                />
+              }
+              label={entry.name}
+            />
+          </MenuItem>
+        );
+      })}
     </Menu>
     // <Dialog
     //   open={values.openMenu}
