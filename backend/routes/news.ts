@@ -1,12 +1,20 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const axios = require("axios");
+import axios from "axios";
 
 // Get News API configs
 const newsAPIUrl = process.env.NEWS_API_URI;
 const newsAPIKey = process.env.NEWS_API_KEY;
 
-const getConfig = (paramsData) => {
+interface Config {
+  q?: string,
+  from?: string,
+  to?: string,
+  sources?: string,
+  country?: string
+}
+
+const getConfig = (paramsData:Config) => {
   return {
     params: paramsData,
     headers: {
@@ -60,5 +68,4 @@ router.post("/sources", (req, res) => {
     });
 });
 
-
-module.exports = router;
+export default router

@@ -1,9 +1,9 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
+import express from 'express';
+import cors from "cors";
+import mongoose from "mongoose";
 require("dotenv").config();
-const usersRouter = require("./routes/users");
-const newsRoute = require("./routes/news");
+import usersRouter from "./routes/users";
+import newsRouter from "./routes/news";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -28,7 +28,7 @@ conn.once("open", () => console.log("Connected to database"));
 app.use("/users", usersRouter);
 
 // News Route
-app.use("/news", newsRoute);
+app.use("/news", newsRouter);
 
 // Listen to port
 app.listen(port, () => {
