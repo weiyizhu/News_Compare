@@ -30,16 +30,17 @@ export const getEverything: getEverythingProps = (
     .then((res: any) => {
       console.log(res.data);
     })
-    .catch((err: any) => {
+    .catch((err) => {
       console.error(err.message);
     });
 };
 
-export const getTopHeadlines = () => {
+export const getTopHeadlines = (keywords: string, sources: string) => {
   axios
     .post(url + "/news/top-headlines", {
       params: {
-        sources: "cnn, the-wall-street-journal, fox-news",
+        q: keywords,
+        sources: sources
       },
     })
     .then((res: any) => {
