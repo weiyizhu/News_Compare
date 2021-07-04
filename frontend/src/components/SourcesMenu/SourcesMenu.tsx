@@ -3,7 +3,7 @@ import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import { StateProps } from "../Search/Search";
 import React from "react";
 import { EventNoteRounded } from "@material-ui/icons";
-import {allSources} from '../../static/allSources'
+import { allSources } from "../../static/allSources";
 
 interface Props {
   values: StateProps;
@@ -52,8 +52,7 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
       style={{ maxHeight: 300, minWidth: 1000 }}
     >
       {/* <Slider step={null} marks={marks} style={{ width: "80%", left: "10%" }} /> */}
-      { 
-        allSources?.map((entry) => {
+      {allSources?.map((entry) => {
         return (
           <MenuItem key={entry.id}>
             <FormControlLabel

@@ -1,4 +1,3 @@
-import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import axios from "axios";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
@@ -6,8 +5,8 @@ const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 export interface getEverythingProps {
   (
     keywords: string,
-    fromDate: ParsableDate,
-    toDate: ParsableDate,
+    fromDate: string,
+    toDate: string,
     sources?: string
   ): void;
 }
@@ -22,8 +21,8 @@ export const getEverything: getEverythingProps = (
     .post(url + "/news/everything", {
       params: {
         q: keywords,
-        from: fromDate?.toString(),
-        to: toDate?.toString(),
+        from: fromDate,
+        to: toDate,
         sources: sources,
       },
     })

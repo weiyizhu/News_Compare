@@ -16,6 +16,7 @@ import { getEverything, getTopHeadlines, Sources } from "../../api/news";
 import DatePicker from "../DatePicker";
 import SearchBox from "../SearchBox";
 import PickSources from "../PickSources";
+import moment from "moment";
 
 export interface StateProps {
   keywords: string;
@@ -59,8 +60,8 @@ const Search: React.FC = () => {
       else if (values.tabVal === 1) {
         getEverything(
           values.keywords,
-          values.selectedFromDate,
-          values.selectedToDate,
+          moment(values.selectedFromDate).format("YYYY-MM-DD"),
+          moment(values.selectedToDate).format("YYYY-MM-DD"),
           values.sources.join()
         );
       }
