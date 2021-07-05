@@ -37,7 +37,7 @@ const DatePicker: React.FC<Props> = ({
         format="MM/dd/yyyy"
         label={label}
         value={
-          label === "from" ? values.selectedFromDate : values.selectedFromDate
+          label === "from" ? values.selectedFromDate : values.selectedToDate
         }
         onChange={handleDateChange}
         minDate={moment().subtract(1, "month")}
