@@ -6,16 +6,26 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  Grid,
   Menu,
   MenuItem,
   Slider,
+  Switch,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import { StateProps } from "../Search/Search";
-import React from "react";
+import React, { useState } from "react";
 import { CheckBoxOutlineBlank, EventNoteRounded } from "@material-ui/icons";
-import { allSources } from "../../static/allSources";
+import {
+  allSources,
+  leftSources,
+  slightlyLeftSources,
+  neutralSources,
+  slightlyRightSources,
+  rightSources,
+} from "../../static/allSources";
 import { Autocomplete } from "@material-ui/lab";
 import { checkUtils } from "@material-ui/pickers/_shared/hooks/useUtils";
 
@@ -27,17 +37,36 @@ interface Props {
 const marks = [
   {
     value: 0,
-    label: "Conservative",
+    label: "Left",
+  },
+  {
+    value: 25,
+    label: "Slightly Left",
   },
   {
     value: 50,
-    label: "Moderate",
+    label: "Neutral",
+  },
+  {
+    value: 75,
+    label: "Slightly Right",
   },
   {
     value: 99,
-    label: "Liberal",
+    label: "Right",
   },
 ];
+
+export interface ISource {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  category: string;
+  language: string;
+  country: string;
+  bias: number;
+}
 
 const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
   const handleClose = () => {
@@ -64,6 +93,9 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
     defaultValues.push(allSources.find((allSrc) => allSrc.id === src));
   }
 
+  const [visibleSources, setVisibleSources] = useState<ISource[]>(leftSources);
+  const [switchState, setSwitchState] = useState(false);
+
   return (
     // https://material-ui.com/components/autocomplete/#checkboxes
     <Dialog
@@ -72,17 +104,62 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
         setValues({ ...values, openMenu: false });
       }}
     >
-      <DialogTitle>SOURCES</DialogTitle>
+      <DialogTitle>
+        <Grid container alignItems="center">
+          <Grid item xs>
+            <Typography variant="h6">SOURCES</Typography>
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={switchState}
+                  onChange={(event) => {
+                    setSwitchState(event.target.checked);
+                    if (!event.target.checked) setVisibleSources(leftSources);
+                  }}
+                />
+              }
+              label="Show bias spectrum"
+            />
+          </Grid>
+        </Grid>
+      </DialogTitle>
       <DialogContent>
-        <Slider
-          step={null}
-          marks={marks}
-          style={{ width: "80%", left: "10%" }}
-        />
+        {switchState && (
+          <Slider
+            step={null}
+            marks={marks}
+            onChange={(event, value) => {
+              switch (value) {
+                case 0:
+                  setVisibleSources(leftSources);
+                  break;
+                case 25:
+                  setVisibleSources(slightlyLeftSources);
+                  break;
+                case 50:
+                  setVisibleSources(neutralSources);
+                  break;
+                case 75:
+                  setVisibleSources(slightlyRightSources);
+                  break;
+                case 99:
+                  setVisibleSources(rightSources);
+                  break;
+                default:
+                  setVisibleSources(allSources);
+              }
+            }}
+            style={{ width: "80%", left: "10%", marginBottom: "2.5em" }}
+            defaultValue={0}
+          />
+        )}
+
         <Autocomplete
           multiple
           id="checkboxes-tags-demo"
-          options={allSources}
+          options={switchState ? visibleSources : allSources} //
           disableCloseOnSelect
           getOptionLabel={(options) => (options ? options.name : "None")}
           renderOption={(option, { inputValue, selected }) => {
@@ -95,7 +172,7 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
               )
             );
           }}
-          style={{ minWidth:"275px" }}
+          style={{ minWidth: "275px" }}
           renderInput={(params) => (
             <TextField
               {...params}
