@@ -8,6 +8,7 @@ import {
   Button,
   Grid,
   Box,
+  Snackbar,
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
@@ -17,6 +18,7 @@ import DatePicker from "../DatePicker";
 import SearchBox from "../SearchBox";
 import PickSources from "../PickSources";
 import moment from "moment";
+import { Alert } from "@material-ui/lab";
 
 export interface StateProps {
   keywords: string;
@@ -52,6 +54,15 @@ const Search: React.FC = () => {
           ...values,
           searchError: true,
           errorText: "Sources cannot be more than three.",
+        });
+        return;
+      }
+      if (values.sources.length === 0 && values.keywords === "") {
+        setValues({
+          ...values,
+          searchError: true,
+          errorText:
+            "The scope of your search is too broad. Please enter keywords or select sources and try again.",
         });
         return;
       }
@@ -134,6 +145,19 @@ const Search: React.FC = () => {
         </Box>
         <SourcesMenu values={values} setValues={setValues} />
       </Box>
+      <Snackbar
+        open={values.searchError}
+        autoHideDuration={6000}
+        onClose={() => setValues({ ...values, searchError: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setValues({ ...values, searchError: false })}
+          severity="error"
+        >
+          {values.errorText}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
