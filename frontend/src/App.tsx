@@ -1,14 +1,10 @@
 import React from "react";
-import Login from "./components/Login";
-import NavBar from './components/NavBar'
-import Search from "./components/Search";
+import News from "./screens/News";
 
 function App() {
   return (
     <div className="App">
-      {/* <NavBar /> */}
-      {/* <Login /> */}
-      <Search />
+      <News />
     </div>
   );
 }

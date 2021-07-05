@@ -1,24 +1,33 @@
 import axios from "axios";
+import { StateProps } from "../components/Search/Search";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
 export interface getEverythingProps {
-  (
-    keywords: string,
-    fromDate: string,
-    toDate: string,
-    sources?: string
-  ): void;
+  (keywords: string, fromDate: string, toDate: string, sources?: string): void;
 }
 
-export const getEverything: getEverythingProps = (
-  keywords,
-  fromDate,
-  toDate,
-  sources = "cnn, the-wall-street-journal, fox-news"
+export interface NewsResponseProps {
+  author?: string | null;
+  content?: string | null;
+  description: string;
+  publishedAt: string;
+  source: { id: string; name: string };
+  title: string;
+  url: string;
+  urlToImage: string;
+}
+
+export const getEverything = (
+  keywords: string,
+  fromDate: string,
+  toDate: string,
+  sources: string = "cnn, the-wall-street-journal, fox-news",
+  values: StateProps,
+  setValues: React.Dispatch<React.SetStateAction<StateProps>>
 ) => {
   axios
-    .post(url + "/news/everything", {
+    .post<NewsResponseProps[]>(url + "/news/everything", {
       params: {
         q: keywords,
         from: fromDate,
@@ -26,26 +35,33 @@ export const getEverything: getEverythingProps = (
         sources: sources,
       },
     })
-    .then((res: any) => {
+    .then((res) => {
       console.log(res.data);
+      setValues({ ...values, news: res.data });
     })
     .catch((err) => {
       console.error(err.message);
     });
 };
 
-export const getTopHeadlines = (keywords: string, sources: string) => {
+export const getTopHeadlines = (
+  keywords: string,
+  sources: string,
+  values: StateProps,
+  setValues: React.Dispatch<React.SetStateAction<StateProps>>
+) => {
   axios
-    .post(url + "/news/top-headlines", {
+    .post<NewsResponseProps[]>(url + "/news/top-headlines", {
       params: {
         q: keywords,
-        sources: sources
+        sources: sources,
       },
     })
-    .then((res: any) => {
+    .then((res) => {
       console.log(res.data);
+      setValues({ ...values, news: res.data });
     })
-    .catch((err: any) => {
+    .catch((err) => {
       console.error(err.message);
     });
 };
@@ -59,7 +75,7 @@ export interface Sources {
   // name: string;
   // url: string;
   id: string;
-  name:string
+  name: string;
 }
 
 export const getSources = (): Sources[] | void => {
