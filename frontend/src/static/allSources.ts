@@ -1,3 +1,4 @@
+// https://www.adfontesmedia.com/rankings-by-individual-news-source/
 export const allSources = [
   {
     id: "abc-news",
@@ -8,6 +9,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -4.87,
   },
   {
     id: "al-jazeera-english",
@@ -18,6 +20,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -7.55,
   },
   {
     id: "ars-technica",
@@ -28,6 +31,7 @@ export const allSources = [
     category: "technology",
     language: "en",
     country: "us",
+    bias: -2.11,
   },
   {
     id: "associated-press",
@@ -38,6 +42,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -2.21,
   },
   {
     id: "axios",
@@ -48,16 +53,18 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -5.5,
   },
   {
-    id: "bleacher-report",
-    name: "Bleacher Report",
+    id: "bbc-news",
+    name: "BBC News",
     description:
-      "Sports journalists and bloggers covering NFL, MLB, NBA, NHL, MMA, college football and basketball, NASCAR, fantasy sports and more. News, photos, mock drafts, game scores, player profiles and more!",
-    url: "http://www.bleacherreport.com",
-    category: "sports",
+      "Use BBC News for up-to-the-minute news, breaking news, video, audio and feature stories. BBC News provides trusted World and UK news as well as local and regional perspectives. Also entertainment, business, science, technology and health news.",
+    url: "http://www.bbc.co.uk/news",
+    category: "general",
     language: "en",
-    country: "us",
+    country: "gb",
+    bias: -2.38,
   },
   {
     id: "bloomberg",
@@ -68,6 +75,7 @@ export const allSources = [
     category: "business",
     language: "en",
     country: "us",
+    bias: -2.78,
   },
   {
     id: "breitbart-news",
@@ -78,6 +86,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: 17.58,
   },
   {
     id: "business-insider",
@@ -88,6 +97,7 @@ export const allSources = [
     category: "business",
     language: "en",
     country: "us",
+    bias: -6.74,
   },
   {
     id: "buzzfeed",
@@ -98,6 +108,7 @@ export const allSources = [
     category: "entertainment",
     language: "en",
     country: "us",
+    bias: -8.31,
   },
   {
     id: "cbs-news",
@@ -108,6 +119,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -3.32,
   },
   {
     id: "cnn",
@@ -118,26 +130,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
-  },
-  {
-    id: "cnn-es",
-    name: "CNN Spanish",
-    description:
-      "Lee las últimas noticias e información sobre Latinoamérica, Estados Unidos, mundo, entretenimiento, política, salud, tecnología y deportes en CNNEspañol.com.",
-    url: "http://cnnespanol.cnn.com/",
-    category: "general",
-    language: "es",
-    country: "us",
-  },
-  {
-    id: "crypto-coins-news",
-    name: "Crypto Coins News",
-    description:
-      "Providing breaking cryptocurrency news - focusing on Bitcoin, Ethereum, ICOs, blockchain technology, and smart contracts.",
-    url: "https://www.ccn.com",
-    category: "technology",
-    language: "en",
-    country: "us",
+    bias: -8.74,
   },
   {
     id: "engadget",
@@ -148,36 +141,7 @@ export const allSources = [
     category: "technology",
     language: "en",
     country: "us",
-  },
-  {
-    id: "entertainment-weekly",
-    name: "Entertainment Weekly",
-    description:
-      "Online version of the print magazine includes entertainment news, interviews, reviews of music, film, TV and books, and a special area for magazine subscribers.",
-    url: "http://www.ew.com",
-    category: "entertainment",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "espn",
-    name: "ESPN",
-    description:
-      "ESPN has up-to-the-minute sports news coverage, scores, highlights and commentary for NFL, MLB, NBA, College Football, NCAA Basketball and more.",
-    url: "http://espn.go.com",
-    category: "sports",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "espn-cric-info",
-    name: "ESPN Cric Info",
-    description:
-      "ESPN Cricinfo provides the most comprehensive cricket coverage available including live ball-by-ball commentary, news, unparalleled statistics, quality editorial comment and analysis.",
-    url: "http://www.espncricinfo.com/",
-    category: "sports",
-    language: "en",
-    country: "us",
+    bias: -1.59,
   },
   {
     id: "fortune",
@@ -187,6 +151,7 @@ export const allSources = [
     category: "business",
     language: "en",
     country: "us",
+    bias: -0.31,
   },
   {
     id: "fox-news",
@@ -197,46 +162,18 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: 16.0,
   },
   {
-    id: "fox-sports",
-    name: "Fox Sports",
+    id: "independent",
+    name: "Independent",
     description:
-      "Find live scores, player and team news, videos, rumors, stats, standings, schedules and fantasy games on FOX Sports.",
-    url: "http://www.foxsports.com",
-    category: "sports",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "google-news",
-    name: "Google News",
-    description:
-      "Comprehensive, up-to-date news coverage, aggregated from sources all over the world by Google News.",
-    url: "https://news.google.com",
+      "National morning quality (tabloid) includes free online access to news and supplements. Insight by Robert Fisk and various other columnists.",
+    url: "http://www.independent.co.uk",
     category: "general",
     language: "en",
-    country: "us",
-  },
-  {
-    id: "hacker-news",
-    name: "Hacker News",
-    description:
-      "Hacker News is a social news website focusing on computer science and entrepreneurship. It is run by Paul Graham's investment fund and startup incubator, Y Combinator. In general, content that can be submitted is defined as \"anything that gratifies one's intellectual curiosity\".",
-    url: "https://news.ycombinator.com",
-    category: "technology",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "ign",
-    name: "IGN",
-    description:
-      "IGN is your site for Xbox One, PS4, PC, Wii-U, Xbox 360, PS3, Wii, 3DS, PS Vita and iPhone games with expert reviews, news, previews, trailers, cheat codes, wiki guides and walkthroughs.",
-    url: "http://www.ign.com",
-    category: "entertainment",
-    language: "en",
-    country: "us",
+    country: "gb",
+    bias: 1.71,
   },
   {
     id: "mashable",
@@ -247,16 +184,7 @@ export const allSources = [
     category: "entertainment",
     language: "en",
     country: "us",
-  },
-  {
-    id: "medical-news-today",
-    name: "Medical News Today",
-    description:
-      "Medical news and health news headlines posted throughout the day, every day.",
-    url: "http://www.medicalnewstoday.com",
-    category: "health",
-    language: "en",
-    country: "us",
+    bias: -10.23,
   },
   {
     id: "msnbc",
@@ -267,26 +195,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
-  },
-  {
-    id: "mtv-news",
-    name: "MTV News",
-    description:
-      "The ultimate news source for music, celebrity, entertainment, movies, and current events on the web. It's pop culture on steroids.",
-    url: "http://www.mtv.com/news",
-    category: "entertainment",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "national-geographic",
-    name: "National Geographic",
-    description:
-      "Reporting our world daily: original nature and science news from National Geographic.",
-    url: "http://news.nationalgeographic.com",
-    category: "science",
-    language: "en",
-    country: "us",
+    bias: -13.17,
   },
   {
     id: "national-review",
@@ -297,6 +206,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: 15.37,
   },
   {
     id: "nbc-news",
@@ -307,16 +217,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
-  },
-  {
-    id: "new-scientist",
-    name: "New Scientist",
-    description:
-      "Breaking science and technology news from around the world. Exclusive stories and expert analysis on space, technology, health, physics, life and Earth.",
-    url: "https://www.newscientist.com/section/news",
-    category: "science",
-    language: "en",
-    country: "us",
+    bias: -7.36,
   },
   {
     id: "newsweek",
@@ -327,6 +228,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -7.53,
   },
   {
     id: "new-york-magazine",
@@ -337,36 +239,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
-  },
-  {
-    id: "next-big-future",
-    name: "Next Big Future",
-    description:
-      "Coverage of science and technology that have the potential for disruption, and analysis of plans, policies, and technology that enable radical improvement.",
-    url: "https://www.nextbigfuture.com",
-    category: "science",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "nfl-news",
-    name: "NFL News",
-    description:
-      "The official source for NFL news, schedules, stats, scores and more.",
-    url: "http://www.nfl.com/news",
-    category: "sports",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "nhl-news",
-    name: "NHL News",
-    description:
-      "The most up-to-date breaking hockey news from the official source including interviews, rumors, statistics and schedules.",
-    url: "https://www.nhl.com/news",
-    category: "sports",
-    language: "en",
-    country: "us",
+    bias: -9.45,
   },
   {
     id: "politico",
@@ -377,36 +250,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
-  },
-  {
-    id: "polygon",
-    name: "Polygon",
-    description:
-      "Polygon is a gaming website in partnership with Vox Media. Our culture focused site covers games, their creators, the fans, trending stories and entertainment news.",
-    url: "http://www.polygon.com",
-    category: "entertainment",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "recode",
-    name: "Recode",
-    description:
-      "Get the latest independent tech news, reviews and analysis from Recode with the most informed and respected journalists in technology and media.",
-    url: "http://www.recode.net",
-    category: "technology",
-    language: "en",
-    country: "us",
-  },
-  {
-    id: "reddit-r-all",
-    name: "Reddit /r/all",
-    description:
-      "Reddit is an entertainment, social news networking service, and news website. Reddit's registered community members can submit content, such as text posts or direct links.",
-    url: "https://www.reddit.com/r/all",
-    category: "general",
-    language: "en",
-    country: "us",
+    bias: -7.24,
   },
   {
     id: "reuters",
@@ -417,6 +261,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -1.56,
   },
   {
     id: "techcrunch",
@@ -427,16 +272,7 @@ export const allSources = [
     category: "technology",
     language: "en",
     country: "us",
-  },
-  {
-    id: "techradar",
-    name: "TechRadar",
-    description:
-      "The latest technology news and reviews, covering computing, home entertainment systems, gadgets and more.",
-    url: "http://www.techradar.com",
-    category: "technology",
-    language: "en",
-    country: "us",
+    bias: -0.29,
   },
   {
     id: "the-american-conservative",
@@ -447,6 +283,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: 13.43,
   },
   {
     id: "the-hill",
@@ -457,6 +294,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -0.25,
   },
   {
     id: "the-huffington-post",
@@ -467,16 +305,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
-  },
-  {
-    id: "the-next-web",
-    name: "The Next Web",
-    description:
-      "The Next Web is one of the world’s largest online publications that delivers an international perspective on the latest news about Internet technology, business and culture.",
-    url: "http://thenextweb.com",
-    category: "technology",
-    language: "en",
-    country: "us",
+    bias: -11.95,
   },
   {
     id: "the-verge",
@@ -487,6 +316,7 @@ export const allSources = [
     category: "technology",
     language: "en",
     country: "us",
+    bias: -4.69,
   },
   {
     id: "the-wall-street-journal",
@@ -497,6 +327,7 @@ export const allSources = [
     category: "business",
     language: "en",
     country: "us",
+    bias: 5.81,
   },
   {
     id: "the-washington-post",
@@ -507,6 +338,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -7.25,
   },
   {
     id: "the-washington-times",
@@ -517,6 +349,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: 15.32,
   },
   {
     id: "time",
@@ -527,6 +360,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -9.83,
   },
   {
     id: "usa-today",
@@ -537,6 +371,7 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
+    bias: -4.36,
   },
   {
     id: "vice-news",
@@ -547,15 +382,18 @@ export const allSources = [
     category: "general",
     language: "en",
     country: "us",
-  },
-  {
-    id: "wired",
-    name: "Wired",
-    description:
-      "Wired is a monthly American magazine, published in print and online editions, that focuses on how emerging technologies affect culture, the economy, and politics.",
-    url: "https://www.wired.com",
-    category: "technology",
-    language: "en",
-    country: "us",
+    bias: -11.35,
   },
 ];
+
+export const leftSources = allSources.filter((src) => src.bias <= -10);
+export const slightlyLeftSources = allSources.filter(
+  (src) => src.bias <= -4 && src.bias > -10
+);
+export const neutralSources = allSources.filter(
+  (src) => Math.abs(src.bias) < 4
+);
+export const slightlyRightSources = allSources.filter(
+  (src) => src.bias >= 4 && src.bias < 10
+);
+export const rightSources = allSources.filter((src) => src.bias >= 10);
