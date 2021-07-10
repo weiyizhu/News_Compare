@@ -30,7 +30,7 @@ export interface StateProps {
   openMenu: boolean;
   searchError: boolean;
   errorText: string;
-  news: NewsResponseProps[] | null
+  news: NewsResponseProps[][] | null
 }
 
 export interface StatesProps {
@@ -52,7 +52,7 @@ const Search: React.FC = () => {
   });
 
   useEffect(() => {
-    getTopHeadlines(values.keywords, values.sources.join(), values, setValues);
+    getTopHeadlines(values.keywords, values.sources, values, setValues);
   }, []);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
@@ -79,7 +79,7 @@ const Search: React.FC = () => {
         return;
       }
       if (values.tabVal === 0)
-        getTopHeadlines(values.keywords, values.sources.join(), values, setValues);
+        getTopHeadlines(values.keywords, values.sources, values, setValues);
       else if (values.tabVal === 1) {
         getEverything(
           values.keywords,

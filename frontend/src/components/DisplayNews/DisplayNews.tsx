@@ -1,4 +1,5 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid, Typography } from "@material-ui/core";
+import { Pagination } from "@material-ui/lab";
 import React from "react";
 import { NewsResponseProps } from "../../api/news";
 import NewsEntry from "../NewsEntry";
@@ -19,28 +20,22 @@ const DisplayNews: React.FC<StatesProps> = ({
   values,
   setValues,
 }: StatesProps) => {
-  console.log(
-    values.sources.map((src) => values.news?.map((n) => n.source["id"] === src))
-  );
-  let newsArr: (NewsResponseProps[] | undefined)[] = [];
-
-  for (let src of values.sources) {
-    newsArr.push(values.news?.filter((entry) => entry.source["id"] == src));
-  }
-
   return (
     <Container style={{ marginTop: "30px" }}>
       <Grid container spacing={2}>
-        {newsArr.map(
-          (newsSrc) =>
-            newsSrc && (
-              <Grid item xs={12} sm container>
-                {newsSrc.map((src) => (
-                  <NewsEntry {...src} />
-                ))}
-              </Grid>
-            )
-        )}
+        {values.news &&
+          values.news.map(
+            (newsStories) =>
+              newsStories && (
+                <Grid item xs={12} sm>
+                  {/* <Typography>{newsSrc[0].source['name']}</Typography> */}
+                  {newsStories.map((story) => (
+                    <NewsEntry {...story} />
+                  ))}
+                  {/* <Pagination count={10} /> */}
+                </Grid>
+              )
+          )}
       </Grid>
     </Container>
   );

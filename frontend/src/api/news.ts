@@ -18,52 +18,101 @@ export interface NewsResponseProps {
   urlToImage: string;
 }
 
-export const getEverything = (
+export const getEverything = async (
   keywords: string,
   fromDate: string,
   toDate: string,
   sources: string = "cnn, the-wall-street-journal, fox-news",
   values: StateProps,
-  setValues: React.Dispatch<React.SetStateAction<StateProps>>
+  setValues: React.Dispatch<React.SetStateAction<StateProps>>,
+  page: number = 0
 ) => {
-  axios
-    .post<NewsResponseProps[]>(url + "/news/everything", {
-      params: {
-        q: keywords,
-        from: fromDate,
-        to: toDate,
-        sources: sources,
-      },
-    })
-    .then((res) => {
-      console.log(res.data);
-      setValues({ ...values, news: res.data });
-    })
-    .catch((err) => {
-      console.error(err.message);
-    });
+  let newsResponseArr: NewsResponseProps[][] = [];
+  for (let source of sources) {
+    const res = await axios
+      .post<Promise<NewsResponseProps[]>>(url + "/news/top-headlines", {
+        params: {
+          q: keywords,
+          from: fromDate,
+          to: toDate,
+          sources: source,
+          page: page,
+          pageSize: 3,
+        },
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return;
+      });
+
+    const data = res && (await res.data);
+    data && newsResponseArr.push(data);
+  }
+  setValues({ ...values, news: newsResponseArr });
+  // axios
+  //   .post<NewsResponseProps[]>(url + "/news/everything", {
+  //     params: {
+  //       q: keywords,
+  //       from: fromDate,
+  //       to: toDate,
+  //       sources: sources,
+  //     },
+  //   })
+  //   .then((res) => {
+  //     console.log(res.data);
+  //     setValues({ ...values, news: res.data });
+  //   })
+  //   .catch((err) => {
+  //     console.error(err.message);
+  //   });
 };
 
-export const getTopHeadlines = (
+export const getTopHeadlines = async (
   keywords: string,
-  sources: string,
+  sources: string[],
   values: StateProps,
-  setValues: React.Dispatch<React.SetStateAction<StateProps>>
+  setValues: React.Dispatch<React.SetStateAction<StateProps>>,
+  page: number = 1
 ) => {
-  axios
-    .post<NewsResponseProps[]>(url + "/news/top-headlines", {
-      params: {
-        q: keywords,
-        sources: sources,
-      },
-    })
-    .then((res) => {
-      console.log(res.data);
-      setValues({ ...values, news: res.data });
-    })
-    .catch((err) => {
-      console.error(err.message);
+  let newsResponseArr: NewsResponseProps[][] = [];
+  for (let source of sources) {
+    const res = await axios.post<Promise<NewsResponseProps[]>>(
+      url + "/news/top-headlines",
+      {
+        params: {
+          q: keywords,
+          sources: source,
+          page: page,
+          pageSize: 3,
+        },
+      }
+    ).catch((err) => {
+      console.log(err.message);
+      return;
     });
+
+    const data = res && await res.data;
+    console.log("haha",res, data)
+    data && newsResponseArr.push(data)
+  }
+  setValues({ ...values, news: newsResponseArr });
+
+  // axios
+  //   .post<NewsResponseProps[]>(url + "/news/top-headlines", {
+  //     params: {
+  //       q: keywords,
+  //       sources: sources,
+  //       page: page,
+  //       pageSize: 3,
+  //     },
+  //   })
+  //   .then((res) => {
+  //     console.log(res.data);
+  //     setValues({ ...values, news: res.data });
+  //   })
+  //   .catch((err) => {
+  //     console.error(err.message);
+  //   });
 };
 
 export interface Sources {
