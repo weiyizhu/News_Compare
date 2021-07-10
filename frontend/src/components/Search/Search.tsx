@@ -30,7 +30,7 @@ export interface StateProps {
   openMenu: boolean;
   searchError: boolean;
   errorText: string;
-  news: NewsResponseProps[][] | null
+  news: NewsResponseProps[] | null
 }
 
 export interface StatesProps {

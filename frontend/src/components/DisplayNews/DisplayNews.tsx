@@ -25,14 +25,14 @@ const DisplayNews: React.FC<StatesProps> = ({
       <Grid container spacing={2}>
         {values.news &&
           values.news.map(
-            (newsStories) =>
-              newsStories && (
+            (newsSrc) =>
+              newsSrc && (
                 <Grid item xs={12} sm>
                   {/* <Typography>{newsSrc[0].source['name']}</Typography> */}
-                  {newsStories.map((story) => (
+                  {newsSrc.articles.map((story) => (
                     <NewsEntry {...story} />
                   ))}
-                  {/* <Pagination count={10} /> */}
+                  <Pagination count={Math.ceil(newsSrc.totalResults / 3)} />
                 </Grid>
               )
           )}

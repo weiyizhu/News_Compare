@@ -18,59 +18,59 @@ import {
 } from "@material-ui/icons";
 import moment from "moment";
 import React from "react";
-import { NewsResponseProps } from "../../api/news";
+import { NewsArticle, NewsResponseProps } from "../../api/news";
 
-const NewsEntry: React.FC<NewsResponseProps> = ({
+const NewsEntry: React.FC<NewsArticle> = ({
   description,
   publishedAt,
   title,
   url,
   urlToImage,
-}: NewsResponseProps) => {
+}: NewsArticle) => {
   return (
-    <Grid item>
-      <Card raised>
-        <CardHeader
-          titleTypographyProps={{ variant: "h6" }}
-          subheaderTypographyProps={{ variant: "body2" }}
-          title={title}
-          style={{ paddingBottom: 0 }}
-        />
-        <CardContent style={{ paddingTop: 0, paddingBottom: 5 }}>
-          <Grid container alignItems="center" justify="space-between">
-            <Grid item xs>
-              <Typography variant="body2" color="textSecondary">
-                {moment(publishedAt).format("MMMM Do YYYY, h:mm:ss a")}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <IconButton aria-label="add to favorites">
-                <FavoriteBorder />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <IconButton
-                aria-label="learn more"
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ArrowRightAlt />
-              </IconButton>
-            </Grid>
+    <Card
+      raised
+      style={{ minHeight: "33em", maxHeight: "33em", marginTop: "2em" }}
+    >
+      <CardHeader
+        titleTypographyProps={{ variant: "h6" }}
+        subheaderTypographyProps={{ variant: "body2" }}
+        title={title}
+        style={{ paddingBottom: 0, minHeight: "6em", display: "block" }}
+      />
+      <CardContent style={{ paddingTop: 0, paddingBottom: 5 }}>
+        <Grid container alignItems="center" justify="space-between">
+          <Grid item xs>
+            <Typography variant="body2" color="textSecondary">
+              {moment(publishedAt).format("MMMM Do YYYY, h:mm:ss a")}
+            </Typography>
           </Grid>
-        </CardContent>
-        <CardMedia
-          image={urlToImage}
-          title={title}
-          style={{ height: 0, paddingTop: "56.25%" }}
-        />
-        <CardContent>
-          <Typography variant="body2">
-            {description}
-          </Typography>{" "}
-        </CardContent>
-        {/* <CardActions>
+          <Grid item>
+            <IconButton aria-label="add to favorites">
+              <FavoriteBorder />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <IconButton
+              aria-label="learn more"
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ArrowRightAlt />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </CardContent>
+      <CardMedia
+        image={urlToImage}
+        title={title}
+        style={{ height: 0, paddingTop: "56.25%" }}
+      />
+      <CardContent>
+        <Typography variant="body2">{description}</Typography>{" "}
+      </CardContent>
+      {/* <CardActions>
           <IconButton aria-label="share">
             <Share />
           </IconButton> 
@@ -87,8 +87,7 @@ const NewsEntry: React.FC<NewsResponseProps> = ({
             <Favorite />
           </IconButton>
         </CardActions> */}
-      </Card>
-    </Grid>
+    </Card>
   );
 };
 

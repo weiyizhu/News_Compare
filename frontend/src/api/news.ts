@@ -3,11 +3,7 @@ import { StateProps } from "../components/Search/Search";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
-export interface getEverythingProps {
-  (keywords: string, fromDate: string, toDate: string, sources?: string): void;
-}
-
-export interface NewsResponseProps {
+export interface NewsArticle {
   author?: string | null;
   content?: string | null;
   description: string;
@@ -16,6 +12,14 @@ export interface NewsResponseProps {
   title: string;
   url: string;
   urlToImage: string;
+}
+
+export interface NewsResponseProps {
+  articles: NewsArticle[],
+  status: "ok" | "error",
+  totalResults: number,
+  code?: string | null,
+  message?: string | null
 }
 
 export const getEverything = async (
@@ -27,10 +31,10 @@ export const getEverything = async (
   setValues: React.Dispatch<React.SetStateAction<StateProps>>,
   page: number = 0
 ) => {
-  let newsResponseArr: NewsResponseProps[][] = [];
+  let newsResponseArr: NewsResponseProps[] = [];
   for (let source of sources) {
     const res = await axios
-      .post<Promise<NewsResponseProps[]>>(url + "/news/top-headlines", {
+      .post<Promise<NewsResponseProps>>(url + "/news/top-headlines", {
         params: {
           q: keywords,
           from: fromDate,
@@ -74,9 +78,9 @@ export const getTopHeadlines = async (
   setValues: React.Dispatch<React.SetStateAction<StateProps>>,
   page: number = 1
 ) => {
-  let newsResponseArr: NewsResponseProps[][] = [];
+  let newsResponseArr: NewsResponseProps[] = [];
   for (let source of sources) {
-    const res = await axios.post<Promise<NewsResponseProps[]>>(
+    const res = await axios.post<Promise<NewsResponseProps>>(
       url + "/news/top-headlines",
       {
         params: {
@@ -92,7 +96,7 @@ export const getTopHeadlines = async (
     });
 
     const data = res && await res.data;
-    console.log("haha",res, data)
+    console.log(data)
     data && newsResponseArr.push(data)
   }
   setValues({ ...values, news: newsResponseArr });
