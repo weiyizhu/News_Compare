@@ -1,9 +1,9 @@
 import { Container, Grid, Typography } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
+import { Pagination, PaginationItem } from "@material-ui/lab";
 import React from "react";
-import { NewsResponseProps } from "../../api/news";
+import { getTopHeadlines, NewsResponseProps } from "../../api/news";
 import NewsEntry from "../NewsEntry";
-import { StatesProps } from "../Search/Search";
+import { sourceWithPage, StatesProps } from "../Search/Search";
 
 const mock = {
   description:
@@ -24,18 +24,51 @@ const DisplayNews: React.FC<StatesProps> = ({
     <Container style={{ marginTop: "30px" }}>
       <Grid container spacing={2}>
         {values.news &&
-          values.news.map(
-            (newsSrc) =>
-              newsSrc && (
-                <Grid item xs={12} sm>
-                  {/* <Typography>{newsSrc[0].source['name']}</Typography> */}
+          values.news.map((newsSrc, index) => (
+            <Grid item xs={12} sm>
+              {newsSrc.totalResults > 0 ? (
+                <>
                   {newsSrc.articles.map((story) => (
                     <NewsEntry {...story} />
                   ))}
-                  <Pagination count={Math.ceil(newsSrc.totalResults / 3)} />
-                </Grid>
-              )
-          )}
+
+                  <Pagination
+                    color="primary"
+                    count={Math.ceil(newsSrc.totalResults / 3)}
+                    getItemAriaLabel={() =>
+                      values.sourcesWithPage[index].source
+                    }
+                    onChange={(event, page) => {
+                      const target = event.target as HTMLInputElement;
+                      const sourceId = target.getAttribute("aria-label");
+                      let newSourcesWithPage: sourceWithPage[] = [];
+                      for (let sourceWithPage of values.sourcesWithPage) {
+                        console.log(sourceWithPage.source, sourceId);
+                        if (sourceWithPage.source === sourceId)
+                          newSourcesWithPage.push({
+                            source: sourceId,
+                            page: page,
+                          });
+                        else newSourcesWithPage.push(sourceWithPage);
+                      }
+                      setValues({
+                        ...values,
+                        sourcesWithPage: newSourcesWithPage,
+                      });
+                      // getTopHeadlines(
+                      //   values.keywords,
+                      //   newSourcesWithPage,
+                      //   values,
+                      //   setValues
+                      // );
+                    }}
+                  />
+                </>
+              ) : (
+                <Typography>lol</Typography>
+              )}
+            </Grid>
+          ))}
       </Grid>
     </Container>
   );
