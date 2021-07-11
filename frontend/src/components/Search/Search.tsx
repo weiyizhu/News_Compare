@@ -13,7 +13,12 @@ import {
 import { Search as SearchIcon } from "@material-ui/icons";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import SourcesMenu from "../SourcesMenu";
-import { getEverything, getTopHeadlines, NewsResponseProps, Sources } from "../../api/news";
+import {
+  getEverything,
+  getTopHeadlines,
+  NewsResponseProps,
+  Sources,
+} from "../../api/news";
 import DatePicker from "../DatePicker";
 import SearchBox from "../SearchBox";
 import PickSources from "../PickSources";
@@ -21,16 +26,21 @@ import moment from "moment";
 import { Alert } from "@material-ui/lab";
 import DisplayNews from "../DisplayNews";
 
+export type sourceWithPage = {
+  source: string;
+  page: number;
+};
+
 export interface StateProps {
   keywords: string;
   tabVal: number;
   selectedFromDate: ParsableDate;
   selectedToDate: ParsableDate;
-  sources: string[];
+  sourcesWithPage: sourceWithPage[];
   openMenu: boolean;
   searchError: boolean;
   errorText: string;
-  news: NewsResponseProps[] | null
+  news: NewsResponseProps[] | null;
 }
 
 export interface StatesProps {
@@ -44,16 +54,56 @@ const Search: React.FC = () => {
     tabVal: 0,
     selectedFromDate: new Date(),
     selectedToDate: new Date(),
-    sources: ["cnn", "the-wall-street-journal", "fox-news"],
+    sourcesWithPage: [
+      { source: "cnn", page: 1 },
+      { source: "the-wall-street-journal", page: 1 },
+      { source: "fox-news", page: 1 },
+    ],
     openMenu: false,
     searchError: false,
     errorText: "",
-    news: null
+    news: null,
   });
 
+  const search = () => {
+    if (values.sourcesWithPage.length > 3) {
+      setValues({
+        ...values,
+        searchError: true,
+        errorText: "Sources cannot be more than three.",
+      });
+      return;
+    }
+    if (values.sourcesWithPage.length === 0) {
+      setValues({
+        ...values,
+        searchError: true,
+        errorText: "Sources cannot be zero.",
+      });
+      return;
+    }
+    if (values.tabVal === 0)
+      getTopHeadlines(
+        values.keywords,
+        values.sourcesWithPage,
+        values,
+        setValues
+      );
+    else if (values.tabVal === 1) {
+      getEverything(
+        values.keywords,
+        moment(values.selectedFromDate).format("YYYY-MM-DD"),
+        moment(values.selectedToDate).format("YYYY-MM-DD"),
+        values.sourcesWithPage,
+        values,
+        setValues
+      );
+    }
+  }
+
   useEffect(() => {
-    getTopHeadlines(values.keywords, values.sources, values, setValues);
-  }, []);
+    search()
+  }, [values.sourcesWithPage, values.tabVal]);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
     setValues({ ...values, tabVal: newVal });
@@ -61,35 +111,7 @@ const Search: React.FC = () => {
 
   const handleSearch: React.MouseEventHandler<HTMLButtonElement> | undefined =
     () => {
-      if (values.sources.length > 3) {
-        setValues({
-          ...values,
-          searchError: true,
-          errorText: "Sources cannot be more than three.",
-        });
-        return;
-      }
-      if (values.sources.length === 0 && values.keywords === "") {
-        setValues({
-          ...values,
-          searchError: true,
-          errorText:
-            "The scope of your search is too broad. Please enter keywords or select sources and try again.",
-        });
-        return;
-      }
-      if (values.tabVal === 0)
-        getTopHeadlines(values.keywords, values.sources, values, setValues);
-      else if (values.tabVal === 1) {
-        getEverything(
-          values.keywords,
-          moment(values.selectedFromDate).format("YYYY-MM-DD"),
-          moment(values.selectedToDate).format("YYYY-MM-DD"),
-          values.sources.join(),
-          values,
-          setValues
-        );
-      }
+      search()
     };
 
   return (

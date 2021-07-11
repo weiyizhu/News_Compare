@@ -1,5 +1,5 @@
 import axios from "axios";
-import { StateProps } from "../components/Search/Search";
+import { sourceWithPage, StateProps } from "../components/Search/Search";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -26,21 +26,20 @@ export const getEverything = async (
   keywords: string,
   fromDate: string,
   toDate: string,
-  sources: string = "cnn, the-wall-street-journal, fox-news",
+  sourcesWithPage: sourceWithPage[],
   values: StateProps,
-  setValues: React.Dispatch<React.SetStateAction<StateProps>>,
-  page: number = 0
+  setValues: React.Dispatch<React.SetStateAction<StateProps>>
 ) => {
   let newsResponseArr: NewsResponseProps[] = [];
-  for (let source of sources) {
+  for (let sourceWithPage of sourcesWithPage) {
     const res = await axios
       .post<Promise<NewsResponseProps>>(url + "/news/top-headlines", {
         params: {
           q: keywords,
           from: fromDate,
           to: toDate,
-          sources: source,
-          page: page,
+          sources: sourceWithPage["source"],
+          page: sourceWithPage["page"],
           pageSize: 3,
         },
       })
@@ -50,6 +49,7 @@ export const getEverything = async (
       });
 
     const data = res && (await res.data);
+    console.log(data);
     data && newsResponseArr.push(data);
   }
   setValues({ ...values, news: newsResponseArr });
@@ -73,31 +73,30 @@ export const getEverything = async (
 
 export const getTopHeadlines = async (
   keywords: string,
-  sources: string[],
+  sourcesWithPage: sourceWithPage[],
   values: StateProps,
-  setValues: React.Dispatch<React.SetStateAction<StateProps>>,
-  page: number = 1
+  setValues: React.Dispatch<React.SetStateAction<StateProps>>
 ) => {
+  console.log(keywords, sourcesWithPage)
   let newsResponseArr: NewsResponseProps[] = [];
-  for (let source of sources) {
-    const res = await axios.post<Promise<NewsResponseProps>>(
-      url + "/news/top-headlines",
-      {
+  for (let sourceWithPage of sourcesWithPage) {
+    const res = await axios
+      .post<Promise<NewsResponseProps>>(url + "/news/top-headlines", {
         params: {
           q: keywords,
-          sources: source,
-          page: page,
+          sources: sourceWithPage["source"],
+          page: sourceWithPage["page"],
           pageSize: 3,
         },
-      }
-    ).catch((err) => {
-      console.log(err.message);
-      return;
-    });
+      })
+      .catch((err) => {
+        console.log(err.message);
+        return;
+      });
 
-    const data = res && await res.data;
-    console.log(data)
-    data && newsResponseArr.push(data)
+    const data = res && (await res.data);
+    console.log(data);
+    data && newsResponseArr.push(data);
   }
   setValues({ ...values, news: newsResponseArr });
 

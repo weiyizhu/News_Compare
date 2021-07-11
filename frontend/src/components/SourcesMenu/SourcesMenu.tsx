@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
-import { StateProps } from "../Search/Search";
+import { sourceWithPage, StateProps } from "../Search/Search";
 import React, { useState } from "react";
 import { CheckBoxOutlineBlank, EventNoteRounded } from "@material-ui/icons";
 import {
@@ -78,19 +78,30 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
     checked: boolean
   ) => void = (event, checked) => {
     if (checked)
-      setValues({ ...values, sources: [...values.sources, event.target.name] });
+      setValues({
+        ...values,
+        sourcesWithPage: [
+          ...values.sourcesWithPage,
+          { source: event.target.name, page: 1 },
+        ],
+      });
     else
       setValues({
         ...values,
-        sources: [...values.sources].filter(
-          (source) => source !== event.target.name
+        sourcesWithPage: values.sourcesWithPage.filter(
+          (sourceWithPage) => sourceWithPage["source"] !== event.target.name
         ),
+        // sourcesWithPage: [...values.sourcesWithPage].filter(
+        //   (sourceWithPage) => sourceWithPage["source"] !== event.target.name
+        // ),
       });
   };
 
   let defaultValues = [];
-  for (let src of values.sources) {
-    defaultValues.push(allSources.find((allSrc) => allSrc.id === src));
+  for (let sourceWithPage of values.sourcesWithPage) {
+    defaultValues.push(
+      allSources.find((allSrc) => allSrc.id === sourceWithPage["source"])
+    );
   }
 
   const [visibleSources, setVisibleSources] = useState<ISource[]>(leftSources);
@@ -172,15 +183,15 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
               )
             );
           }}
-          style={{ minWidth: "275px" }}
+          style={{ minWidth: "400px" }}
           renderInput={(params) => (
             <TextField
               {...params}
               variant="outlined"
               label="Sources"
-              error={values.sources.length > 3}
+              error={values.sourcesWithPage.length > 3}
               helperText={
-                values.sources.length > 3 &&
+                values.sourcesWithPage.length > 3 &&
                 "Sources cannot be more than three."
               }
             />
@@ -189,11 +200,11 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
           limitTags={3}
           onChange={(event, selectedSourcesObj) => {
             console.log(event, selectedSourcesObj);
-            let selectedSourcesArr: string[] = [];
+            let selectedSourcesArr: sourceWithPage[] = [];
             selectedSourcesObj.map((src) => {
-              src && selectedSourcesArr.push(src.id);
+              src && selectedSourcesArr.push({ source: src.id, page: 1 });
             });
-            setValues({ ...values, sources: selectedSourcesArr });
+            setValues({ ...values, sourcesWithPage: selectedSourcesArr });
           }}
         />
       </DialogContent>

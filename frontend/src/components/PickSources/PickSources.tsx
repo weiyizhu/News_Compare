@@ -12,7 +12,9 @@ const PickSources: React.FC<Props> = ({ values, setValues }: Props) => {
   const handleSourcesDelete = (sourceToDeleted: string) => () => {
     setValues({
       ...values,
-      sources: values.sources.filter((source) => source !== sourceToDeleted),
+      sourcesWithPage: values.sourcesWithPage.filter(
+        (source) => source["source"] !== sourceToDeleted
+      ),
     });
   };
   return (
@@ -26,12 +28,16 @@ const PickSources: React.FC<Props> = ({ values, setValues }: Props) => {
           Sources:{" "}
         </Button>
       </Grid>
-      {values.sources &&
-        values.sources.map((source) => {
+      {values.sourcesWithPage &&
+        values.sourcesWithPage.map((sourceWithPage) => {
+          const source = sourceWithPage["source"];
           return (
             <Grid item key={source}>
               <Chip
-                label={allSources.filter(newsSource => newsSource.id === source)[0].name}
+                label={
+                  allSources.filter((newsSource) => newsSource.id === source)[0]
+                    .name
+                }
                 onDelete={handleSourcesDelete(source)}
               ></Chip>
             </Grid>
