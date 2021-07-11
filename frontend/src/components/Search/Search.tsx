@@ -48,6 +48,40 @@ export interface StatesProps {
   setValues: React.Dispatch<React.SetStateAction<StateProps>>;
 }
 
+export const search = (
+  values: StateProps,
+  setValues: React.Dispatch<React.SetStateAction<StateProps>>
+) => {
+  if (values.sourcesWithPage.length > 3) {
+    setValues({
+      ...values,
+      searchError: true,
+      errorText: "Sources cannot be more than three.",
+    });
+    return;
+  }
+  if (values.sourcesWithPage.length === 0) {
+    setValues({
+      ...values,
+      searchError: true,
+      errorText: "Sources cannot be zero.",
+    });
+    return;
+  }
+  if (values.tabVal === 0)
+    getTopHeadlines(values.keywords, values.sourcesWithPage, values, setValues);
+  else if (values.tabVal === 1) {
+    getEverything(
+      values.keywords,
+      moment(values.selectedFromDate).format("YYYY-MM-DD"),
+      moment(values.selectedToDate).format("YYYY-MM-DD"),
+      values.sourcesWithPage,
+      values,
+      setValues
+    );
+  }
+};
+
 const Search: React.FC = () => {
   const [values, setValues] = useState<StateProps>({
     keywords: "",
@@ -65,44 +99,8 @@ const Search: React.FC = () => {
     news: null,
   });
 
-  const search = () => {
-    if (values.sourcesWithPage.length > 3) {
-      setValues({
-        ...values,
-        searchError: true,
-        errorText: "Sources cannot be more than three.",
-      });
-      return;
-    }
-    if (values.sourcesWithPage.length === 0) {
-      setValues({
-        ...values,
-        searchError: true,
-        errorText: "Sources cannot be zero.",
-      });
-      return;
-    }
-    if (values.tabVal === 0)
-      getTopHeadlines(
-        values.keywords,
-        values.sourcesWithPage,
-        values,
-        setValues
-      );
-    else if (values.tabVal === 1) {
-      getEverything(
-        values.keywords,
-        moment(values.selectedFromDate).format("YYYY-MM-DD"),
-        moment(values.selectedToDate).format("YYYY-MM-DD"),
-        values.sourcesWithPage,
-        values,
-        setValues
-      );
-    }
-  }
-
   useEffect(() => {
-    search()
+    search(values, setValues);
   }, [values.sourcesWithPage, values.tabVal]);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
@@ -111,7 +109,7 @@ const Search: React.FC = () => {
 
   const handleSearch: React.MouseEventHandler<HTMLButtonElement> | undefined =
     () => {
-      search()
+      search(values, setValues);
     };
 
   return (
