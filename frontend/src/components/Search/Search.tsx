@@ -25,6 +25,7 @@ import PickSources from "../PickSources";
 import moment from "moment";
 import { Alert } from "@material-ui/lab";
 import DisplayNews from "../DisplayNews";
+import Error from '../Error'
 
 export type sourceWithPage = {
   source: string;
@@ -180,19 +181,7 @@ const Search: React.FC = () => {
           </Box>
           <SourcesMenu values={values} setValues={setValues} />
         </Box>
-        <Snackbar
-          open={values.searchError}
-          autoHideDuration={6000}
-          onClose={() => setValues({ ...values, searchError: false })}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert
-            onClose={() => setValues({ ...values, searchError: false })}
-            severity="error"
-          >
-            {values.errorText}
-          </Alert>
-        </Snackbar>
+        <Error values={values} setValues={setValues} />
       </Container>
       <DisplayNews values={values} setValues={setValues} />
     </>
