@@ -1,7 +1,7 @@
 import { IconButton, InputAdornment, TextField } from "@material-ui/core";
 import { FavoriteBorder, Search } from "@material-ui/icons";
 import React from "react";
-import { StateProps } from "../Search/Search";
+import { search, StateProps } from "../Search/Search";
 
 interface Props {
   values: StateProps;
@@ -38,6 +38,9 @@ const SearchBox: React.FC<Props> = ({ values, setValues }: Props) => {
         ),
       }}
       onChange={handleKeywordChange}
+      onKeyPress={(event) => {
+        if (event.key === "Enter") search(values, setValues)
+      }}
       value={values.keywords}
     />
   );
