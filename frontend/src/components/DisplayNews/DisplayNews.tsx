@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Container, Grid, makeStyles, Typography } from "@material-ui/core";
 import { Pagination, PaginationItem } from "@material-ui/lab";
 import React from "react";
 import { getTopHeadlines, NewsResponseProps } from "../../api/news";
@@ -16,17 +16,25 @@ const mock = {
     "https://cdn.cnn.com/cnnnext/dam/assets/210705082435-maggie-haberman-donald-trump-split-super-tease.jpg",
 };
 
+const useStyles = makeStyles({
+  center: {
+    justifyContent: "center",
+  },
+});
+
 const DisplayNews: React.FC<StatesProps> = ({
   values,
   setValues,
 }: StatesProps) => {
+  const classes = useStyles();
   return (
-    <Container style={{ marginTop: "30px" }}>
+    <Container>
       <Grid container spacing={2}>
         {values.news &&
           values.news.map((newsSrc, index) => (
             <Grid item xs={12} sm>
-              {newsSrc.totalResults > 0 ? (
+              {console.log(newsSrc.totalResults)}
+              {newsSrc.totalResults ? (
                 <>
                   {newsSrc.articles.map((story) => (
                     <NewsEntry {...story} />
@@ -34,6 +42,8 @@ const DisplayNews: React.FC<StatesProps> = ({
 
                   <Pagination
                     color="primary"
+                    style={{ paddingTop: "1em" }}
+                    classes={{ ul: classes.center }}
                     count={Math.ceil(newsSrc.totalResults / 3)}
                     getItemAriaLabel={() =>
                       values.sourcesWithPage[index].source
@@ -43,7 +53,6 @@ const DisplayNews: React.FC<StatesProps> = ({
                       const sourceId = target.getAttribute("aria-label");
                       let newSourcesWithPage: sourceWithPage[] = [];
                       for (let sourceWithPage of values.sourcesWithPage) {
-                        console.log(sourceWithPage.source, sourceId);
                         if (sourceWithPage.source === sourceId)
                           newSourcesWithPage.push({
                             source: sourceId,
@@ -55,17 +64,11 @@ const DisplayNews: React.FC<StatesProps> = ({
                         ...values,
                         sourcesWithPage: newSourcesWithPage,
                       });
-                      // getTopHeadlines(
-                      //   values.keywords,
-                      //   newSourcesWithPage,
-                      //   values,
-                      //   setValues
-                      // );
                     }}
                   />
                 </>
               ) : (
-                <Typography>lol</Typography>
+                <Typography>No News Available</Typography>
               )}
             </Grid>
           ))}
