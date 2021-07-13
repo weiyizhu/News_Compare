@@ -1,6 +1,6 @@
 import { IconButton, InputAdornment, TextField } from "@material-ui/core";
-import { FavoriteBorder, Search } from "@material-ui/icons";
-import React from "react";
+import { Favorite, FavoriteBorder, Search } from "@material-ui/icons";
+import React, { useState } from "react";
 import { search, StateProps } from "../Search/Search";
 
 interface Props {
@@ -14,6 +14,7 @@ const SearchBox: React.FC<Props> = ({ values, setValues }: Props) => {
     | undefined = (event) => {
     setValues({ ...values, keywords: event.target.value });
   };
+  const [clicked, setClicked] = useState(false);
   return (
     <TextField
       autoFocus
@@ -31,15 +32,15 @@ const SearchBox: React.FC<Props> = ({ values, setValues }: Props) => {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton>
-              <FavoriteBorder />
+            <IconButton onClick={() => setClicked(!clicked)}>
+              {clicked ? <Favorite color="error" /> : <FavoriteBorder />}
             </IconButton>
           </InputAdornment>
         ),
       }}
       onChange={handleKeywordChange}
       onKeyPress={(event) => {
-        if (event.key === "Enter") search(values, setValues)
+        if (event.key === "Enter") search(values, setValues);
       }}
       value={values.keywords}
     />

@@ -17,7 +17,7 @@ import {
   Share,
 } from "@material-ui/icons";
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import { NewsArticle, NewsResponseProps } from "../../api/news";
 
 const NewsEntry: React.FC<NewsArticle> = ({
@@ -27,11 +27,9 @@ const NewsEntry: React.FC<NewsArticle> = ({
   url,
   urlToImage,
 }: NewsArticle) => {
+  const [clicked, setClicked] = useState(false);
   return (
-    <Card
-      raised
-      style={{ height: "35em", marginTop: "2em" }}
-    >
+    <Card raised style={{ height: "35em", marginTop: "2em" }}>
       <CardHeader
         titleTypographyProps={{ variant: "h6" }}
         subheaderTypographyProps={{ variant: "body2" }}
@@ -47,7 +45,9 @@ const NewsEntry: React.FC<NewsArticle> = ({
           </Grid>
           <Grid item>
             <IconButton aria-label="add to favorites">
-              <FavoriteBorder />
+              <IconButton onClick={() => setClicked(!clicked)}>
+                {clicked ? <Favorite color="error" /> : <FavoriteBorder />}
+              </IconButton>
             </IconButton>
           </Grid>
           <Grid item>
