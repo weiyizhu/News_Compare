@@ -77,6 +77,18 @@ export const search = async (
     });
     return;
   }
+  const fromDate =
+    values.selectedFromDate && new Date(values.selectedFromDate.toString());
+  const toDate =
+    values.selectedToDate && new Date(values.selectedToDate.toString());
+  if (fromDate && toDate && fromDate > toDate) {
+    setValues({
+      ...values,
+      searchError: true,
+      errorText: "From Date should not be after To Date",
+    });
+    return;
+  }
   setValues({ ...values, loading: true });
   if (values.tabVal === 0)
     await getTopHeadlines(
@@ -120,7 +132,13 @@ const Search: React.FC = () => {
 
   useEffect(() => {
     search(values, setValues);
-  }, [values.sourcesWithPage, values.tabVal, values.filter]);
+  }, [
+    values.sourcesWithPage,
+    values.tabVal,
+    values.filter,
+    values.selectedFromDate,
+    values.selectedToDate,
+  ]);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
     let resetSourcesWithPage = [];
