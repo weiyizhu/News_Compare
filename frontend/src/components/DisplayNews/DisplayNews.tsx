@@ -102,7 +102,6 @@ const DisplayNews: React.FC<StatesProps> = ({
                   )[0].name
                 }
               </Typography>
-              {console.log(newsSrc.totalResults)}
               {newsSrc.totalResults ? (
                 <>
                   {newsSrc.articles.map((story) => (
