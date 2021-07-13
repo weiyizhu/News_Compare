@@ -30,13 +30,13 @@ const NewsEntry: React.FC<NewsArticle> = ({
   return (
     <Card
       raised
-      style={{ minHeight: "33em", maxHeight: "33em", marginTop: "2em" }}
+      style={{ height: "35em", marginTop: "2em" }}
     >
       <CardHeader
         titleTypographyProps={{ variant: "h6" }}
         subheaderTypographyProps={{ variant: "body2" }}
         title={title}
-        style={{ paddingBottom: 0, minHeight: "6em", display: "block" }}
+        style={{ paddingBottom: 0, display: "block" }}
       />
       <CardContent style={{ paddingTop: 0, paddingBottom: 5 }}>
         <Grid container alignItems="center" justify="space-between">
