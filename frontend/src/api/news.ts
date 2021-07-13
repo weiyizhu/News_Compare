@@ -47,6 +47,7 @@ export const getEverything = async (
           page: sourceWithPage["page"],
           pageSize: 3,
           sortBy: filter.toString(),
+          language: "en"
         },
       })
       .catch((err) => {
