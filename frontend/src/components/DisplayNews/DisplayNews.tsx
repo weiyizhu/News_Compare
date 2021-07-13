@@ -50,7 +50,9 @@ const DisplayNews: React.FC<StatesProps> = ({
         </Grid>
         {values.tabVal == 1 && (
           <>
-            <Grid item><Typography>Sort by</Typography></Grid>
+            <Grid item>
+              <Typography>Sort by</Typography>
+            </Grid>
             <Grid item>
               <IconButton
                 onClick={(event) => {
@@ -79,6 +81,7 @@ const DisplayNews: React.FC<StatesProps> = ({
                         ? (filterString as Filters)
                         : Filters.publishedAt;
                       setValues({ ...values, filter: filterEnum });
+                      setAnchorEl(null);
                     }}
                   >
                     {option}
