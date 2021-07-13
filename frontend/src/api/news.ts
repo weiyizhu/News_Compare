@@ -1,5 +1,9 @@
 import axios from "axios";
-import { Filters, sourceWithPage, StateProps } from "../components/Search/Search";
+import {
+  Filters,
+  sourceWithPage,
+  StateProps,
+} from "../components/Search/Search";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -34,7 +38,7 @@ export const getEverything = async (
   let newsResponseArr: NewsResponseProps[] = [];
   for (let sourceWithPage of sourcesWithPage) {
     const res = await axios
-      .post<Promise<NewsResponseProps>>(url + "/news/top-headlines", {
+      .post<Promise<NewsResponseProps>>(url + "/news/everything", {
         params: {
           q: keywords,
           from: fromDate,
@@ -42,7 +46,7 @@ export const getEverything = async (
           sources: sourceWithPage["source"],
           page: sourceWithPage["page"],
           pageSize: 3,
-          sortBy: filter.toString()
+          sortBy: filter.toString(),
         },
       })
       .catch((err) => {
