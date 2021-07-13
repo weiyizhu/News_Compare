@@ -25,7 +25,7 @@ import PickSources from "../PickSources";
 import moment from "moment";
 import { Alert } from "@material-ui/lab";
 import DisplayNews from "../DisplayNews";
-import Error from "../Error";
+import Error from '../Error'
 
 export type sourceWithPage = {
   source: string;
@@ -42,7 +42,7 @@ export interface StateProps {
   searchError: boolean;
   errorText: string;
   news: NewsResponseProps[] | null;
-  filter: Filters;
+  filter: Filters
 }
 
 export interface StatesProps {
@@ -55,6 +55,7 @@ export enum Filters {
   relavency = "relavency",
   popularity = "popularity",
 }
+
 
 export const search = (
   values: StateProps,
@@ -106,7 +107,7 @@ const Search: React.FC = () => {
     searchError: false,
     errorText: "",
     news: null,
-    filter: Filters.publishedAt,
+    filter: Filters.publishedAt
   });
 
   useEffect(() => {
@@ -114,7 +115,11 @@ const Search: React.FC = () => {
   }, [values.sourcesWithPage, values.tabVal, values.filter]);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
-    setValues({ ...values, tabVal: newVal });
+    let resetSourcesWithPage = []
+    for (let sourceWithPage of values.sourcesWithPage) {
+      resetSourcesWithPage.push({source: sourceWithPage.source, page: 1})
+    }
+    setValues({ ...values, tabVal: newVal, sourcesWithPage: resetSourcesWithPage });
   };
 
   const handleSearch: React.MouseEventHandler<HTMLButtonElement> | undefined =
