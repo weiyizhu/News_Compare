@@ -8,7 +8,7 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core";
-import { FilterList } from "@material-ui/icons";
+import { ContactSupport, FilterList } from "@material-ui/icons";
 import { Pagination, PaginationItem } from "@material-ui/lab";
 import React, { useState } from "react";
 import { getTopHeadlines, NewsResponseProps } from "../../api/news";
@@ -119,6 +119,18 @@ const DisplayNews: React.FC<StatesProps> = ({
                     getItemAriaLabel={() =>
                       values.sourcesWithPage[index].source
                     }
+                    // renderItem={(item) => {
+                    //   console.log(item);
+                    //   return (
+                    //     <PaginationItem
+                    //       {...item}
+                    //       className={values.sourcesWithPage[index].source}
+                    //     />
+                    //   );
+                    // }}
+                    hideNextButton
+                    hidePrevButton
+                    boundaryCount={2}
                     onChange={(event, page) => {
                       const target = event.target as HTMLInputElement;
                       const sourceId = target.getAttribute("aria-label");
