@@ -1,5 +1,5 @@
 import axios from "axios";
-import { sourceWithPage, StateProps } from "../components/Search/Search";
+import { Filters, sourceWithPage, StateProps } from "../components/Search/Search";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -15,11 +15,11 @@ export interface NewsArticle {
 }
 
 export interface NewsResponseProps {
-  articles: NewsArticle[],
-  status: "ok" | "error",
-  totalResults: number,
-  code?: string | null,
-  message?: string | null
+  articles: NewsArticle[];
+  status: "ok" | "error";
+  totalResults: number;
+  code?: string | null;
+  message?: string | null;
 }
 
 export const getEverything = async (
@@ -27,6 +27,7 @@ export const getEverything = async (
   fromDate: string,
   toDate: string,
   sourcesWithPage: sourceWithPage[],
+  filter: Filters,
   values: StateProps,
   setValues: React.Dispatch<React.SetStateAction<StateProps>>
 ) => {
@@ -41,13 +42,12 @@ export const getEverything = async (
           sources: sourceWithPage["source"],
           page: sourceWithPage["page"],
           pageSize: 3,
+          sortBy: filter.toString()
         },
       })
       .catch((err) => {
         console.log(err.message);
-        return;
       });
-
     const data = res && (await res.data);
     console.log(data);
     data && newsResponseArr.push(data);
@@ -77,7 +77,6 @@ export const getTopHeadlines = async (
   values: StateProps,
   setValues: React.Dispatch<React.SetStateAction<StateProps>>
 ) => {
-  console.log(keywords, sourcesWithPage)
   let newsResponseArr: NewsResponseProps[] = [];
   for (let sourceWithPage of sourcesWithPage) {
     const res = await axios

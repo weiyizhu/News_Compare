@@ -1,9 +1,20 @@
-import { Container, Grid, makeStyles, Typography } from "@material-ui/core";
+import {
+  Container,
+  Divider,
+  Grid,
+  IconButton,
+  makeStyles,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@material-ui/core";
+import { FilterList } from "@material-ui/icons";
 import { Pagination, PaginationItem } from "@material-ui/lab";
-import React from "react";
+import React, { useState } from "react";
 import { getTopHeadlines, NewsResponseProps } from "../../api/news";
+import { allSources } from "../../static/allSources";
 import NewsEntry from "../NewsEntry";
-import { sourceWithPage, StatesProps } from "../Search/Search";
+import { Filters, sourceWithPage, StatesProps } from "../Search/Search";
 
 const mock = {
   description:
@@ -27,12 +38,70 @@ const DisplayNews: React.FC<StatesProps> = ({
   setValues,
 }: StatesProps) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const filterOptions = ["publishedAt", "popularity", "relavency"];
   return (
     <Container>
+      <Grid container alignItems="center">
+        <Grid item xs>
+          <Typography variant="h4" paragraph>
+            {values.tabVal == 0 ? "Top Headlines" : "Everything"}
+          </Typography>
+        </Grid>
+        {values.tabVal == 1 && (
+          <>
+            <Grid item><Typography>Sort by</Typography></Grid>
+            <Grid item>
+              <IconButton
+                onClick={(event) => {
+                  setAnchorEl(event.currentTarget);
+                }}
+              >
+                <FilterList />
+              </IconButton>
+              <Menu
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={() => {
+                  setAnchorEl(null);
+                }}
+                // keepMounted`
+              >
+                {filterOptions.map((option) => (
+                  <MenuItem
+                    key={option}
+                    aria-label={option}
+                    selected={option === values.filter}
+                    onClick={(event) => {
+                      const target = event.target as Element;
+                      const filterString = target.getAttribute("aria-label");
+                      const filterEnum = filterString
+                        ? (filterString as Filters)
+                        : Filters.publishedAt;
+                      setValues({ ...values, filter: filterEnum });
+                    }}
+                  >
+                    {option}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Grid>
+          </>
+        )}
+      </Grid>
+      <Divider style={{ marginBottom: "2em" }} />
       <Grid container spacing={2}>
         {values.news &&
           values.news.map((newsSrc, index) => (
             <Grid item xs={12} sm>
+              <Typography variant="h5" style={{ textAlign: "center" }}>
+                {
+                  allSources.filter(
+                    (newsSource) =>
+                      newsSource.id === values.sourcesWithPage[index].source
+                  )[0].name
+                }
+              </Typography>
               {console.log(newsSrc.totalResults)}
               {newsSrc.totalResults ? (
                 <>
@@ -42,7 +111,7 @@ const DisplayNews: React.FC<StatesProps> = ({
 
                   <Pagination
                     color="primary"
-                    style={{ paddingTop: "1em" }}
+                    style={{ paddingTop: "1em", paddingBottom: "1em" }}
                     classes={{ ul: classes.center }}
                     count={Math.ceil(newsSrc.totalResults / 3)}
                     getItemAriaLabel={() =>

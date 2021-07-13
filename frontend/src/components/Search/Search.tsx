@@ -25,7 +25,7 @@ import PickSources from "../PickSources";
 import moment from "moment";
 import { Alert } from "@material-ui/lab";
 import DisplayNews from "../DisplayNews";
-import Error from '../Error'
+import Error from "../Error";
 
 export type sourceWithPage = {
   source: string;
@@ -42,11 +42,18 @@ export interface StateProps {
   searchError: boolean;
   errorText: string;
   news: NewsResponseProps[] | null;
+  filter: Filters;
 }
 
 export interface StatesProps {
   values: StateProps;
   setValues: React.Dispatch<React.SetStateAction<StateProps>>;
+}
+
+export enum Filters {
+  publishedAt = "publishedAt",
+  relavency = "relavency",
+  popularity = "popularity",
 }
 
 export const search = (
@@ -77,6 +84,7 @@ export const search = (
       moment(values.selectedFromDate).format("YYYY-MM-DD"),
       moment(values.selectedToDate).format("YYYY-MM-DD"),
       values.sourcesWithPage,
+      values.filter,
       values,
       setValues
     );
@@ -98,11 +106,12 @@ const Search: React.FC = () => {
     searchError: false,
     errorText: "",
     news: null,
+    filter: Filters.publishedAt,
   });
 
   useEffect(() => {
     search(values, setValues);
-  }, [values.sourcesWithPage, values.tabVal]);
+  }, [values.sourcesWithPage, values.tabVal, values.filter]);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
     setValues({ ...values, tabVal: newVal });
@@ -116,7 +125,7 @@ const Search: React.FC = () => {
   return (
     <>
       <Container>
-        <Box style={{ position: "relative" }}>
+        <Box style={{ position: "relative", marginBottom: "3em" }}>
           <Card raised style={{ paddingBottom: "1em" }}>
             <Tabs
               value={values.tabVal}
