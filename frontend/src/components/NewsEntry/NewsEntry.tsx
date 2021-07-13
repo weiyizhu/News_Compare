@@ -8,6 +8,7 @@ import {
   CardMedia,
   Grid,
   IconButton,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
 import {
@@ -44,11 +45,11 @@ const NewsEntry: React.FC<NewsArticle> = ({
             </Typography>
           </Grid>
           <Grid item>
-            <IconButton aria-label="add to favorites">
+            <Tooltip title="Save" arrow>
               <IconButton onClick={() => setClicked(!clicked)}>
                 {clicked ? <Favorite color="error" /> : <FavoriteBorder />}
               </IconButton>
-            </IconButton>
+            </Tooltip>
           </Grid>
           <Grid item>
             <IconButton

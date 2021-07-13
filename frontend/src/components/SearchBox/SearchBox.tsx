@@ -1,4 +1,9 @@
-import { IconButton, InputAdornment, TextField } from "@material-ui/core";
+import {
+  IconButton,
+  InputAdornment,
+  TextField,
+  Tooltip,
+} from "@material-ui/core";
 import { Favorite, FavoriteBorder, Search } from "@material-ui/icons";
 import React, { useState } from "react";
 import { search, StateProps } from "../Search/Search";
@@ -32,9 +37,11 @@ const SearchBox: React.FC<Props> = ({ values, setValues }: Props) => {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={() => setClicked(!clicked)}>
-              {clicked ? <Favorite color="error" /> : <FavoriteBorder />}
-            </IconButton>
+            <Tooltip title="Save" arrow>
+              <IconButton onClick={() => setClicked(!clicked)}>
+                {clicked ? <Favorite color="error" /> : <FavoriteBorder />}
+              </IconButton>
+            </Tooltip>
           </InputAdornment>
         ),
       }}
