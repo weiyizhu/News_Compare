@@ -4,4 +4,4 @@
 7/12-7/18 redux
 7/19-7/25 react routing
 7/26-8/1 dashboard (save searches, articles)
-8/2-8/6 xc (auto complete past searches)
+8/2-8/6 xc (auto complete past searches) (web socket to display real time request change)
