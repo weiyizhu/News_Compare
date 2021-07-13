@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Container,
   Divider,
   Grid,
@@ -93,69 +94,75 @@ const DisplayNews: React.FC<StatesProps> = ({
         )}
       </Grid>
       <Divider style={{ marginBottom: "2em" }} />
-      <Grid container spacing={2}>
-        {values.news &&
-          values.news.map((newsSrc, index) => (
-            <Grid item xs={12} sm>
-              <Typography variant="h5" style={{ textAlign: "center" }}>
-                {
-                  allSources.filter(
-                    (newsSource) =>
-                      newsSource.id === values.sourcesWithPage[index].source
-                  )[0].name
-                }
-              </Typography>
-              {newsSrc.totalResults ? (
-                <>
-                  {newsSrc.articles.map((story) => (
-                    <NewsEntry {...story} />
-                  ))}
+      {values.loading ? (
+        <Grid container justify="center">
+          <CircularProgress />
+        </Grid>
+      ) : (
+        <Grid container spacing={2}>
+          {values.news &&
+            values.news.map((newsSrc, index) => (
+              <Grid item xs={12} sm>
+                <Typography variant="h5" style={{ textAlign: "center" }}>
+                  {
+                    allSources.filter(
+                      (newsSource) =>
+                        newsSource.id === values.sourcesWithPage[index].source
+                    )[0].name
+                  }
+                </Typography>
+                {newsSrc.totalResults ? (
+                  <>
+                    {newsSrc.articles.map((story) => (
+                      <NewsEntry {...story} />
+                    ))}
 
-                  <Pagination
-                    color="primary"
-                    style={{ paddingTop: "1em", paddingBottom: "1em" }}
-                    classes={{ ul: classes.center }}
-                    count={Math.ceil(newsSrc.totalResults / 3)}
-                    getItemAriaLabel={() =>
-                      values.sourcesWithPage[index].source
-                    }
-                    // renderItem={(item) => {
-                    //   console.log(item);
-                    //   return (
-                    //     <PaginationItem
-                    //       {...item}
-                    //       className={values.sourcesWithPage[index].source}
-                    //     />
-                    //   );
-                    // }}
-                    hideNextButton
-                    hidePrevButton
-                    boundaryCount={2}
-                    onChange={(event, page) => {
-                      const target = event.target as HTMLInputElement;
-                      const sourceId = target.getAttribute("aria-label");
-                      let newSourcesWithPage: sourceWithPage[] = [];
-                      for (let sourceWithPage of values.sourcesWithPage) {
-                        if (sourceWithPage.source === sourceId)
-                          newSourcesWithPage.push({
-                            source: sourceId,
-                            page: page,
-                          });
-                        else newSourcesWithPage.push(sourceWithPage);
+                    <Pagination
+                      color="primary"
+                      style={{ paddingTop: "1em", paddingBottom: "1em" }}
+                      classes={{ ul: classes.center }}
+                      count={Math.ceil(newsSrc.totalResults / 3)}
+                      getItemAriaLabel={() =>
+                        values.sourcesWithPage[index].source
                       }
-                      setValues({
-                        ...values,
-                        sourcesWithPage: newSourcesWithPage,
-                      });
-                    }}
-                  />
-                </>
-              ) : (
-                <Typography>No News Available</Typography>
-              )}
-            </Grid>
-          ))}
-      </Grid>
+                      // renderItem={(item) => {
+                      //   console.log(item);
+                      //   return (
+                      //     <PaginationItem
+                      //       {...item}
+                      //       className={values.sourcesWithPage[index].source}
+                      //     />
+                      //   );
+                      // }}
+                      hideNextButton
+                      hidePrevButton
+                      boundaryCount={2}
+                      onChange={(event, page) => {
+                        const target = event.target as HTMLInputElement;
+                        const sourceId = target.getAttribute("aria-label");
+                        let newSourcesWithPage: sourceWithPage[] = [];
+                        for (let sourceWithPage of values.sourcesWithPage) {
+                          if (sourceWithPage.source === sourceId)
+                            newSourcesWithPage.push({
+                              source: sourceId,
+                              page: page,
+                            });
+                          else newSourcesWithPage.push(sourceWithPage);
+                        }
+                        setValues({
+                          ...values,
+                          sourcesWithPage: newSourcesWithPage,
+                        });
+                      }}
+                    />
+                  </>
+                ) : (
+                  <Typography>No News Available</Typography>
+                )}
+              </Grid>
+            ))}
+        </Grid>
+      )}
     </Container>
   );
 };

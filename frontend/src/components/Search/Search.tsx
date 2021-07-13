@@ -43,6 +43,7 @@ export interface StateProps {
   errorText: string;
   news: NewsResponseProps[] | null;
   filter: Filters;
+  loading: boolean;
 }
 
 export interface StatesProps {
@@ -56,7 +57,7 @@ export enum Filters {
   popularity = "popularity",
 }
 
-export const search = (
+export const search = async (
   values: StateProps,
   setValues: React.Dispatch<React.SetStateAction<StateProps>>
 ) => {
@@ -76,10 +77,16 @@ export const search = (
     });
     return;
   }
+  setValues({ ...values, loading: true });
   if (values.tabVal === 0)
-    getTopHeadlines(values.keywords, values.sourcesWithPage, values, setValues);
+    await getTopHeadlines(
+      values.keywords,
+      values.sourcesWithPage,
+      values,
+      setValues
+    );
   else if (values.tabVal === 1) {
-    getEverything(
+    await getEverything(
       values.keywords,
       moment(values.selectedFromDate).format("YYYY-MM-DD"),
       moment(values.selectedToDate).format("YYYY-MM-DD"),
@@ -89,6 +96,7 @@ export const search = (
       setValues
     );
   }
+  setValues({ ...values, loading: false });
 };
 
 const Search: React.FC = () => {
@@ -107,6 +115,7 @@ const Search: React.FC = () => {
     errorText: "",
     news: null,
     filter: Filters.publishedAt,
+    loading: false,
   });
 
   useEffect(() => {
