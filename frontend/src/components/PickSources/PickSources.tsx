@@ -9,12 +9,16 @@ interface Props {
 }
 
 const PickSources: React.FC<Props> = ({ values, setValues }: Props) => {
-  const handleSourcesDelete = (sourceToDeleted: string) => () => {
+  const handleSourcesDelete = (sourceToBeDeleted: string) => () => {
     setValues({
       ...values,
       sourcesWithPage: values.sourcesWithPage.filter(
-        (source) => source["source"] !== sourceToDeleted
+        (source) => source["source"] !== sourceToBeDeleted
       ),
+      news:
+        values.news?.filter(
+          (news) => news.articles[0].source.id !== sourceToBeDeleted
+        ) ?? null,
     });
   };
   return (
