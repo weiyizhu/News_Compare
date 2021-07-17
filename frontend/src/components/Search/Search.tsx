@@ -57,7 +57,7 @@ export enum Filters {
   popularity = "popularity",
 }
 
-export const search = async (
+export const search = (
   values: StateProps,
   setValues: React.Dispatch<React.SetStateAction<StateProps>>
 ) => {
@@ -91,14 +91,14 @@ export const search = async (
   }
   setValues({ ...values, loading: true });
   if (values.tabVal === 0)
-    await getTopHeadlines(
+    getTopHeadlines(
       values.keywords,
       values.sourcesWithPage,
       values,
       setValues
     );
   else if (values.tabVal === 1) {
-    await getEverything(
+    getEverything(
       values.keywords,
       moment(values.selectedFromDate).format("YYYY-MM-DD"),
       moment(values.selectedToDate).format("YYYY-MM-DD"),
@@ -108,7 +108,6 @@ export const search = async (
       setValues
     );
   }
-  setValues({ ...values, loading: false });
 };
 
 const Search: React.FC = () => {

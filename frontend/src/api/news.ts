@@ -57,7 +57,7 @@ export const getEverything = async (
     console.log(data);
     data && newsResponseArr.push(data);
   }
-  setValues({ ...values, news: newsResponseArr });
+  setValues({ ...values, news: newsResponseArr, loading: false });
   // axios
   //   .post<NewsResponseProps[]>(url + "/news/everything", {
   //     params: {
@@ -102,7 +102,7 @@ export const getTopHeadlines = async (
     console.log(data);
     data && newsResponseArr.push(data);
   }
-  setValues({ ...values, news: newsResponseArr });
+  setValues({ ...values, news: newsResponseArr, loading: false });
 
   // axios
   //   .post<NewsResponseProps[]>(url + "/news/top-headlines", {
