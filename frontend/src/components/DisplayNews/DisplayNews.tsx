@@ -137,6 +137,7 @@ const DisplayNews: React.FC<StatesProps> = ({
                       hideNextButton
                       hidePrevButton
                       boundaryCount={2}
+                      page={values.sourcesWithPage[index].page}
                       onChange={(event, page) => {
                         const target = event.target as HTMLInputElement;
                         const sourceId = target.getAttribute("aria-label");
