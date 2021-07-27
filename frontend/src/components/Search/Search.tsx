@@ -135,8 +135,6 @@ const Search: React.FC = () => {
     values.sourcesWithPage,
     values.tabVal,
     values.filter,
-    values.selectedFromDate,
-    values.selectedToDate,
   ]);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {

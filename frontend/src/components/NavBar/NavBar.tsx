@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 const NavBar: React.FC = () => {
   const classes = useStyles();
   return (
-    <AppBar>
+    <AppBar position="sticky" style={{marginBottom: "1em"}}>
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
           News Compare
