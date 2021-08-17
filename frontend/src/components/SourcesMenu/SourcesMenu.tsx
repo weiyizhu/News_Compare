@@ -7,15 +7,12 @@ import {
   DialogTitle,
   FormControlLabel,
   Grid,
-  Menu,
-  MenuItem,
   Slider,
   Switch,
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import { CheckBoxOutlineBlank, EventNoteRounded } from "@material-ui/icons";
+import { useState } from "react";
 import {
   allSources,
   leftSources,
@@ -25,7 +22,6 @@ import {
   rightSources,
 } from "../../static/allSources";
 import { Autocomplete } from "@material-ui/lab";
-import { checkUtils } from "@material-ui/pickers/_shared/hooks/useUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
 import { actionCreators } from "../../state";
@@ -77,30 +73,6 @@ const SourcesMenu = () => {
   const closeMenu = () => {
     dispatch(actionCreators.toggleOpenMenu(false));
   };
-
-  // const handleCheckBoxClick: (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  //   checked: boolean
-  // ) => void = (event, checked) => {
-  //   if (checked)
-  //     setValues({
-  //       ...values,
-  //       sourcesWithPage: [
-  //         ...values.sourcesWithPage,
-  //         { source: event.target.name, page: 1 },
-  //       ],
-  //     });
-  //   else
-  //     setValues({
-  //       ...values,
-  //       sourcesWithPage: values.sourcesWithPage.filter(
-  //         (sourceWithPage) => sourceWithPage["source"] !== event.target.name
-  //       ),
-  //       // sourcesWithPage: [...values.sourcesWithPage].filter(
-  //       //   (sourceWithPage) => sourceWithPage["source"] !== event.target.name
-  //       // ),
-  //     });
-  // };
 
   let defaultValues = [];
   for (let sourceWithPage of sourcesWithPage) {
@@ -216,71 +188,6 @@ const SourcesMenu = () => {
         </Button>
       </DialogActions>
     </Dialog>
-
-    // <Menu
-    //   open={values.openMenu}
-    //   onClose={handleClose}
-    //   style={{ maxHeight: 300, minWidth: 1000 }}
-    // >
-    //   {/* <Slider step={null} marks={marks} style={{ width: "80%", left: "10%" }} /> */}
-    //   {allSources?.map((entry) => {
-    //     return (
-    //       <MenuItem key={entry.id}>
-    //         <FormControlLabel
-    //           control={
-    //             <Checkbox
-    //               name={entry.id}
-    //               checked={values.sources.includes(entry.id)}
-    //               onChange={handleCheckBoxClick}
-    //             />
-    //           }
-    //           label={entry.name}
-    //         />
-    //       </MenuItem>
-    //     );
-    //   })}
-    // </Menu>
-    // <Dialog
-    //   open={values.openMenu}
-    //   onClose={() => {
-    //     setValues({ ...values, openMenu: false });
-    //   }}
-    // >
-    //   <DialogTitle>Sources</DialogTitle>
-    //   <DialogContent>
-    //     {/* {mock?.map((entry) => (
-    //       <>
-    //         <div>
-    //           {entry.id} {entry.name}
-    //         </div>
-    //       </>
-    //     ))} */}
-    //     <Select>
-    //       {mock?.map((entry) => (
-    //         <MenuItem key={entry.id} value={entry.name}>
-    //           <Checkbox />
-    //           <ListItemText primary={entry.name}/>
-    //         </MenuItem>
-    //       ))}
-    //     </Select>
-    //   </DialogContent>
-    //   <DialogActions>
-    //     <Button
-    //       onClick={() => setValues({ ...values, openMenu: false })}
-    //       color="primary"
-    //     >
-    //       Cancel
-    //     </Button>
-    //     <Button
-    //       onClick={() => {
-    //         setValues({ ...values, openMenu: false });
-    //       }}
-    //       color="primary"
-    //     >
-    //       Save
-    //     </Button>
-    //   </DialogActions>
-    // </Dialog>
   );
 };
 

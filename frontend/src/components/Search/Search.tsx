@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Card,
   Container,
@@ -8,36 +8,21 @@ import {
   Button,
   Grid,
   Box,
-  Snackbar,
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
-import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import SourcesMenu from "../SourcesMenu";
 import DatePicker from "../DatePicker";
 import SearchBox from "../SearchBox";
 import PickSources from "../PickSources";
 import moment from "moment";
-import { Alert } from "@material-ui/lab";
 import DisplayNews from "../DisplayNews";
 import Error from "../Error";
 import { actionCreators } from "../../state";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
 import { SearchActionPayload } from "../../state/actionTypes";
-import { isConstructorDeclaration } from "typescript";
 
 const Search: React.FC = () => {
-  // useEffect(
-  //   () => {
-  //     search(values, setValues);
-  //   },
-  //   [
-  //     // values.sourcesWithPage,
-  //     // values.tabVal,
-  //     // values.filter,
-  //   ]
-  // );
-
   const dispatch = useDispatch();
   const searchProps = useSelector<RootState, SearchActionPayload>(
     (state) => state.searchProps

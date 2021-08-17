@@ -1,8 +1,5 @@
 import {
-  Button,
   Card,
-  CardActionAreaProps,
-  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
@@ -11,12 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import {
-  ArrowRightAlt,
-  Favorite,
-  FavoriteBorder,
-  Share,
-} from "@material-ui/icons";
+import { ArrowRightAlt, Favorite, FavoriteBorder } from "@material-ui/icons";
 import moment from "moment";
 import React, { useState } from "react";
 
@@ -70,23 +62,6 @@ const NewsEntry: React.FC<NewsArticle> = ({
       <CardContent>
         <Typography variant="body2">{description}</Typography>{" "}
       </CardContent>
-      {/* <CardActions>
-          <IconButton aria-label="share">
-            <Share />
-          </IconButton> 
-          <Button
-            size="small"
-            color="primary"
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn More
-          </Button>
-          <IconButton aria-label="add to favorites">
-            <Favorite />
-          </IconButton>
-        </CardActions> */}
     </Card>
   );
 };

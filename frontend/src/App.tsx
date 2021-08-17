@@ -1,9 +1,8 @@
-import React from "react";
 import News from "./screens/News";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <News />
     </div>
   );

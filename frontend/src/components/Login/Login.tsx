@@ -4,7 +4,6 @@ import {
   TextField,
   Typography,
   Button,
-  Box,
   makeStyles,
   Grid,
   Link,
@@ -33,7 +32,6 @@ const Login: React.FC = () => {
             margin="normal"
             required
             fullWidth
-            //   id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
@@ -44,7 +42,6 @@ const Login: React.FC = () => {
             margin="normal"
             required
             fullWidth
-            //   id="email"
             label="Password"
             name="password"
             autoComplete="current-password"

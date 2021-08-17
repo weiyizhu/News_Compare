@@ -1,5 +1,4 @@
 import { Button, Chip, Grid } from "@material-ui/core";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import { RootState } from "../../state/reducers";

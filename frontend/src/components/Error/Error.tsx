@@ -1,6 +1,5 @@
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import { NewsStatus } from "../../state/ActionTypes";
