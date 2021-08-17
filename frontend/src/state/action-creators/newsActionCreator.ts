@@ -2,11 +2,11 @@ import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import axios from "axios";
 import { Dispatch } from "redux";
 import {
-  Filters,
   NewsAction,
   NewsActionType,
   NewsStatus,
-} from "../ActionTypes";
+} from "../action-types/newsActionTypes";
+import { Filters } from "../action-types/searchActionTypes";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 

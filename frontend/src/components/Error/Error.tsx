@@ -2,7 +2,7 @@ import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
-import { NewsStatus } from "../../state/ActionTypes";
+import { NewsStatus } from "../../state/action-types/newsActionTypes";
 import { RootState } from "../../state/reducers";
 
 const Error = () => {

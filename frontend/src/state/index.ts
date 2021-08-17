@@ -1,2 +1,2 @@
-export * as actionCreators from "./actionCreators";
+export * as actionCreators from "./action-creators";
 export { store } from "./store";

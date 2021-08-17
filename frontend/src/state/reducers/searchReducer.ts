@@ -4,7 +4,7 @@ import {
   SearchAction,
   SearchActionPayload,
   SearchActionType,
-} from "../ActionTypes";
+} from "../action-types/searchActionTypes";
 
 const initialState: SearchActionPayload = {
   tabVal: 0,

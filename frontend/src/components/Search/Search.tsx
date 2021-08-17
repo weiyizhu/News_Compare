@@ -20,7 +20,7 @@ import Error from "../Error";
 import { actionCreators } from "../../state";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
-import { SearchActionPayload } from "../../state/actionTypes";
+import { SearchActionPayload } from "../../state/action-types/searchActionTypes";
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();

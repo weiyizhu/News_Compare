@@ -15,11 +15,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import {
-  Filters,
   NewsActionPayload,
   NewsStatus,
+} from "../../state/action-types/newsActionTypes";
+import {
+  Filters,
   SearchActionPayload,
-} from "../../state/ActionTypes";
+} from "../../state/action-types/searchActionTypes";
 import { RootState } from "../../state/reducers";
 import { allSources } from "../../static/allSources";
 import NewsEntry from "../NewsEntry";

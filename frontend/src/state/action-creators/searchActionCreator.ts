@@ -1,6 +1,10 @@
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import { Dispatch } from "react";
-import { Filters, SearchAction, SearchActionType } from "../ActionTypes";
+import {
+  Filters,
+  SearchAction,
+  SearchActionType,
+} from "../action-types/searchActionTypes";
 
 export const toggleTabVal = (tabVal: number) => {
   return (dispatch: Dispatch<SearchAction>) => {

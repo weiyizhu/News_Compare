@@ -3,7 +3,7 @@ import {
   NewsActionPayload,
   NewsActionType,
   NewsStatus,
-} from "../ActionTypes";
+} from "../action-types/newsActionTypes";
 
 const initialState: NewsActionPayload = {
   posts: null,
