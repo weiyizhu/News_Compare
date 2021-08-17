@@ -9,11 +9,10 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core";
-import { ContactSupport, FilterList } from "@material-ui/icons";
-import { Pagination, PaginationItem } from "@material-ui/lab";
-import React, { useEffect, useState } from "react";
+import { FilterList } from "@material-ui/icons";
+import { Pagination } from "@material-ui/lab";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isConstructorDeclaration } from "typescript";
 import { actionCreators } from "../../state";
 import {
   Filters,

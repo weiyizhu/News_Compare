@@ -1,4 +1,9 @@
-import { NewsAction, NewsActionPayload, NewsActionType, NewsStatus } from "../ActionTypes";
+import {
+  NewsAction,
+  NewsActionPayload,
+  NewsActionType,
+  NewsStatus,
+} from "../ActionTypes";
 
 const initialState: NewsActionPayload = {
   posts: null,

@@ -1,1 +1,1 @@
-export {default} from './SourcesMenu'
+export { default } from "./SourcesMenu";

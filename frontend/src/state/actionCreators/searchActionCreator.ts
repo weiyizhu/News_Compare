@@ -15,49 +15,47 @@ export const updateKeywords = (keywords: string) => {
   return (dispatch: Dispatch<SearchAction>) => {
     dispatch({
       type: SearchActionType.UPDATE_KEYWORDS,
-      payload: keywords
-    })
-  }
-}
+      payload: keywords,
+    });
+  };
+};
 export const updateFromDate = (fromDate: ParsableDate) => {
   return (dispatch: Dispatch<SearchAction>) => {
     dispatch({
       type: SearchActionType.UPDATE_FROM_DATE,
-      payload: fromDate
-    })
-  }
-}
+      payload: fromDate,
+    });
+  };
+};
 export const updateToDate = (toDate: ParsableDate) => {
   return (dispatch: Dispatch<SearchAction>) => {
     dispatch({
       type: SearchActionType.UPDATE_TO_DATE,
-      payload: toDate
-    })
-  }
-}
+      payload: toDate,
+    });
+  };
+};
 export const updateSourcesWithPage = (sourcesWithPage: sourceWithPage[]) => {
   return (dispatch: Dispatch<SearchAction>) => {
     dispatch({
       type: SearchActionType.UPDATE_SOURCES_WITH_PAGE,
-      payload: sourcesWithPage
-    })
-  }
-}
+      payload: sourcesWithPage,
+    });
+  };
+};
 export const toggleOpenMenu = (openMenu: boolean) => {
   return (dispatch: Dispatch<SearchAction>) => {
     dispatch({
       type: SearchActionType.TOGGLE_OPEN_MENU,
-      payload: openMenu
-    })
-  }
-}
+      payload: openMenu,
+    });
+  };
+};
 export const updateFilter = (filter: Filters) => {
   return (dispatch: Dispatch<SearchAction>) => {
     dispatch({
       type: SearchActionType.UPDATE_FILTER,
-      payload: filter
-    })
-  }
-}
-
-
+      payload: filter,
+    });
+  };
+};

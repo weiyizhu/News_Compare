@@ -4,7 +4,7 @@ interface NewsResponseProps {
   totalResults: number;
   code?: string | null;
   message?: string | null;
-}   
+}
 
 interface NewsArticle {
   author?: string | null;
@@ -24,8 +24,6 @@ interface NewsResponseProps {
   code?: string | null;
   message?: string | null;
 }
-
-
 
 type sourceWithPage = {
   source: string;

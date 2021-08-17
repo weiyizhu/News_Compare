@@ -10,12 +10,12 @@ export enum NewsStatus {
   IDLE = "IDLE",
   LOADING = "LOADING",
   SUCCESS = "SUCCESS",
-  ERROR = "ERROR"
+  ERROR = "ERROR",
 }
 
 export type NewsActionPayload = {
   posts?: NewsResponseProps[] | null;
-  status: NewsStatus
+  status: NewsStatus;
   errorMsg?: string | null;
 };
 

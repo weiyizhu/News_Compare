@@ -12,7 +12,7 @@ import { actionCreators } from "../../state";
 import { RootState } from "../../state/reducers";
 
 interface Props {
-  label: string
+  label: string;
 }
 
 const DatePicker: React.FC<Props> = ({ label }: Props) => {

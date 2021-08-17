@@ -1,6 +1,11 @@
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import { Reducer } from "redux";
-import { Filters, SearchAction, SearchActionPayload, SearchActionType } from "../ActionTypes"
+import {
+  Filters,
+  SearchAction,
+  SearchActionPayload,
+  SearchActionType,
+} from "../ActionTypes";
 
 const initialState: SearchActionPayload = {
   tabVal: 0,
@@ -15,8 +20,6 @@ const initialState: SearchActionPayload = {
   openMenu: false,
   filter: Filters.publishedAt,
 };
-
-
 
 export const searchReducer: Reducer<SearchActionPayload, SearchAction> = (
   state = initialState,

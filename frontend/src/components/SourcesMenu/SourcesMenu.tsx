@@ -30,7 +30,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
 import { actionCreators } from "../../state";
 
-
 const marks = [
   {
     value: 0,
@@ -73,10 +72,10 @@ const SourcesMenu = () => {
     (state) => state.searchProps.openMenu
   );
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const closeMenu = () => {
-    dispatch(actionCreators.toggleOpenMenu(false))
+    dispatch(actionCreators.toggleOpenMenu(false));
   };
 
   // const handleCheckBoxClick: (
@@ -204,7 +203,7 @@ const SourcesMenu = () => {
             selectedSourcesObj.map((src) => {
               src && selectedSourcesArr.push({ source: src.id, page: 1 });
             });
-            dispatch(actionCreators.updateSourcesWithPage(selectedSourcesArr))
+            dispatch(actionCreators.updateSourcesWithPage(selectedSourcesArr));
           }}
         />
       </DialogContent>
