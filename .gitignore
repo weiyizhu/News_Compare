@@ -28,3 +28,6 @@ yarn-error.log*
 
 # todo
 /todo.txt
+
+# .vscode
+.vscode
