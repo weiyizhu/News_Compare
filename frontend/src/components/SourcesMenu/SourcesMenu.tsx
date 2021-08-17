@@ -14,8 +14,6 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
-import { sourceWithPage, StateProps } from "../Search/Search";
 import React, { useState } from "react";
 import { CheckBoxOutlineBlank, EventNoteRounded } from "@material-ui/icons";
 import {
@@ -28,11 +26,10 @@ import {
 } from "../../static/allSources";
 import { Autocomplete } from "@material-ui/lab";
 import { checkUtils } from "@material-ui/pickers/_shared/hooks/useUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
+import { actionCreators } from "../../state";
 
-interface Props {
-  values: StateProps;
-  setValues: React.Dispatch<React.SetStateAction<StateProps>>;
-}
 
 const marks = [
   {
@@ -68,37 +65,46 @@ export interface ISource {
   bias: number;
 }
 
-const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
-  const handleClose = () => {
-    setValues({ ...values, openMenu: false });
+const SourcesMenu = () => {
+  const sourcesWithPage = useSelector<RootState, sourceWithPage[]>(
+    (state) => state.searchProps.sourcesWithPage
+  );
+  const openMenu = useSelector<RootState, boolean>(
+    (state) => state.searchProps.openMenu
+  );
+
+  const dispatch = useDispatch()
+
+  const closeMenu = () => {
+    dispatch(actionCreators.toggleOpenMenu(false))
   };
 
-  const handleCheckBoxClick: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
-  ) => void = (event, checked) => {
-    if (checked)
-      setValues({
-        ...values,
-        sourcesWithPage: [
-          ...values.sourcesWithPage,
-          { source: event.target.name, page: 1 },
-        ],
-      });
-    else
-      setValues({
-        ...values,
-        sourcesWithPage: values.sourcesWithPage.filter(
-          (sourceWithPage) => sourceWithPage["source"] !== event.target.name
-        ),
-        // sourcesWithPage: [...values.sourcesWithPage].filter(
-        //   (sourceWithPage) => sourceWithPage["source"] !== event.target.name
-        // ),
-      });
-  };
+  // const handleCheckBoxClick: (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   checked: boolean
+  // ) => void = (event, checked) => {
+  //   if (checked)
+  //     setValues({
+  //       ...values,
+  //       sourcesWithPage: [
+  //         ...values.sourcesWithPage,
+  //         { source: event.target.name, page: 1 },
+  //       ],
+  //     });
+  //   else
+  //     setValues({
+  //       ...values,
+  //       sourcesWithPage: values.sourcesWithPage.filter(
+  //         (sourceWithPage) => sourceWithPage["source"] !== event.target.name
+  //       ),
+  //       // sourcesWithPage: [...values.sourcesWithPage].filter(
+  //       //   (sourceWithPage) => sourceWithPage["source"] !== event.target.name
+  //       // ),
+  //     });
+  // };
 
   let defaultValues = [];
-  for (let sourceWithPage of values.sourcesWithPage) {
+  for (let sourceWithPage of sourcesWithPage) {
     defaultValues.push(
       allSources.find((allSrc) => allSrc.id === sourceWithPage["source"])
     );
@@ -109,12 +115,7 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
 
   return (
     // https://material-ui.com/components/autocomplete/#checkboxes
-    <Dialog
-      open={values.openMenu}
-      onClose={() => {
-        setValues({ ...values, openMenu: false });
-      }}
-    >
+    <Dialog open={openMenu} onClose={closeMenu}>
       <DialogTitle>
         <Grid container alignItems="center">
           <Grid item xs>
@@ -189,9 +190,9 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
               {...params}
               variant="outlined"
               label="Sources"
-              error={values.sourcesWithPage.length > 3}
+              error={sourcesWithPage.length > 3}
               helperText={
-                values.sourcesWithPage.length > 3 &&
+                sourcesWithPage.length > 3 &&
                 "Sources cannot be more than three."
               }
             />
@@ -199,28 +200,19 @@ const SourcesMenu: React.FC<Props> = ({ values, setValues }: Props) => {
           defaultValue={defaultValues}
           limitTags={3}
           onChange={(event, selectedSourcesObj) => {
-            console.log(event, selectedSourcesObj);
             let selectedSourcesArr: sourceWithPage[] = [];
             selectedSourcesObj.map((src) => {
               src && selectedSourcesArr.push({ source: src.id, page: 1 });
             });
-            setValues({ ...values, sourcesWithPage: selectedSourcesArr });
+            dispatch(actionCreators.updateSourcesWithPage(selectedSourcesArr))
           }}
         />
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => setValues({ ...values, openMenu: false })}
-          color="primary"
-        >
+        <Button onClick={closeMenu} color="primary">
           Cancel
         </Button>
-        <Button
-          onClick={() => {
-            setValues({ ...values, openMenu: false });
-          }}
-          color="primary"
-        >
+        <Button onClick={closeMenu} color="primary">
           Save
         </Button>
       </DialogActions>

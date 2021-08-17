@@ -19,7 +19,6 @@ import {
 } from "@material-ui/icons";
 import moment from "moment";
 import React, { useState } from "react";
-import { NewsArticle, NewsResponseProps } from "../../api/news";
 
 const NewsEntry: React.FC<NewsArticle> = ({
   description,

@@ -1,39 +1,51 @@
 import { Button, Chip, Grid } from "@material-ui/core";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators } from "../../state";
+import { RootState } from "../../state/reducers";
 import { allSources } from "../../static/allSources";
-import { StateProps } from "../Search/Search";
 
-interface Props {
-  values: StateProps;
-  setValues: React.Dispatch<React.SetStateAction<StateProps>>;
-}
+const PickSources = () => {
+  const news = useSelector<RootState, NewsResponseProps[] | null | undefined>(
+    (state) => state.news.posts
+  );
+  const sourcesWithPage = useSelector<RootState, sourceWithPage[]>(
+    (state) => state.searchProps.sourcesWithPage
+  );
 
-const PickSources: React.FC<Props> = ({ values, setValues }: Props) => {
+  const dispatch = useDispatch();
+
   const handleSourcesDelete = (sourceToBeDeleted: string) => () => {
-    setValues({
-      ...values,
-      sourcesWithPage: values.sourcesWithPage.filter(
-        (source) => source["source"] !== sourceToBeDeleted
-      ),
-      news:
-        values.news?.filter(
-          (news) => news.articles[0].source.id !== sourceToBeDeleted
-        ) ?? null,
-    });
+    dispatch(
+      actionCreators.updateSourcesWithPage(
+        sourcesWithPage.filter(
+          (sourceWithPage) => sourceWithPage["source"] !== sourceToBeDeleted
+        )
+      )
+    );
+
+    dispatch(
+      actionCreators.updateNews(
+        news?.filter(
+          (newsEntry) => newsEntry.articles[0].source.id !== sourceToBeDeleted
+        )
+      )
+    );
   };
+
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item>
         <Button
           onClick={() => {
-            setValues({ ...values, openMenu: true });
+            dispatch(actionCreators.toggleOpenMenu(true));
           }}
         >
           Sources:{" "}
         </Button>
       </Grid>
-      {values.sourcesWithPage &&
-        values.sourcesWithPage.map((sourceWithPage) => {
+      {sourcesWithPage &&
+        sourcesWithPage.map((sourceWithPage) => {
           const source = sourceWithPage["source"];
           return (
             <Grid item key={source}>

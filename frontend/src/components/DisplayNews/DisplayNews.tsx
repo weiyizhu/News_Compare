@@ -11,22 +11,19 @@ import {
 } from "@material-ui/core";
 import { ContactSupport, FilterList } from "@material-ui/icons";
 import { Pagination, PaginationItem } from "@material-ui/lab";
-import React, { useState } from "react";
-import { getTopHeadlines, NewsResponseProps } from "../../api/news";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { isConstructorDeclaration } from "typescript";
+import { actionCreators } from "../../state";
+import {
+  Filters,
+  NewsActionPayload,
+  NewsStatus,
+  SearchActionPayload,
+} from "../../state/ActionTypes";
+import { RootState } from "../../state/reducers";
 import { allSources } from "../../static/allSources";
 import NewsEntry from "../NewsEntry";
-import { Filters, sourceWithPage, StatesProps } from "../Search/Search";
-
-const mock = {
-  description:
-    "CNN's Maggie Haberman breaks down comments made by former President Trump during a rally in Florida in which he appears to admit facts of a case against his company, The Trump Organization and its CFO, Allen Weisselberg.",
-  publishedAt: "2021-07-05T18:07:42.8940152Z",
-  source: { id: "cnn", name: "CNN" },
-  title: "Haberman calls Trump's rally remarks 'risky gamble' - CNN Video",
-  url: "http://us.cnn.com/videos/politics/2021/07/05/donald-trump-sarasota-florida-rally-trump-org-weisselberg-haberman-newday-vpx.cnn",
-  urlToImage:
-    "https://cdn.cnn.com/cnnnext/dam/assets/210705082435-maggie-haberman-donald-trump-split-super-tease.jpg",
-};
 
 const useStyles = makeStyles({
   center: {
@@ -34,22 +31,31 @@ const useStyles = makeStyles({
   },
 });
 
-const DisplayNews: React.FC<StatesProps> = ({
-  values,
-  setValues,
-}: StatesProps) => {
+const DisplayNews = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const filterOptions = ["publishedAt", "popularity", "relavency"];
+
+  const searchProps = useSelector<RootState, SearchActionPayload>(
+    (state) => state.searchProps
+  );
+  const { sourcesWithPage, tabVal, filter } = searchProps;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actionCreators.getTopHeadlines("", sourcesWithPage));
+  }, []);
+
+  const news = useSelector<RootState, NewsActionPayload>((state) => state.news);
+
   return (
     <Container>
       <Grid container alignItems="center">
         <Grid item xs>
           <Typography variant="h4" paragraph>
-            {values.tabVal == 0 ? "Top Headlines" : "Everything"}
+            {tabVal == 0 ? "Top Headlines" : "Everything"}
           </Typography>
         </Grid>
-        {values.tabVal == 1 && (
+        {tabVal == 1 && (
           <>
             <Grid item>
               <Typography>Sort by</Typography>
@@ -68,20 +74,19 @@ const DisplayNews: React.FC<StatesProps> = ({
                 onClose={() => {
                   setAnchorEl(null);
                 }}
-                // keepMounted`
               >
-                {filterOptions.map((option) => (
+                {Object.values(Filters).map((option) => (
                   <MenuItem
                     key={option}
                     aria-label={option}
-                    selected={option === values.filter}
+                    selected={option === filter}
                     onClick={(event) => {
                       const target = event.target as Element;
                       const filterString = target.getAttribute("aria-label");
                       const filterEnum = filterString
                         ? (filterString as Filters)
                         : Filters.publishedAt;
-                      setValues({ ...values, filter: filterEnum });
+                      dispatch(actionCreators.updateFilter(filter));
                       setAnchorEl(null);
                     }}
                   >
@@ -94,20 +99,20 @@ const DisplayNews: React.FC<StatesProps> = ({
         )}
       </Grid>
       <Divider style={{ marginBottom: "2em" }} />
-      {values.loading ? (
+      {news.status === NewsStatus.LOADING ? (
         <Grid container justify="center">
           <CircularProgress />
         </Grid>
       ) : (
         <Grid container spacing={2}>
-          {values.news &&
-            values.news.map((newsSrc, index) => (
+          {news.posts &&
+            news.posts.map((newsSrc, index) => (
               <Grid item xs={12} sm>
                 <Typography variant="h5" style={{ textAlign: "center" }}>
                   {
                     allSources.filter(
                       (newsSource) =>
-                        newsSource.id === values.sourcesWithPage[index].source
+                        newsSource.id === sourcesWithPage[index].source
                     )[0].name
                   }
                 </Typography>
@@ -122,9 +127,7 @@ const DisplayNews: React.FC<StatesProps> = ({
                       style={{ paddingTop: "1em", paddingBottom: "1em" }}
                       classes={{ ul: classes.center }}
                       count={Math.ceil(newsSrc.totalResults / 3)}
-                      getItemAriaLabel={() =>
-                        values.sourcesWithPage[index].source
-                      }
+                      getItemAriaLabel={() => sourcesWithPage[index].source}
                       // renderItem={(item) => {
                       //   console.log(item);
                       //   return (
@@ -137,12 +140,12 @@ const DisplayNews: React.FC<StatesProps> = ({
                       hideNextButton
                       hidePrevButton
                       boundaryCount={2}
-                      page={values.sourcesWithPage[index].page}
+                      page={sourcesWithPage[index].page}
                       onChange={(event, page) => {
                         const target = event.target as HTMLInputElement;
                         const sourceId = target.getAttribute("aria-label");
                         let newSourcesWithPage: sourceWithPage[] = [];
-                        for (let sourceWithPage of values.sourcesWithPage) {
+                        for (let sourceWithPage of sourcesWithPage) {
                           if (sourceWithPage.source === sourceId)
                             newSourcesWithPage.push({
                               source: sourceId,
@@ -150,10 +153,11 @@ const DisplayNews: React.FC<StatesProps> = ({
                             });
                           else newSourcesWithPage.push(sourceWithPage);
                         }
-                        setValues({
-                          ...values,
-                          sourcesWithPage: newSourcesWithPage,
-                        });
+                        dispatch(
+                          actionCreators.updateSourcesWithPage(
+                            newSourcesWithPage
+                          )
+                        );
                       }}
                     />
                   </>

@@ -1,24 +1,38 @@
-import { Snackbar } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import React from 'react'
-import { StatesProps } from '../Search/Search'
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators } from "../../state";
+import { NewsStatus } from "../../state/ActionTypes";
+import { RootState } from "../../state/reducers";
 
-const Error: React.FC<StatesProps> = ({values, setValues}: StatesProps) => {
-    return (
-      <Snackbar
-        open={values.searchError}
-        autoHideDuration={6000}
-        onClose={() => setValues({ ...values, searchError: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          onClose={() => setValues({ ...values, searchError: false })}
-          severity="error"
-        >
-          {values.errorText}
-        </Alert>
-      </Snackbar>
-    );
-}
+const Error = () => {
+  const status = useSelector<RootState, NewsStatus>(
+    (state) => state.news.status
+  );
+  const hasError = status === NewsStatus.ERROR;
+  const errorMsg = useSelector<RootState, string | null | undefined>(
+    (state) => state.news.errorMsg
+  );
 
-export default Error
+  const dispatch = useDispatch();
+
+  const updateStatus = (status: NewsStatus) => {
+    dispatch(actionCreators.updateStatus(status));
+  };
+
+  return (
+    <Snackbar
+      open={hasError}
+      autoHideDuration={6000}
+      onClose={() => updateStatus(NewsStatus.IDLE)}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    >
+      <Alert onClose={() => updateStatus(NewsStatus.IDLE)} severity="error">
+        {errorMsg}
+      </Alert>
+    </Snackbar>
+  );
+};
+
+export default Error;
