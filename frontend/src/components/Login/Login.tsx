@@ -7,7 +7,11 @@ import {
   makeStyles,
   Grid,
   Link,
+  Checkbox,
+  FormControlLabel,
+  CssBaseline,
 } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyle = makeStyles(() => ({
   outerContainer: {
@@ -20,12 +24,9 @@ const useStyle = makeStyles(() => ({
 const Login: React.FC = () => {
   const classes = useStyle();
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" style={{ marginTop: "4em" }}>
       <Grid container direction="column" alignItems="center">
-        <Typography>Login</Typography>
-        <Typography>
-          Don't have an account? <Link>Sign Up {"->"}</Link>{" "}
-        </Typography>
+        <Typography variant="h4">Login</Typography>
         <form action="" method="post">
           <TextField
             variant="outlined"
@@ -45,16 +46,34 @@ const Login: React.FC = () => {
             label="Password"
             name="password"
             autoComplete="current-password"
-            autoFocus
             type="password"
           />
-          <Button fullWidth variant="contained" type="submit" color="primary">
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            type="submit"
+            color="primary"
+            style={{ margin: "1em 0em 1em" }}
+          >
             Log In
           </Button>
           <Grid container>
-            <Grid item xs></Grid>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
             <Grid item>
-              <Link>Forgot Password?</Link>
+              <Typography color="textSecondary" variant="body2">
+                Don't have an account?{" "}
+                <Link href="#" variant="body2">
+                  <RouterLink to="/signup">{"Sign Up"}</RouterLink>
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>
