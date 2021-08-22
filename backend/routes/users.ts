@@ -1,5 +1,5 @@
 import express from "express";
-import { VerifyErrors } from "jsonwebtoken";
+import { verify, VerifyErrors } from "jsonwebtoken";
 const router = express.Router();
 
 import jwt from "jsonwebtoken";
@@ -8,81 +8,31 @@ import nodemailer from "nodemailer";
 
 // User Model
 import User from "../models/user";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  generateResetToken,
+} from "./auth";
+import { equal } from "assert";
+import { access } from "fs";
 
-export interface DataStoredInToken {
+export interface AccessRefreshToken {
   email: string;
-}
-
-interface ResetToken {
-  password: string;
 }
 
 declare global {
   namespace Express {
     export interface Request {
-      user: DataStoredInToken;
+      user: AccessRefreshToken;
     }
   }
 }
-
-const authenticateToken = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  const cookies = req.cookies;
-  console.log(cookies);
-  // check AT
-
-  // if AT not verified: check RT
-  // if RT is valid: get new AT;
-  // res.cookie('at', AT)
-  // else false
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token === null) return res.sendStatus(401);
-
-  jwt.verify(
-    token,
-    process.env.ACCESS_TOKEN_SECRET,
-    (err: VerifyErrors, dataStoredInToken: DataStoredInToken) => {
-      if (err) return res.sendStatus(403);
-      req.user = dataStoredInToken;
-      next();
-    }
-  );
-};
-
-const generateAccessToken = (dataStoredInToken: DataStoredInToken) => {
-  return jwt.sign(dataStoredInToken, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "10m",
-  });
-};
-
-const generateRefreshToken = (
-  dataStoredInToken: DataStoredInToken,
-  remembered: boolean
-) => {
-  const time = remembered ? "7d" : "2h";
-  return jwt.sign(dataStoredInToken, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: time,
-  });
-};
-
-const generateResetToken = (partialPassword: ResetToken) => {
-  return jwt.sign(partialPassword, process.env.RESET_TOKEN_SECRET, {
-    expiresIn: "15m",
-  });
-};
 
 // @route POST /users/signup
 // @desc User Sign up
 // @access Public
 router.post("/signup", async (req, res) => {
-  console.log("hi");
-  console.log(req);
   const { email, password } = req.body;
-  console.log(email, password);
   // security https://dev.to/dipakkr/implementing-authentication-in-nodejs-with-express-and-jwt-codelab-1-j5i
   try {
     let user = await User.findOne({
@@ -107,15 +57,6 @@ router.post("/signup", async (req, res) => {
     } else {
       res.sendStatus(201);
     }
-
-    // user.save((err, response) => {
-    //   if (err) {
-    //     console.log("haha", err, "haha2", response);
-    //     res.status(500).json({ msg: "Error saving user" });
-    //   } else {
-    //     res.redirect("/user/login");
-    //   }
-    // });
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -130,29 +71,21 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password, remembered } = req.body;
 
-  console.log("haha", email, password, remembered);
-
   try {
     let user = await User.findOne({
       email,
     });
-    console.log(
-      password,
-      user.password,
-      await bcrypt.compare(password, user.password)
-    );
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({ msg: "Incorrect account" });
     }
 
-    const dataStoredInToken: DataStoredInToken = {
+    const dataStoredInToken: AccessRefreshToken = {
       email: email,
     };
 
     const accessToken = generateAccessToken(dataStoredInToken);
     const refreshToken = generateRefreshToken(dataStoredInToken, remembered);
-
-    console.log("token!");
 
     res.cookie("rt", refreshToken, {
       httpOnly: true,
@@ -160,8 +93,6 @@ router.post("/login", async (req, res) => {
     res.cookie("at", accessToken, {
       httpOnly: true,
     });
-
-    console.log("cookie");
 
     res.sendStatus(200);
   } catch (err) {
@@ -224,11 +155,8 @@ router.post("/reset", async (req, res) => {
         process.env.RESET_TOKEN_SECRET
       );
       if (payload.password !== user.password.slice(-6)) {
-        console.log("error");
         return res.status(403).json({ msg: "reset link expires" });
       }
-
-      console.log("continue");
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const filter = { email: email };
@@ -244,21 +172,57 @@ router.post("/reset", async (req, res) => {
   }
 });
 
-router.post("/token", (req, res) => {
-  const refreshToken = req.body.token;
-  try {
-    const decoded = jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      (err: VerifyErrors, decoded: any) => {
-        if (err) return res.sendStatus(403);
-        const accessToken = generateAccessToken({ email: decoded.email });
-        res.json({ accessToken: accessToken });
+router.get("/checkLoggedInStatus", (req, res) => {
+  const cookies = req.cookies;
+  if ("at" in cookies && "rt" in cookies) {
+    const accessToken = cookies["at"];
+    const refreshToken = cookies["rt"];
+
+    try {
+      jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+      return res.json({ isLoggedIn: true });
+    } catch (err) {
+      try {
+        const decoded: any = jwt.verify(
+          refreshToken,
+          process.env.REFRESH_TOKEN_SECRET
+        );
+        const newAccessToken = generateAccessToken({
+          email: decoded.email,
+        });
+        res.cookie("at", newAccessToken);
+        res.json({ isLoggedIn: true });
+      } catch (err) {
+        console.log(err.message);
+        res.json({ isLoggedIn: false });
       }
-    );
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
+    }
+    // jwt.verify(
+    //   accessToken,
+    //   process.env.ACCESS_TOKEN_SECRET,
+    //   (err: VerifyErrors, decoded: jwt.JwtPayload) => {
+    //     if (!err) loggedIn = true;
+    //     else {
+    //       jwt.verify(
+    //         refreshToken,
+    //         process.env.REFRESH_TOKEN_SECRET,
+    //         (err: VerifyErrors, decoded: jwt.JwtPayload) => {
+    //           if (!err) {
+    //             console.log(decoded);
+    //             const newAccessToken = generateAccessToken({
+    //               email: decoded.email,
+    //             });
+    //             res.cookie("at", newAccessToken);
+    //             loggedIn = true;
+    //           }
+    //         }
+    //       );
+    //     }
+    //   }
+    // );
+    // res.json({ isLoggedIn: loggedIn });
+  } else {
+    res.json({ isLoggedIn: false });
   }
 });
 
