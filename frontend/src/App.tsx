@@ -1,5 +1,11 @@
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Link,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import StatusAlert from "./components/StatusAlert";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
@@ -16,6 +22,9 @@ function App() {
       state.status.status === Status.ERROR ||
       state.status.status === Status.SUCCESS
   );
+  const isLoggedIn = useSelector<RootState, boolean>(
+    (state) => state.user.loggedIn
+  );
   return (
     <Router>
       <NavBar />
@@ -23,14 +32,18 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={News} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={SignUp} />
+        <Route exact path="/login">
+          {isLoggedIn ? <Redirect to="/" /> : <Login />}
+        </Route>
+        <Route exact path="/signup">
+          {isLoggedIn ? <Redirect to="/" /> : <SignUp />}
+        </Route>
         <Route
           exact
           path="/reset/:email/:resetToken"
           component={ResetPassword}
         />
-        <Route path="/forgot" component={ForgotPassword} />
+        <Route exact path="/forgot" component={ForgotPassword} />
       </Switch>
     </Router>
   );
