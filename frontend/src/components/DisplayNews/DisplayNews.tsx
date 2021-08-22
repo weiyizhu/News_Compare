@@ -16,12 +16,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import {
   NewsActionPayload,
-  NewsStatus,
 } from "../../state/action-types/newsActionTypes";
 import {
   Filters,
   SearchActionPayload,
 } from "../../state/action-types/searchActionTypes";
+import { Status } from "../../state/action-types/statusActionTypes";
 import { RootState } from "../../state/reducers";
 import { allSources } from "../../static/allSources";
 import NewsEntry from "../NewsEntry";
@@ -47,6 +47,7 @@ const DisplayNews = () => {
   }, []);
 
   const news = useSelector<RootState, NewsActionPayload>((state) => state.news);
+  const loading = useSelector<RootState, boolean>((state) => state.status.status === Status.LOADING);
 
   return (
     <Container>
@@ -100,7 +101,7 @@ const DisplayNews = () => {
         )}
       </Grid>
       <Divider style={{ marginBottom: "2em" }} />
-      {news.status === NewsStatus.LOADING ? (
+      {loading ? (
         <Grid container justify="center">
           <CircularProgress />
         </Grid>

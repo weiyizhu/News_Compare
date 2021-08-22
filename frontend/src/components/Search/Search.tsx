@@ -16,7 +16,7 @@ import SearchBox from "../SearchBox";
 import PickSources from "../PickSources";
 import moment from "moment";
 import DisplayNews from "../DisplayNews";
-import Error from "../Error";
+import Error from "../StatusAlert";
 import { actionCreators } from "../../state";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
@@ -117,7 +117,6 @@ const Search: React.FC = () => {
           </Box>
           <SourcesMenu />
         </Box>
-        <Error />
       </Container>
       <DisplayNews />
     </>
