@@ -14,11 +14,11 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { actionCreators } from "../../state";
-import { NewsActionType, NewsStatus } from "../../state/action-types/newsActionTypes";
+import { NewsActionType } from "../../state/action-types/newsActionTypes";
+import { Status } from "../../state/action-types/statusActionTypes";
 import { isValidEmail } from "../SignUp/SignUp";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
 
 const ForgotPassword = () => {
   const email = useRef<TextFieldProps>();
@@ -27,9 +27,7 @@ const ForgotPassword = () => {
   const resetPassword = async () => {
     if (email.current) {
       if (!isValidEmail(String(email.current.value))) {
-        dispatch(
-          actionCreators.updateStatus(NewsStatus.ERROR, "Invalid email")
-        );
+        dispatch(actionCreators.updateStatus(Status.ERROR, "Invalid email"));
         return;
       }
       const res = await axios
@@ -37,13 +35,9 @@ const ForgotPassword = () => {
           email: email.current.value,
         })
         .catch(() => {
-          dispatch({
-            type: NewsActionType.UPDATE_STATUS,
-            payload: {
-              status: NewsStatus.ERROR,
-              errorMsg: "Error sending email",
-            },
-          });
+          dispatch(
+            actionCreators.updateStatus(Status.ERROR, "Error resetting")
+          );
         });
       if (res) {
         setOpen(true);
