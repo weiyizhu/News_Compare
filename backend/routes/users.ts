@@ -30,8 +30,8 @@ const authenticateToken = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  const cookies = req.cookies
-  console.log(cookies)
+  const cookies = req.cookies;
+  console.log(cookies);
   // check AT
 
   // if AT not verified: check RT

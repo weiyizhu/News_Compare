@@ -12,7 +12,9 @@ import { Status } from "./state/action-types/statusActionTypes";
 
 function App() {
   const showStatus = useSelector<RootState, boolean>(
-    (state) => state.status.status === Status.ERROR || state.status.status === Status.SUCCESS
+    (state) =>
+      state.status.status === Status.ERROR ||
+      state.status.status === Status.SUCCESS
   );
   return (
     <Router>

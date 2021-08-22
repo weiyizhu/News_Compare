@@ -24,7 +24,7 @@ const SignUp = () => {
   const email = useRef<TextFieldProps>();
   const password = useRef<TextFieldProps>();
   const confirmPassword = useRef<TextFieldProps>();
-  const history = useHistory()
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const signUp = async () => {
@@ -51,8 +51,10 @@ const SignUp = () => {
             dispatch(actionCreators.updateStatus(Status.ERROR, err.message));
           });
         if (res) {
-          dispatch(actionCreators.updateStatus(Status.SUCCESS, "Sign up successful!"))
-          history.push("/login")
+          dispatch(
+            actionCreators.updateStatus(Status.SUCCESS, "Sign up successful!")
+          );
+          history.push("/login");
         }
       }
     }

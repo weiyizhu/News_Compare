@@ -14,9 +14,7 @@ import { Pagination } from "@material-ui/lab";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
-import {
-  NewsActionPayload,
-} from "../../state/action-types/newsActionTypes";
+import { NewsActionPayload } from "../../state/action-types/newsActionTypes";
 import {
   Filters,
   SearchActionPayload,
@@ -47,7 +45,9 @@ const DisplayNews = () => {
   }, []);
 
   const news = useSelector<RootState, NewsActionPayload>((state) => state.news);
-  const loading = useSelector<RootState, boolean>((state) => state.status.status === Status.LOADING);
+  const loading = useSelector<RootState, boolean>(
+    (state) => state.status.status === Status.LOADING
+  );
 
   return (
     <Container>

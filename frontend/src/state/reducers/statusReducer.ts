@@ -1,4 +1,9 @@
-import { Status, StatusAction, StatusActionPayload, StatusActionType } from "../action-types/statusActionTypes";
+import {
+  Status,
+  StatusAction,
+  StatusActionPayload,
+  StatusActionType,
+} from "../action-types/statusActionTypes";
 
 const initialState: StatusActionPayload = {
   status: Status.IDLE,

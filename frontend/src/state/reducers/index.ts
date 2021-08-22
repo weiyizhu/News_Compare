@@ -6,7 +6,7 @@ import statusReducer from "./statusReducer";
 const reducers = combineReducers({
   news: newsReducer,
   searchProps: searchReducer,
-  status: statusReducer
+  status: statusReducer,
 });
 
 export default reducers;

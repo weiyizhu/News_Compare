@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 require("dotenv").config();
@@ -8,10 +8,12 @@ import newsRouter from "./routes/news";
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors({
-  credentials: true,
-  origin: process.env.CLIENT
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT,
+  })
+);
 app.use(express.json());
 
 // Connect to DB

@@ -29,7 +29,7 @@ const ResetPassword = () => {
   const { email, resetToken } = useParams<Params>();
   const password = useRef<TextFieldProps>();
   const confirmPassword = useRef<TextFieldProps>();
-  const history = useHistory()
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const resetPassword = async () => {
@@ -55,7 +55,10 @@ const ResetPassword = () => {
           });
         if (res) {
           dispatch(
-            actionCreators.updateStatus(Status.SUCCESS, "Reset password successful!")
+            actionCreators.updateStatus(
+              Status.SUCCESS,
+              "Reset password successful!"
+            )
           );
           history.push("/login");
         }

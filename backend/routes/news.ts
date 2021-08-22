@@ -7,21 +7,21 @@ const newsAPIUrl = process.env.NEWS_API_URI;
 const newsAPIKey = process.env.NEWS_API_KEY;
 
 interface Config {
-  q?: string,
-  from?: string,
-  to?: string,
-  sources?: string,
-  country?: string
+  q?: string;
+  from?: string;
+  to?: string;
+  sources?: string;
+  country?: string;
 }
 
-const getConfig = (paramsData:Config) => {
+const getConfig = (paramsData: Config) => {
   return {
     params: paramsData,
     headers: {
       "X-Api-Key": newsAPIKey,
     },
   };
-}
+};
 
 // Everything endpoint
 router.post("/everything", (req, res) => {
@@ -68,4 +68,4 @@ router.post("/sources", (req, res) => {
     });
 });
 
-export default router
+export default router;
