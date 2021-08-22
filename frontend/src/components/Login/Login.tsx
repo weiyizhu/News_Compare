@@ -10,14 +10,14 @@ import {
   Checkbox,
   FormControlLabel,
   TextFieldProps,
-
 } from "@material-ui/core";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import { isValidEmail } from "../SignUp/SignUp";
 import { Status } from "../../state/action-types/statusActionTypes";
+import { RootState } from "../../state/reducers";
 
 const useStyle = makeStyles(() => ({
   outerContainer: {
@@ -28,17 +28,15 @@ const useStyle = makeStyles(() => ({
 }));
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
-interface LoginResponse {
-  accessToken: string;
-}
-
 const Login: React.FC = () => {
   const classes = useStyle();
   const email = useRef<TextFieldProps>();
   const pwd = useRef<TextFieldProps>();
   const [checked, setChecked] = useState(false);
   const history = useHistory();
+  const isLoggedIn = useSelector<RootState, boolean>(
+    (state) => state.user.loggedIn
+  );
 
   const dispatch = useDispatch();
   const login: React.FormEventHandler<HTMLFormElement> = async (event) => {
@@ -53,23 +51,14 @@ const Login: React.FC = () => {
       if (errorMsg !== "") {
         dispatch(actionCreators.updateStatus(Status.ERROR, errorMsg));
       } else {
-        const res = await axios
-          .post<Promise<LoginResponse>>(
-            url + "/users/login",
-            {
-              email: email.current.value,
-              password: pwd.current.value,
-              remembered: checked,
-            },
-            { withCredentials: true }
+        dispatch(
+          actionCreators.login(
+            String(email.current.value),
+            String(pwd.current.value),
+            checked
           )
-          .catch((err: AxiosError) => {
-            const errorMsg: string | undefined = err.response?.data.msg;
-            dispatch(actionCreators.updateStatus(Status.ERROR, errorMsg));
-          });
-        if (res) {
-          history.push("/");
-        }
+        );
+        if (isLoggedIn) history.push("/");
       }
     }
   };
