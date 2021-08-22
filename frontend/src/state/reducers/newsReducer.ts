@@ -5,7 +5,7 @@ import {
 } from "../action-types/newsActionTypes";
 
 const initialState: NewsActionPayload = {
-  posts: null,
+  posts: undefined,
 };
 
 const newsReducer = (

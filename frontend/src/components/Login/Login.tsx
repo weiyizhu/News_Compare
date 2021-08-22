@@ -9,16 +9,13 @@ import {
   Link,
   Checkbox,
   FormControlLabel,
-  CssBaseline,
   TextFieldProps,
-  CheckboxProps,
-  FormControlLabelProps,
+
 } from "@material-ui/core";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { actionCreators } from "../../state";
-import { NewsActionType } from "../../state/action-types/newsActionTypes";
 import { isValidEmail } from "../SignUp/SignUp";
 import { Status } from "../../state/action-types/statusActionTypes";
 

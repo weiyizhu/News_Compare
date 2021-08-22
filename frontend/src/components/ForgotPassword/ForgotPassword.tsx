@@ -4,17 +4,15 @@ import {
   Typography,
   TextField,
   Button,
-  Link,
   TextFieldProps,
   Snackbar,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { actionCreators } from "../../state";
-import { NewsActionType } from "../../state/action-types/newsActionTypes";
 import { Status } from "../../state/action-types/statusActionTypes";
 import { isValidEmail } from "../SignUp/SignUp";
 

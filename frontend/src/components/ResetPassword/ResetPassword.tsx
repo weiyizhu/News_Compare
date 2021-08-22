@@ -4,19 +4,14 @@ import {
   Typography,
   TextField,
   Button,
-  Link,
   TextFieldProps,
-  Snackbar,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import axios, { AxiosError } from "axios";
-import { useRef, useState } from "react";
+import axios from "axios";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Link as RouterLink, useHistory, useParams } from "react-router-dom";
 import { actionCreators } from "../../state";
-import { NewsActionType } from "../../state/action-types/newsActionTypes";
 import { Status } from "../../state/action-types/statusActionTypes";
-import { isValidEmail } from "../SignUp/SignUp";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
