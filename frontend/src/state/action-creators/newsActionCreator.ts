@@ -1,12 +1,14 @@
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import axios from "axios";
 import { Dispatch } from "redux";
-import {
-  NewsAction,
-  NewsActionType,
-  NewsStatus,
-} from "../action-types/newsActionTypes";
+import { actionCreators } from "..";
+import { NewsAction, NewsActionType } from "../action-types/newsActionTypes";
 import { Filters } from "../action-types/searchActionTypes";
+import {
+  Status,
+  StatusAction,
+  StatusActionType,
+} from "../action-types/statusActionTypes";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -33,25 +35,25 @@ const isInvalidInput = (
 
 export const getTopHeadlines =
   (keywords: string, sourcesWithPage: sourceWithPage[]) =>
-  async (dispatch: Dispatch<NewsAction>) => {
+  async (dispatch: Dispatch<StatusAction | NewsAction>) => {
     console.log("top headlines", keywords, sourcesWithPage);
     // check if input is valid
     const errorMsg = isInvalidInput(sourcesWithPage);
     if (errorMsg) {
       dispatch({
-        type: NewsActionType.UPDATE_STATUS,
+        type: StatusActionType.UPDATE_STATUS,
         payload: {
-          status: NewsStatus.ERROR,
-          errorMsg: errorMsg,
+          status: Status.ERROR,
+          msg: errorMsg,
         },
       });
       return;
     }
 
     dispatch({
-      type: NewsActionType.UPDATE_STATUS,
+      type: StatusActionType.UPDATE_STATUS,
       payload: {
-        status: NewsStatus.LOADING,
+        status: Status.LOADING,
       },
     });
 
@@ -69,10 +71,10 @@ export const getTopHeadlines =
         .catch((err) => {
           console.log(err.message);
           dispatch({
-            type: NewsActionType.UPDATE_STATUS,
+            type: StatusActionType.UPDATE_STATUS,
             payload: {
-              status: NewsStatus.ERROR,
-              errorMsg: err.message,
+              status: Status.ERROR,
+              msg: err.message,
             },
           });
           return;
@@ -83,11 +85,8 @@ export const getTopHeadlines =
       data && newsResponseArr.push(data);
     }
     dispatch({
-      type: NewsActionType.FETCH_NEWS,
-      payload: {
-        posts: newsResponseArr,
-        status: NewsStatus.SUCCESS,
-      },
+      type: NewsActionType.UPDATE_NEWS,
+      payload: newsResponseArr,
     });
   };
 
@@ -99,24 +98,24 @@ export const getEverything =
     sourcesWithPage: sourceWithPage[],
     filter: Filters
   ) =>
-  async (dispatch: Dispatch<NewsAction>) => {
+  async (dispatch: Dispatch<NewsAction | StatusAction>) => {
     // check if input is valid
     const errorMsg = isInvalidInput(sourcesWithPage, fromDate, toDate);
     if (errorMsg) {
       dispatch({
-        type: NewsActionType.UPDATE_STATUS,
+        type: StatusActionType.UPDATE_STATUS,
         payload: {
-          status: NewsStatus.ERROR,
-          errorMsg: errorMsg,
+          status: Status.ERROR,
+          msg: errorMsg,
         },
       });
       return;
     }
 
     dispatch({
-      type: NewsActionType.UPDATE_STATUS,
+      type: StatusActionType.UPDATE_STATUS,
       payload: {
-        status: NewsStatus.LOADING,
+        status: Status.LOADING,
       },
     });
 
@@ -138,10 +137,10 @@ export const getEverything =
         .catch((err) => {
           console.log(err.message);
           dispatch({
-            type: NewsActionType.UPDATE_STATUS,
+            type: StatusActionType.UPDATE_STATUS,
             payload: {
-              status: NewsStatus.ERROR,
-              errorMsg: err.message,
+              status: Status.ERROR,
+              msg: err.message,
             },
           });
           return;
@@ -151,11 +150,8 @@ export const getEverything =
       data && newsResponseArr.push(data);
     }
     dispatch({
-      type: NewsActionType.FETCH_NEWS,
-      payload: {
-        posts: newsResponseArr,
-        status: NewsStatus.SUCCESS,
-      },
+      type: NewsActionType.UPDATE_NEWS,
+      payload: newsResponseArr,
     });
   };
 
@@ -164,18 +160,6 @@ export const updateNews = (news: NewsResponseProps[] | undefined | null) => {
     dispatch({
       type: NewsActionType.UPDATE_NEWS,
       payload: news,
-    });
-  };
-};
-
-export const updateStatus = (status: NewsStatus, errorMsg?: string | null) => {
-  return (dispatch: Dispatch<NewsAction>) => {
-    dispatch({
-      type: NewsActionType.UPDATE_STATUS,
-      payload: {
-        status: status,
-        errorMsg: errorMsg,
-      },
     });
   };
 };
