@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { verify, VerifyErrors } from "jsonwebtoken";
 const router = express.Router();
 
@@ -225,5 +225,11 @@ router.get("/checkLoggedInStatus", (req, res) => {
     res.json({ isLoggedIn: false });
   }
 });
+
+router.get('/logout', (req: Request, res: Response) => {
+  res.clearCookie("at")
+  res.clearCookie("rt")
+  res.end()
+})
 
 export default router;

@@ -73,3 +73,21 @@ export const login = (email: string, password: string, remembered: boolean) => {
     }
   };
 };
+
+export const logout = () => {
+  return async (dispatch: Dispatch<UserAction>) => {
+    console.log('object')
+    const res = await axios
+      .get(url + "/users/logout", {
+        withCredentials: true,
+      })
+      .catch((err: AxiosError) => {
+        console.log(err.message);
+      });
+
+    dispatch({
+      type: UserActionType.UPDATE_LOGGED_IN_STATUS,
+      payload: false,
+    });
+  };
+};
