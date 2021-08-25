@@ -16,6 +16,7 @@ import { RootState } from "./state/reducers";
 import ForgotPassword from "./components/ForgotPassword";
 import { Status } from "./state/action-types/statusActionTypes";
 import User from "./screens/User";
+import notFound from "./screens/notFound";
 
 function App() {
   const showStatus = useSelector<RootState, boolean>(
@@ -48,6 +49,7 @@ function App() {
         <Route exact path="/user">
           {isLoggedIn ? <User /> : <Redirect to="/login" />}
         </Route>
+        <Route path="*" component={notFound} />
       </Switch>
     </Router>
   );
