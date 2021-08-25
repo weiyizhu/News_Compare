@@ -15,6 +15,7 @@ import News from "./screens/News";
 import { RootState } from "./state/reducers";
 import ForgotPassword from "./components/ForgotPassword";
 import { Status } from "./state/action-types/statusActionTypes";
+import User from "./screens/User";
 
 function App() {
   const showStatus = useSelector<RootState, boolean>(
@@ -44,6 +45,9 @@ function App() {
           component={ResetPassword}
         />
         <Route exact path="/forgot" component={ForgotPassword} />
+        <Route exact path="/users">
+          {isLoggedIn ? <User /> : <Redirect to="/login" />}
+        </Route>
       </Switch>
     </Router>
   );
