@@ -35,7 +35,7 @@ const Login: React.FC = () => {
   const [checked, setChecked] = useState(false);
   const history = useHistory();
   const isLoggedIn = useSelector<RootState, boolean>(
-    (state) => state.user.loggedIn
+    (state) => state.user.isLoggedIn
   );
 
   const dispatch = useDispatch();

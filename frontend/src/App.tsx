@@ -24,7 +24,7 @@ function App() {
       state.status.status === Status.SUCCESS
   );
   const isLoggedIn = useSelector<RootState, boolean>(
-    (state) => state.user.loggedIn
+    (state) => state.user.isLoggedIn
   );
   return (
     <Router>
