@@ -45,7 +45,7 @@ function App() {
           component={ResetPassword}
         />
         <Route exact path="/forgot" component={ForgotPassword} />
-        <Route exact path="/users">
+        <Route exact path="/user">
           {isLoggedIn ? <User /> : <Redirect to="/login" />}
         </Route>
       </Switch>
