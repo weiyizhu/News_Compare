@@ -1,8 +1,13 @@
-import { UserActionPayload, UserAction, UserActionType } from "../action-types/userActionTypes";
-
+import {
+  UserActionPayload,
+  UserAction,
+  UserActionType,
+  UserTabVal,
+} from "../action-types/userActionTypes";
 
 const initialState: UserActionPayload = {
-  loggedIn: false
+  loggedIn: false,
+  tabVal: UserTabVal.ACCOUNT,
 };
 
 const userReducer = (
@@ -13,7 +18,12 @@ const userReducer = (
     case UserActionType.UPDATE_LOGGED_IN_STATUS:
       return {
         ...state,
-        loggedIn: action.payload
+        loggedIn: action.payload,
+      };
+    case UserActionType.TOGGLE_USER_TAB_VAL:
+      return {
+        ...state,
+        tabVal: action.payload,
       };
     default:
       return state;

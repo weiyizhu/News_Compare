@@ -16,24 +16,38 @@ import {
 } from "@material-ui/core";
 import { AccountCircle, Search, Description } from "@material-ui/icons";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Account from "../components/Account";
 import SavedNews from "../components/SavedNews";
 import SavedSearches from "../components/SavedSearches";
+import { actionCreators } from "../state";
+import { UserTabVal } from "../state/action-types/userActionTypes";
+import { RootState } from "../state/reducers";
 import userTheme from "../themes/userTheme";
 import styles from "./styles";
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 
 const User = () => {
-    const classes = makeStyles(styles)()
-  const [value, setValue] = useState(0);
+  const classes = makeStyles(styles)();
+  const tabVal = useSelector<RootState, number>((state) =>
+    Number(state.user.tabVal)
+  );
+  const dispatch = useDispatch();
+
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-      console.log(newValue)
-    setValue(newValue);
+    let newTabVal = UserTabVal.ACCOUNT;
+    if (newValue === 2) {
+      newTabVal = UserTabVal.SAVEDSEARCHES;
+    } else if (newValue === 4) {
+      newTabVal = UserTabVal.SAVEDNEWS;
+    }
+    dispatch(actionCreators.toggleUserTabVal(newTabVal));
   };
   const email = "zhuwy99@gmail.com";
   const title =
-    value === 0 ? "Account" : value === 2 ? "Saved Searches" : "Saved News";
+    tabVal === 0 ? "Account" : tabVal === 2 ? "Saved Searches" : "Saved News";
+
   return (
     <ThemeProvider theme={userTheme}>
       <Container>
@@ -58,27 +72,26 @@ const User = () => {
                 <Paper elevation={3}>
                   <Tabs
                     orientation="vertical"
-                    value={value}
+                    value={tabVal}
                     onChange={handleChange}
                   >
                     <Tab icon={<AccountCircle />} label="Account" />
                     <Divider />
                     <Tab icon={<Search />} label="Saved Searches" />
                     <Divider />
-
                     <Tab icon={<Description />} label="Saved News" />
                   </Tabs>
                 </Paper>
               </Grid>
             </Grid>
-            <Grid item style={{width: "auto"}} xs>
+            <Grid item style={{ width: "auto" }} xs>
               <Typography variant="h5" paragraph>
                 {title}
               </Typography>
-              <Divider style={{marginBottom: "1em"}} />
-              {value === 0 ? (
+              <Divider style={{ marginBottom: "1em" }} />
+              {tabVal === 0 ? (
                 <Account />
-              ) : value === 2 ? (
+              ) : tabVal === 2 ? (
                 <SavedSearches />
               ) : (
                 <SavedNews />

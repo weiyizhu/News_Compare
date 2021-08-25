@@ -6,7 +6,11 @@ import {
   StatusAction,
   StatusActionType,
 } from "../action-types/statusActionTypes";
-import { UserAction, UserActionType } from "../action-types/userActionTypes";
+import {
+  UserAction,
+  UserActionType,
+  UserTabVal,
+} from "../action-types/userActionTypes";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -76,7 +80,7 @@ export const login = (email: string, password: string, remembered: boolean) => {
 
 export const logout = () => {
   return async (dispatch: Dispatch<UserAction>) => {
-    console.log('object')
+    console.log("object");
     const res = await axios
       .get(url + "/users/logout", {
         withCredentials: true,
@@ -88,6 +92,15 @@ export const logout = () => {
     dispatch({
       type: UserActionType.UPDATE_LOGGED_IN_STATUS,
       payload: false,
+    });
+  };
+};
+
+export const toggleUserTabVal = (tabVal: UserTabVal) => {
+  return async (dispatch: Dispatch<UserAction>) => {
+    dispatch({
+      type: UserActionType.TOGGLE_USER_TAB_VAL,
+      payload: tabVal,
     });
   };
 };

@@ -36,8 +36,9 @@ import {
   Search,
   Send,
 } from "@material-ui/icons";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { id } from "date-fns/locale";
+import { UserTabVal } from "../../state/action-types/userActionTypes";
 
 const useStyles = makeStyles({
   title: {
@@ -48,6 +49,7 @@ const useStyles = makeStyles({
 const NavBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory()
   const isLoggedIn = useSelector<RootState, boolean>(
     (state) => state.user.loggedIn
   );
@@ -61,6 +63,12 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     dispatch(actionCreators.checkLoggedInStatus());
   }, []);
+  
+  const handleUserMenuClick = (tabVal: UserTabVal) => {
+    dispatch(actionCreators.toggleUserTabVal(tabVal))
+    history.push("/user")
+  }
+
   return (
     <AppBar position="sticky" style={{ marginBottom: "1em" }}>
       <Toolbar>
@@ -84,23 +92,32 @@ const NavBar: React.FC = () => {
               }}
             >
               <List>
-                <ListItem button>
+                <ListItem
+                  button
+                  onClick={() => handleUserMenuClick(UserTabVal.ACCOUNT)}
+                >
                   <ListItemIcon>
                     <AccountCircle />
                   </ListItemIcon>
                   <ListItemText primary="Account" />
                 </ListItem>
-                <ListItem button>
+                <ListItem
+                  button
+                  onClick={() => handleUserMenuClick(UserTabVal.SAVEDSEARCHES)}
+                >
                   <ListItemIcon>
                     <Search />
                   </ListItemIcon>
                   <ListItemText primary="Saved Searches" />
                 </ListItem>
-                <ListItem button>
+                <ListItem
+                  button
+                  onClick={() => handleUserMenuClick(UserTabVal.SAVEDNEWS)}
+                >
                   <ListItemIcon>
                     <Description />
                   </ListItemIcon>
-                  <ListItemText primary="Saved Posts" />
+                  <ListItemText primary="Saved News" />
                 </ListItem>
                 <Divider />
                 <ListItem
