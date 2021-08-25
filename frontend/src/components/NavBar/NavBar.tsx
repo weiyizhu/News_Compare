@@ -53,6 +53,7 @@ const NavBar: React.FC = () => {
   const isLoggedIn = useSelector<RootState, boolean>(
     (state) => state.user.loggedIn
   );
+  const email = useSelector<RootState, string>(state => state.user.email)
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   console.log(anchorEl)
@@ -85,7 +86,7 @@ const NavBar: React.FC = () => {
         {isLoggedIn ? (
           <>
             <IconButton onClick={handleMenu} color="inherit">
-              <Avatar>H</Avatar>
+              <Avatar alt={email[0].toUpperCase()} src="/" />
             </IconButton>
             <Popover
               open={Boolean(anchorEl)}

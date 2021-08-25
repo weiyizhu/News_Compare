@@ -30,9 +30,8 @@ const useStyles = makeStyles(styles);
 
 const User = () => {
   const classes = makeStyles(styles)();
-  const tabVal = useSelector<RootState, number>((state) =>
-    Number(state.user.tabVal)
-  );
+  const tabVal = useSelector<RootState, number>((state) => state.user.tabVal);
+  const email = useSelector<RootState, string>((state) => state.user.email);
   const dispatch = useDispatch();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -44,7 +43,6 @@ const User = () => {
     }
     dispatch(actionCreators.toggleUserTabVal(newTabVal));
   };
-  const email = "zhuwy99@gmail.com";
   const title =
     tabVal === 0 ? "Account" : tabVal === 2 ? "Saved Searches" : "Saved News";
 
@@ -60,7 +58,7 @@ const User = () => {
             style={{ minHeight: "100px" }}
           >
             <Grid item>
-              <Avatar alt="Z" src="/" />
+              <Avatar alt={email[0].toUpperCase()} src="/" />
             </Grid>
             <Grid item>
               <Typography>{email}</Typography>
