@@ -16,7 +16,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 
 // Connect to DB
 const uri = process.env.ATLAS_URI;

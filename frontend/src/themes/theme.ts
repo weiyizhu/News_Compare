@@ -6,4 +6,4 @@ const theme = createMuiTheme({
   props: {},
 });
 
-export default theme
+export default theme;

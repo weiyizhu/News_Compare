@@ -6,7 +6,7 @@ import { allSources } from "../../static/allSources";
 
 const PickSources = () => {
   const news = useSelector<RootState, NewsResponseProps[] | null | undefined>(
-    (state) => state.news['posts']
+    (state) => state.news["posts"]
   );
   const sourcesWithPage = useSelector<RootState, sourceWithPage[]>(
     (state) => state.searchProps.sourcesWithPage

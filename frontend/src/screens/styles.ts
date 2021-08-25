@@ -6,7 +6,7 @@ const styles = createStyles({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       marginBottom: "2em",
-      marginRight: "0px"
+      marginRight: "0px",
     },
     width: "auto",
     marginRight: "3em",

@@ -205,7 +205,10 @@ router.get("/checkLoggedInStatus", (req, res) => {
     const refreshToken = cookies["rt"];
 
     try {
-      const decoded: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+      const decoded: any = jwt.verify(
+        accessToken,
+        process.env.ACCESS_TOKEN_SECRET
+      );
       return res.json({ isLoggedIn: true, email: decoded.email });
     } catch (err) {
       try {
@@ -217,7 +220,7 @@ router.get("/checkLoggedInStatus", (req, res) => {
           email: decoded.email,
         });
         res.cookie("at", newAccessToken);
-        res.json({ isLoggedIn: true, email: decoded.email});
+        res.json({ isLoggedIn: true, email: decoded.email });
       } catch (err) {
         console.log(err.message);
         res.json({ isLoggedIn: false });

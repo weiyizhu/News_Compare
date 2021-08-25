@@ -8,7 +8,7 @@ const reducers = combineReducers({
   news: newsReducer,
   searchProps: searchReducer,
   status: statusReducer,
-  user: userReducer
+  user: userReducer,
 });
 
 export default reducers;
