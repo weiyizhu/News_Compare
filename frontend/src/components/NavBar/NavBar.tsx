@@ -55,6 +55,7 @@ const NavBar: React.FC = () => {
   );
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  console.log(anchorEl)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -65,8 +66,14 @@ const NavBar: React.FC = () => {
   }, []);
   
   const handleUserMenuClick = (tabVal: UserTabVal) => {
+    setAnchorEl(null)
     dispatch(actionCreators.toggleUserTabVal(tabVal))
     history.push("/user")
+  }
+
+  const signOut = () => {
+    setAnchorEl(null)
+    dispatch(actionCreators.logout())
   }
 
   return (
@@ -122,7 +129,7 @@ const NavBar: React.FC = () => {
                 <Divider />
                 <ListItem
                   button
-                  onClick={() => dispatch(actionCreators.logout())}
+                  onClick={signOut}
                 >
                   <ListItemIcon>
                     <ExitToApp />
