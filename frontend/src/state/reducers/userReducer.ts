@@ -8,6 +8,7 @@ import {
 const initialState: UserActionPayload = {
   loggedIn: false,
   tabVal: UserTabVal.ACCOUNT,
+  email: ""
 };
 
 const userReducer = (
@@ -25,6 +26,11 @@ const userReducer = (
         ...state,
         tabVal: action.payload,
       };
+    case UserActionType.UPDTAE_EMAIL:
+      return {
+        ...state,
+        email: action.payload
+      }
     default:
       return state;
   }
