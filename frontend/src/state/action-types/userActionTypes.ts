@@ -1,11 +1,10 @@
 export enum UserActionType {
-  UPDATE_LOGGED_IN_STATUS = "UPDATE_LOGGED_IN_STATUS",
   TOGGLE_USER_TAB_VAL = "TOGGLE_USER_TAB_VAL",
-  UPDTAE_EMAIL = "UPDTAE_EMAIL",
+  UPDATE_USER_INFO = "UPDATE_USER_INFO",
 }
 
 export type UserActionPayload = {
-  loggedIn: boolean;
+  isLoggedIn: boolean;
   tabVal: UserTabVal;
   email: string;
 };
@@ -16,19 +15,17 @@ export enum UserTabVal {
   "SAVEDNEWS" = 4,
 }
 
-type UpdateLoggedInStatusAction = {
-  type: UserActionType.UPDATE_LOGGED_IN_STATUS;
-  payload: boolean;
-};
-
 type ToggleUserTabValAction = {
   type: UserActionType.TOGGLE_USER_TAB_VAL;
   payload: UserTabVal;
 };
 
-type UpdateEmailAction = {
-  type: UserActionType.UPDTAE_EMAIL;
-  payload: string;
+type UpdateUserInfoAction = {
+  type: UserActionType.UPDATE_USER_INFO;
+  payload: {
+    isLoggedIn: boolean;
+    email: string;
+  };
 };
 
-export type UserAction = UpdateLoggedInStatusAction | ToggleUserTabValAction | UpdateEmailAction;
+export type UserAction = ToggleUserTabValAction | UpdateUserInfoAction;

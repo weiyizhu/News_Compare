@@ -41,16 +41,12 @@ export const checkLoggedInStatus = () => {
     const email = data ? data.email : "";
 
     dispatch({
-      type: UserActionType.UPDATE_LOGGED_IN_STATUS,
-      payload: isLoggedIn,
+      type: UserActionType.UPDATE_USER_INFO,
+      payload: {
+        isLoggedIn: isLoggedIn,
+        email: email,
+      },
     });
-
-    if (isLoggedIn && email) {
-      dispatch({
-        type: UserActionType.UPDTAE_EMAIL,
-        payload: email,
-      });
-    }
   };
 };
 
@@ -80,12 +76,11 @@ export const login = (email: string, password: string, remembered: boolean) => {
 
     if (res) {
       dispatch({
-        type: UserActionType.UPDTAE_EMAIL,
-        payload: email,
-      });
-      dispatch({
-        type: UserActionType.UPDATE_LOGGED_IN_STATUS,
-        payload: true,
+        type: UserActionType.UPDATE_USER_INFO,
+        payload: {
+          isLoggedIn: true,
+          email: email,
+        },
       });
     }
   };
@@ -103,8 +98,11 @@ export const logout = () => {
       });
 
     dispatch({
-      type: UserActionType.UPDATE_LOGGED_IN_STATUS,
-      payload: false,
+      type: UserActionType.UPDATE_USER_INFO,
+      payload: {
+        isLoggedIn: false,
+        email: "",
+      },
     });
   };
 };
@@ -114,14 +112,6 @@ export const toggleUserTabVal = (tabVal: UserTabVal) => {
     dispatch({
       type: UserActionType.TOGGLE_USER_TAB_VAL,
       payload: tabVal,
-    });
-  };
-};
-export const updateEmail = (email: string) => {
-  return async (dispatch: Dispatch<UserAction>) => {
-    dispatch({
-      type: UserActionType.UPDTAE_EMAIL,
-      payload: email,
     });
   };
 };
