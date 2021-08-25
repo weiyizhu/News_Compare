@@ -49,14 +49,14 @@ const useStyles = makeStyles({
 const NavBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
   const isLoggedIn = useSelector<RootState, boolean>(
-    (state) => state.user.loggedIn
+    (state) => state.user.isLoggedIn
   );
-  const email = useSelector<RootState, string>(state => state.user.email)
+  const email = useSelector<RootState, string>((state) => state.user.email);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  console.log(anchorEl)
+  console.log(anchorEl);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -65,17 +65,17 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     dispatch(actionCreators.checkLoggedInStatus());
   }, []);
-  
+
   const handleUserMenuClick = (tabVal: UserTabVal) => {
-    setAnchorEl(null)
-    dispatch(actionCreators.toggleUserTabVal(tabVal))
-    history.push("/user")
-  }
+    setAnchorEl(null);
+    dispatch(actionCreators.toggleUserTabVal(tabVal));
+    history.push("/user");
+  };
 
   const signOut = () => {
-    setAnchorEl(null)
-    dispatch(actionCreators.logout())
-  }
+    setAnchorEl(null);
+    dispatch(actionCreators.logout());
+  };
 
   return (
     <AppBar position="sticky" style={{ marginBottom: "1em" }}>
@@ -128,10 +128,7 @@ const NavBar: React.FC = () => {
                   <ListItemText primary="Saved News" />
                 </ListItem>
                 <Divider />
-                <ListItem
-                  button
-                  onClick={signOut}
-                >
+                <ListItem button onClick={signOut}>
                   <ListItemIcon>
                     <ExitToApp />
                   </ListItemIcon>
