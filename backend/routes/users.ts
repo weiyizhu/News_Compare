@@ -141,6 +141,32 @@ router.post("/forgot", async (req, res) => {
   }
 });
 
+router.post("/change-password", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      email,
+    });
+
+    if (user) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const filter = { email: email };
+      const update = { password: hashedPassword };
+      const updatedUser = await User.findOneAndUpdate(filter, update);
+
+      if (updatedUser) {
+        res.sendStatus(200);
+      }
+    } else {
+      res.status(500).json({ msg: "Email does not exist" });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(500);
+  }
+});
+
 router.post("/reset", async (req, res) => {
   const { email, resetToken, password } = req.body;
 
@@ -179,8 +205,8 @@ router.get("/checkLoggedInStatus", (req, res) => {
     const refreshToken = cookies["rt"];
 
     try {
-      jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-      return res.json({ isLoggedIn: true });
+      const decoded: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+      return res.json({ isLoggedIn: true, email: decoded.email });
     } catch (err) {
       try {
         const decoded: any = jwt.verify(
@@ -191,7 +217,7 @@ router.get("/checkLoggedInStatus", (req, res) => {
           email: decoded.email,
         });
         res.cookie("at", newAccessToken);
-        res.json({ isLoggedIn: true });
+        res.json({ isLoggedIn: true, email: decoded.email});
       } catch (err) {
         console.log(err.message);
         res.json({ isLoggedIn: false });
@@ -226,10 +252,10 @@ router.get("/checkLoggedInStatus", (req, res) => {
   }
 });
 
-router.get('/logout', (req: Request, res: Response) => {
-  res.clearCookie("at")
-  res.clearCookie("rt")
-  res.end()
-})
+router.get("/logout", (req: Request, res: Response) => {
+  res.clearCookie("at");
+  res.clearCookie("rt");
+  res.end();
+});
 
 export default router;
