@@ -25,7 +25,7 @@ const NewsEntry: React.FC<NewsArticle> = ({
       <CardHeader
         titleTypographyProps={{ variant: "h6" }}
         subheaderTypographyProps={{ variant: "body2" }}
-        title={title}
+        title={title ?? "Untitled"}
         style={{ paddingBottom: 0, display: "block" }}
       />
       <CardContent style={{ paddingTop: 0, paddingBottom: 5 }}>
