@@ -112,10 +112,17 @@ router.post("/forgot", async (req, res) => {
       // await User.findOneAndUpdate(filter, update);
 
       const mailData = {
-        from: "News Compare <newscompare@gmail.com>", // sender address
+        from: "News Compare <no-reply@newscompare.com>", // sender address
         to: email,
         subject: "Password Reset",
-        text: `Your new password is ${resetLink}. Expires in 15 minutes.`,
+        html: `<html>
+        <body>
+            <p>Hello!<p>
+            <p>You are receiving this email because we received a password reset request for your account.</p>
+            <p>Click <a href="${resetLink}">here</a> to reset your password.</p>
+            <p>Reset link expires in 15 minutes.</p>
+        </body>
+    </html>`,
       };
       await transporter.sendMail(mailData);
     }
@@ -210,14 +217,19 @@ router.post("/addSavedSearches", authenticateToken, async (req, res) => {
       const sourcesSet: Set<string> = new Set(sources);
       // check if the search already exists
       if (savedSearches) {
+        let found = false;
         savedSearches.forEach((savedSearch) => {
           if (
             savedSearch.keywords == keywords &&
-            areSetsEqual(sourcesSet, new Set(savedSearch.sources))
+            areSetsEqual(sourcesSet, new Set(savedSearch.sources)) &&
+            !found
           ) {
-            return res.sendStatus(200);
+            found = true;
+            return res.json({ savedSearches });
           }
         });
+
+        if (found) return;
 
         const updatedUser = await User.findOneAndUpdate(
           { email: req.user.email },
@@ -296,24 +308,22 @@ router.post("/addSavedNews", authenticateToken, async (req, res) => {
     try {
       const savedNews = req.user.savedNews;
       // check if the news already exists
+      let found = false;
       if (savedNews) {
         savedNews.forEach((news) => {
-          if (
-            news.date === date &&
-            news.imgUrl === imgUrl &&
-            news.title === title &&
-            news.newsUrl === newsUrl
-          ) {
+          if (news.newsUrl === newsUrl && !found) {
+            found = true;
             return res.json({ savedNews });
           }
         });
+
+        if (found) return;
 
         const updatedUser = await User.findOneAndUpdate(
           { email: req.user.email },
           { savedNews: [...savedNews, { title, date, imgUrl, newsUrl }] },
           { new: true }
         );
-        console.log("updated", updatedUser);
         if (updatedUser) return res.json({ savedNews: updatedUser.savedNews });
         else return res.status(500).json({ savedNews });
       } else {
