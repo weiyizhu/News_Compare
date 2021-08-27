@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { FilterList } from "@material-ui/icons";
 import { Pagination } from "@material-ui/lab";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
@@ -37,14 +38,32 @@ const DisplayNews = () => {
   const searchProps = useSelector<RootState, SearchActionPayload>(
     (state) => state.searchProps
   );
-  const { sourcesWithPage, tabVal, filter } = searchProps;
+  const { sourcesWithPage, tabVal, filter, keywords, fromDate, toDate } =
+    searchProps;
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actionCreators.getTopHeadlines("", sourcesWithPage));
   }, []);
 
+  useEffect(() => {
+    if (tabVal === 0) {
+      dispatch(actionCreators.getTopHeadlines(keywords, sourcesWithPage));
+    } else {
+      dispatch(
+        actionCreators.getEverything(
+          keywords,
+          moment(fromDate).format("YYYY-MM-DD"),
+          moment(toDate).format("YYYY-MM-DD"),
+          sourcesWithPage,
+          filter
+        )
+      );
+    }
+  }, [sourcesWithPage, tabVal, filter]);
+
   const news = useSelector<RootState, NewsActionPayload>((state) => state.news);
+  console.log(news, news.posts);
   const loading = useSelector<RootState, boolean>(
     (state) => state.status.status === Status.LOADING
   );
@@ -88,7 +107,7 @@ const DisplayNews = () => {
                       const filterEnum = filterString
                         ? (filterString as Filters)
                         : Filters.publishedAt;
-                      dispatch(actionCreators.updateFilter(filter));
+                      dispatch(actionCreators.updateFilter(filterEnum));
                       setAnchorEl(null);
                     }}
                   >
@@ -118,7 +137,7 @@ const DisplayNews = () => {
                     )[0].name
                   }
                 </Typography>
-                {newsSrc.totalResults ? (
+                {newsSrc.totalResults && newsSrc.articles ? (
                   <>
                     {newsSrc.articles.map((story) => (
                       <NewsEntry {...story} />
@@ -130,22 +149,14 @@ const DisplayNews = () => {
                       classes={{ ul: classes.center }}
                       count={Math.ceil(newsSrc.totalResults / 3)}
                       getItemAriaLabel={() => sourcesWithPage[index].source}
-                      // renderItem={(item) => {
-                      //   console.log(item);
-                      //   return (
-                      //     <PaginationItem
-                      //       {...item}
-                      //       className={values.sourcesWithPage[index].source}
-                      //     />
-                      //   );
-                      // }}
-                      hideNextButton
-                      hidePrevButton
                       boundaryCount={2}
                       page={sourcesWithPage[index].page}
                       onChange={(event, page) => {
-                        const target = event.target as HTMLInputElement;
-                        const sourceId = target.getAttribute("aria-label");
+                        const sourceId = newsSrc.articles
+                          ? newsSrc.articles[0].source
+                            ? newsSrc.articles[0].source?.id
+                            : undefined
+                          : undefined;
                         let newSourcesWithPage: sourceWithPage[] = [];
                         for (let sourceWithPage of sourcesWithPage) {
                           if (sourceWithPage.source === sourceId)
@@ -164,7 +175,9 @@ const DisplayNews = () => {
                     />
                   </>
                 ) : (
-                  <Typography>No News Available</Typography>
+                  <Typography style={{ marginTop: "1em", textAlign: "center" }}>
+                    No News Available
+                  </Typography>
                 )}
               </Grid>
             ))}
