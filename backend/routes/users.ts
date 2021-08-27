@@ -120,7 +120,7 @@ router.post("/forgot", async (req, res) => {
             <p>Hello!<p>
             <p>You are receiving this email because we received a password reset request for your account.</p>
             <p>Click <a href="${resetLink}">here</a> to reset your password.</p>
-            <p>Reset link expires in 15 minutes.</p>
+            <p>Reset link can only be used once and expires in 15 minutes.</p>
         </body>
     </html>`,
       };
