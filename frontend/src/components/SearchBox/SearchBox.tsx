@@ -39,6 +39,7 @@ const SearchBox: React.FC<Props> = ({ handleSearch }: Props) => {
 
   const handleSavedSearch = () => {
     if (!isLoggedIn) {
+      dispatch(actionCreators.updateStatus(Status.ERROR, "You have to log in first"));
       history.push("/login")
       return;
     }

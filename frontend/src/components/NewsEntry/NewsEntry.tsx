@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { actionCreators } from "../../state";
+import { Status } from "../../state/action-types/statusActionTypes";
 import { savedNews } from "../../state/action-types/userActionTypes";
 import { RootState } from "../../state/reducers";
 
@@ -36,6 +37,9 @@ const NewsEntry: React.FC<NewsArticle> = ({
 
   const handleSavedNews = () => {
     if (!isLoggedIn) {
+      dispatch(
+        actionCreators.updateStatus(Status.ERROR, "You have to log in first")
+      );
       history.push("/login");
       return;
     }
@@ -69,7 +73,6 @@ const NewsEntry: React.FC<NewsArticle> = ({
         subheaderTypographyProps={{ variant: "body2" }}
         title={title ?? "Untitled"}
         style={{ paddingBottom: 0, display: "block" }}
-        onClick={() => window.open(url, "blank")}
       />
       <CardContent style={{ paddingTop: 0, paddingBottom: 5 }}>
         <Grid container alignItems="center" justify="space-between">

@@ -22,7 +22,7 @@ const StatusAlert = () => {
   return (
     <Snackbar
       open={error || success}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={() => updateStatus(Status.IDLE)}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >

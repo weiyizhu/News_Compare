@@ -98,7 +98,7 @@ const Login: React.FC = () => {
                 onChange={(event) => setChecked(event.target.checked)}
               />
             }
-            label="Remember me"
+            label="Remember me for 7 days"
           />
           <Button
             fullWidth

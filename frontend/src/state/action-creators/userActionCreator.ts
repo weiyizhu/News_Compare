@@ -268,6 +268,13 @@ export const addSavedSearches = (
       type: UserActionType.UPDATE_SAVED_SEARCHES,
       payload: newSavedSearches,
     });
+    dispatch({
+      type: StatusActionType.UPDATE_STATUS,
+      payload: {
+        status: Status.SUCCESS,
+        msg: "Search saved!",
+      },
+    });
   };
 };
 
@@ -303,6 +310,13 @@ export const deleteSavedSearches = (
     dispatch({
       type: UserActionType.UPDATE_SAVED_SEARCHES,
       payload: newSavedSearches,
+    });
+    dispatch({
+      type: StatusActionType.UPDATE_STATUS,
+      payload: {
+        status: Status.SUCCESS,
+        msg: "Search deleted!",
+      },
     });
   };
 };
@@ -374,7 +388,7 @@ export const addSavedNews = (
       type: StatusActionType.UPDATE_STATUS,
       payload: {
         status: Status.SUCCESS,
-        msg: "Saved news successfully",
+        msg: "News saved!",
       },
     });
   };
@@ -416,6 +430,13 @@ export const deleteSavedNews = (
     dispatch({
       type: UserActionType.UPDATE_SAVED_NEWS,
       payload: newSavedNews,
+    });
+    dispatch({
+      type: StatusActionType.UPDATE_STATUS,
+      payload: {
+        status: Status.SUCCESS,
+        msg: "News deleted!",
+      },
     });
   };
 };
