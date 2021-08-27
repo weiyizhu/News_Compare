@@ -1,5 +1,6 @@
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import moment from "moment";
 import { Dispatch } from "redux";
 import { NewsAction, NewsActionType } from "../action-types/newsActionTypes";
 import { Filters } from "../action-types/searchActionTypes";
@@ -22,13 +23,16 @@ export const isInvalidInput = (
   if (sourcesWithPage.length > 3) {
     return "Sources cannot be more than three.";
   }
-  if (
-    fromDate &&
-    toDate &&
-    new Date(fromDate.toString()) > new Date(toDate.toString())
-  ) {
-    return "From Date cannot be after To Date";
+  if (fromDate && toDate) {
+    if (new Date(fromDate.toString()) > new Date(toDate.toString())) {
+      return "From Date cannot be after To Date";
+    } else if (
+      moment().subtract(1, "month").diff(moment(fromDate), "day") > 0
+    ) {
+      return "The minimum date is one month earlier";
+    }
   }
+
   return undefined;
 };
 
@@ -56,6 +60,7 @@ export const getTopHeadlines =
     });
 
     let newsResponseArr: NewsResponseProps[] = [];
+    let error: string | undefined = undefined;
     for (let sourceWithPage of sourcesWithPage) {
       const res = await axios
         .post<Promise<NewsResponseProps>>(url + "/news/top-headlines", {
@@ -66,13 +71,17 @@ export const getTopHeadlines =
             pageSize: 3,
           },
         })
-        .catch((err) => {
-          console.log(err.message);
+        .catch((err: AxiosError) => {
+          console.log(err.message, err.response?.status);
+          error = err.message;
+          if (err.response?.status === 429) {
+            error = "Daily search limit reached. Please try again tomorrow.";
+          }
           dispatch({
             type: StatusActionType.UPDATE_STATUS,
             payload: {
               status: Status.ERROR,
-              msg: err.message,
+              msg: error,
             },
           });
           return;
@@ -85,12 +94,13 @@ export const getTopHeadlines =
       type: NewsActionType.UPDATE_NEWS,
       payload: newsResponseArr,
     });
-    dispatch({
-      type: StatusActionType.UPDATE_STATUS,
-      payload: {
-        status: Status.IDLE,
-      },
-    });
+    if (!error)
+      dispatch({
+        type: StatusActionType.UPDATE_STATUS,
+        payload: {
+          status: Status.IDLE,
+        },
+      });
   };
 
 export const getEverything =
@@ -121,8 +131,8 @@ export const getEverything =
         status: Status.LOADING,
       },
     });
-
     let newsResponseArr: NewsResponseProps[] = [];
+    let error: string | undefined = undefined;
     for (let sourceWithPage of sourcesWithPage) {
       const res = await axios
         .post<Promise<NewsResponseProps>>(url + "/news/everything", {
@@ -137,13 +147,17 @@ export const getEverything =
             language: "en",
           },
         })
-        .catch((err) => {
+        .catch((err: AxiosError) => {
           console.log(err.message);
+          error = err.message;
+          if (err.response?.status === 429) {
+            error = "Daily search limit reached. Please try again tomorrow.";
+          }
           dispatch({
             type: StatusActionType.UPDATE_STATUS,
             payload: {
               status: Status.ERROR,
-              msg: err.message,
+              msg: error,
             },
           });
           return;
@@ -155,12 +169,13 @@ export const getEverything =
       type: NewsActionType.UPDATE_NEWS,
       payload: newsResponseArr,
     });
-    dispatch({
-      type: StatusActionType.UPDATE_STATUS,
-      payload: {
-        status: Status.IDLE,
-      },
-    });
+    if (!error)
+      dispatch({
+        type: StatusActionType.UPDATE_STATUS,
+        payload: {
+          status: Status.IDLE,
+        },
+      });
   };
 
 export const updateNews = (news: NewsResponseProps[] | undefined | null) => {

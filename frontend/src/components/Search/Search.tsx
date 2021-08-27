@@ -31,24 +31,6 @@ const Search: React.FC = () => {
     );
     dispatch(actionCreators.toggleTabVal(newVal));
     dispatch(actionCreators.updateSourcesWithPage(resetSourcesWithPage));
-    if (newVal === 0) {
-      dispatch(
-        actionCreators.getTopHeadlines(
-          searchProps.keywords,
-          resetSourcesWithPage
-        )
-      );
-    } else {
-      dispatch(
-        actionCreators.getEverything(
-          searchProps.keywords,
-          moment(searchProps.fromDate).format("YYYY-MM-DD"),
-          moment(searchProps.toDate).format("YYYY-MM-DD"),
-          resetSourcesWithPage,
-          searchProps.filter
-        )
-      );
-    }
   };
 
   const handleSearch = () => {

@@ -189,7 +189,7 @@ const DisplayNews = () => {
                     />
                   </>
                 ) : (
-                  <Typography style={{ marginTop: "1em", textAlign: "center" }}>
+                  <Typography style={{ marginTop: "2em", textAlign: "center" }}>
                     No News Available
                   </Typography>
                 )}

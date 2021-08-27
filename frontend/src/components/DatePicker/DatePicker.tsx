@@ -51,6 +51,7 @@ const DatePicker: React.FC<Props> = ({ label }: Props) => {
         inputVariant="outlined"
         margin="normal"
         style={{ width: "100%" }}
+        minDateMessage="The minimum date is one month earlier"
       />
     </MuiPickersUtilsProvider>
   );

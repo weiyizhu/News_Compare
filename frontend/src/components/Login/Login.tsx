@@ -31,10 +31,11 @@ const Login: React.FC = () => {
     event.preventDefault();
     if (email.current && pwd.current) {
       let errorMsg = "";
-      if (!isValidEmail(String(email.current.value))) {
-        errorMsg = "Invalid email";
-      } else if (String(pwd.current.value).length <= 6) {
-        errorMsg = "Password cannot be less than 6 characters";
+      if (
+        !isValidEmail(String(email.current.value)) ||
+        String(pwd.current.value).length <= 6
+      ) {
+        errorMsg = "Incorrect account";
       }
       if (errorMsg !== "") {
         dispatch(actionCreators.updateStatus(Status.ERROR, errorMsg));

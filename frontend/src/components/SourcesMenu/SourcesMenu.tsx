@@ -33,7 +33,7 @@ const marks = [
   },
   {
     value: 25,
-    label: "Slightly Left",
+    label: "",
   },
   {
     value: 50,
@@ -41,7 +41,7 @@ const marks = [
   },
   {
     value: 75,
-    label: "Slightly Right",
+    label: "",
   },
   {
     value: 99,
@@ -144,7 +144,6 @@ const SourcesMenu = () => {
 
         <Autocomplete
           multiple
-          id="checkboxes-tags-demo"
           options={switchState ? visibleSources : allSources} //
           disableCloseOnSelect
           getOptionLabel={(options) => (options ? options.name : "None")}
@@ -158,7 +157,6 @@ const SourcesMenu = () => {
               )
             );
           }}
-          style={{ minWidth: "400px" }}
           renderInput={(params) => (
             <TextField
               {...params}
