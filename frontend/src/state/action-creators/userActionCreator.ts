@@ -23,7 +23,7 @@ interface LoginStatus {
 export const initialize = () => {
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
-      .get<Promise<LoginStatus>>(url + "/users/checkLoggedInStatus", {
+      .get<Promise<LoginStatus>>("/users/checkLoggedInStatus", {
         withCredentials: true,
       })
       .catch((err: AxiosError) => {
@@ -50,7 +50,7 @@ export const initialize = () => {
     });
     if (isLoggedIn) {
       const searchRes = await axios
-        .get(url + "/users/savedSearches", { withCredentials: true })
+        .get("/users/savedSearches", { withCredentials: true })
         .catch((err) => {
           console.log(err.message);
           dispatch({
@@ -73,7 +73,7 @@ export const initialize = () => {
       });
 
       const newsRes = await axios
-        .get(url + "/users/savedNews", { withCredentials: true })
+        .get("/users/savedNews", { withCredentials: true })
         .catch((err) => {
           console.log(err.message);
           dispatch({
@@ -100,7 +100,7 @@ export const login = (email: string, password: string, remembered: boolean) => {
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
       .post<Promise<LoginStatus>>(
-        url + "/users/login",
+        "/users/login",
         {
           email,
           password,
@@ -130,7 +130,7 @@ export const login = (email: string, password: string, remembered: boolean) => {
       });
 
       const searchRes = await axios
-        .get(url + "/users/savedSearches", { withCredentials: true })
+        .get("/users/savedSearches", { withCredentials: true })
         .catch((err) => {
           console.log(err.message);
           dispatch({
@@ -153,7 +153,7 @@ export const login = (email: string, password: string, remembered: boolean) => {
       });
 
       const newsRes = await axios
-        .get(url + "/users/savedNews", { withCredentials: true })
+        .get("/users/savedNews", { withCredentials: true })
         .catch((err) => {
           console.log(err.message);
           dispatch({
@@ -179,7 +179,7 @@ export const login = (email: string, password: string, remembered: boolean) => {
 export const logout = () => {
   return async (dispatch: Dispatch<UserAction>) => {
     await axios
-      .get(url + "/users/logout", {
+      .get("/users/logout", {
         withCredentials: true,
       })
       .catch((err: AxiosError) => {
@@ -208,7 +208,7 @@ export const toggleUserTabVal = (tabVal: UserTabVal) => {
 export const getSavedSearches = () => {
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
-      .get(url + "/users/savedSearches", { withCredentials: true })
+      .get("/users/savedSearches", { withCredentials: true })
       .catch((err) => {
         console.log(err.message);
         dispatch({
@@ -238,7 +238,7 @@ export const addSavedSearches = (
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
       .post(
-        url + "/users/addSavedSearches",
+        "/users/addSavedSearches",
         {
           keywords,
           sources,
@@ -281,7 +281,7 @@ export const deleteSavedSearches = (
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
       .post(
-        url + "/users/deleteSavedSearches",
+        "/users/deleteSavedSearches",
         {
           keywords,
           sources,
@@ -319,7 +319,7 @@ export const deleteSavedSearches = (
 export const getSavedNews = () => {
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
-      .get(url + "/users/savedNews", { withCredentials: true })
+      .get("/users/savedNews", { withCredentials: true })
       .catch((err) => {
         console.log(err.message);
         dispatch({
@@ -351,7 +351,7 @@ export const addSavedNews = (
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
       .post(
-        url + "/users/addSavedNews",
+        "/users/addSavedNews",
         {
           title,
           date,
@@ -398,7 +398,7 @@ export const deleteSavedNews = (
   return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     const res = await axios
       .post(
-        url + "/users/deleteSavedNews",
+        "/users/deleteSavedNews",
         {
           title,
           date,

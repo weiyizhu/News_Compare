@@ -63,7 +63,7 @@ export const getTopHeadlines =
     let error: string | undefined = undefined;
     for (let sourceWithPage of sourcesWithPage) {
       const res = await axios
-        .post<Promise<NewsResponseProps>>(url + "/news/top-headlines", {
+        .post<Promise<NewsResponseProps>>("/news/top-headlines", {
           params: {
             q: keywords,
             sources: sourceWithPage["source"],
@@ -135,7 +135,7 @@ export const getEverything =
     let error: string | undefined = undefined;
     for (let sourceWithPage of sourcesWithPage) {
       const res = await axios
-        .post<Promise<NewsResponseProps>>(url + "/news/everything", {
+        .post<Promise<NewsResponseProps>>("/news/everything", {
           params: {
             q: keywords,
             from: fromDate,

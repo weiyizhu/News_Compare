@@ -39,7 +39,7 @@ const ResetPassword = () => {
         dispatch(actionCreators.updateStatus(Status.ERROR, errorMsg));
       } else {
         const res = await axios
-          .post(url + "/users/reset", {
+          .post("/users/reset", {
             email: email,
             password: password.current.value,
             resetToken: resetToken,

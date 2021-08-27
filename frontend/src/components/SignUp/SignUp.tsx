@@ -41,7 +41,7 @@ const SignUp = () => {
         dispatch(actionCreators.updateStatus(Status.ERROR, errorMsg));
       } else {
         const res = await axios
-          .post(url + "/users/signup", {
+          .post("/users/signup", {
             email: email.current.value,
             password: password.current.value,
           })

@@ -35,7 +35,7 @@ const Account = () => {
         dispatch(actionCreators.updateStatus(Status.ERROR, errorMsg));
       } else {
         const res = await axios
-          .post(url + "/users/change-password", {
+          .post("/users/change-password", {
             email,
             password: password.current.value,
           })

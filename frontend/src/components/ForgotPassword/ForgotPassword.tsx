@@ -29,7 +29,7 @@ const ForgotPassword = () => {
         return;
       }
       const res = await axios
-        .post(url + "/users/forgot", {
+        .post("/users/forgot", {
           email: email.current.value,
         })
         .catch(() => {
