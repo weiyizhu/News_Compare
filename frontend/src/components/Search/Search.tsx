@@ -58,68 +58,65 @@ const Search: React.FC = () => {
   };
 
   return (
-    <>
-      <Container>
-        <Box style={{ position: "relative", marginBottom: "3em" }}>
-          <Card raised style={{ paddingBottom: "1em" }}>
-            <Tabs
-              value={searchProps.tabVal}
-              indicatorColor="primary"
-              textColor="primary"
-              onChange={handleTabChange}
-            >
-              <Tab label="Top Headlines" />
-              <Tab label="Everything" />
-            </Tabs>
-            <Container>
-              <CardContent>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={12} sm>
-                    <SearchBox handleSearch={handleSearch} />
-                  </Grid>
-                  {searchProps.tabVal === 1 && (
-                    <>
-                      <Grid item xs={12} sm={3}>
-                        <DatePicker label="from" />
-                      </Grid>
-                      <Grid item xs={12} sm={3}>
-                        <DatePicker label="to" />
-                      </Grid>
-                    </>
-                  )}
-                </Grid>
-                <PickSources />
-              </CardContent>
-            </Container>
-          </Card>
-          <Box
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              position: "absolute",
-              bottom: "-20px",
-              width: "100%",
-            }}
+    <Container>
+      <Box style={{ position: "relative", marginBottom: "3em" }}>
+        <Card raised style={{ paddingBottom: "1em" }}>
+          <Tabs
+            value={searchProps.tabVal}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleTabChange}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<SearchIcon />}
-              style={{
-                borderRadius: "24px",
-                backgroundColor: "#1a73e8",
-                height: "40px",
-              }}
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
-          </Box>
-          <SourcesMenu />
+            <Tab label="Top Headlines" />
+            <Tab label="Everything" />
+          </Tabs>
+          <Container>
+            <CardContent>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} sm>
+                  <SearchBox handleSearch={handleSearch} />
+                </Grid>
+                {searchProps.tabVal === 1 && (
+                  <>
+                    <Grid item xs={12} sm={3}>
+                      <DatePicker label="from" />
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                      <DatePicker label="to" />
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+              <PickSources />
+            </CardContent>
+          </Container>
+        </Card>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            position: "absolute",
+            bottom: "-20px",
+            width: "100%",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SearchIcon />}
+            style={{
+              borderRadius: "24px",
+              backgroundColor: "#1a73e8",
+              height: "40px",
+            }}
+            onClick={handleSearch}
+          >
+            Search
+          </Button>
         </Box>
-      </Container>
-      <DisplayNews />
-    </>
+        <SourcesMenu />
+      </Box>
+    </Container>
   );
 };
 export default Search;

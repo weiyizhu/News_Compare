@@ -14,7 +14,7 @@ const newsReducer = (
 ) => {
   switch (action.type) {
     case NewsActionType.UPDATE_NEWS:
-      return action.payload;
+      return { posts: action.payload };
     default:
       return state;
   }

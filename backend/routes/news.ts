@@ -33,7 +33,7 @@ router.post("/everything", (req, res) => {
       res.json(result.data);
     })
     .catch((err) => {
-      //console.log(err.response.data);
+      console.log(err.response.data);
       res.status(err.response.status).json(err.response.data);
     });
 });
@@ -45,7 +45,6 @@ router.post("/top-headlines", (req, res) => {
   axios
     .get(url, getConfig(params))
     .then((result) => {
-      console.log(result.data);
       res.json(result.data);
     })
     .catch((err) => {

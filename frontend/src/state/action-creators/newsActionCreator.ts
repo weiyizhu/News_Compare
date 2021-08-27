@@ -12,7 +12,7 @@ import {
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
-const isInvalidInput = (
+export const isInvalidInput = (
   sourcesWithPage: sourceWithPage[],
   fromDate?: ParsableDate,
   toDate?: ParsableDate
@@ -88,6 +88,12 @@ export const getTopHeadlines =
       type: NewsActionType.UPDATE_NEWS,
       payload: newsResponseArr,
     });
+    dispatch({
+      type: StatusActionType.UPDATE_STATUS,
+      payload: {
+        status: Status.IDLE,
+      },
+    });
   };
 
 export const getEverything =
@@ -152,6 +158,12 @@ export const getEverything =
     dispatch({
       type: NewsActionType.UPDATE_NEWS,
       payload: newsResponseArr,
+    });
+    dispatch({
+      type: StatusActionType.UPDATE_STATUS,
+      payload: {
+        status: Status.IDLE,
+      },
     });
   };
 

@@ -22,11 +22,14 @@ const PickSources = () => {
         )
       )
     );
-
     dispatch(
       actionCreators.updateNews(
         news?.filter(
-          (newsEntry) => newsEntry.articles[0].source.id !== sourceToBeDeleted
+          (newsEntry) => {
+            return newsEntry.articles.length > 0 ? (newsEntry.articles[0].source
+              ? newsEntry.articles[0].source.id !== sourceToBeDeleted
+              : false) : false;
+          }
         )
       )
     );

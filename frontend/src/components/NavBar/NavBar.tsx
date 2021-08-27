@@ -39,7 +39,6 @@ import {
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { id } from "date-fns/locale";
 import { UserTabVal } from "../../state/action-types/userActionTypes";
-
 const useStyles = makeStyles({
   title: {
     flexGrow: 1,
@@ -63,7 +62,7 @@ const NavBar: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(actionCreators.checkLoggedInStatus());
+    dispatch(actionCreators.initialize());
   }, []);
 
   const handleUserMenuClick = (tabVal: UserTabVal) => {
@@ -80,7 +79,7 @@ const NavBar: React.FC = () => {
   return (
     <AppBar position="sticky" style={{ marginBottom: "1em" }}>
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
+        <Typography variant="h6" className={classes.title} onClick={() => history.push("/")} style={{cursor: "pointer"}}>
           News Compare
         </Typography>
         {isLoggedIn ? (
