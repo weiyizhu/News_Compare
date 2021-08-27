@@ -26,12 +26,29 @@ const Search: React.FC = () => {
     (state) => state.searchProps
   );
   const handleTabChange = (event: React.ChangeEvent<{}>, newVal: number) => {
-    let resetSourcesWithPage = [];
-    for (let sourceWithPage of searchProps.sourcesWithPage) {
-      resetSourcesWithPage.push({ source: sourceWithPage.source, page: 1 });
-    }
+    const resetSourcesWithPage = searchProps.sourcesWithPage.map(
+      (sourceWithPage) => ({ source: sourceWithPage.source, page: 1 })
+    );
     dispatch(actionCreators.toggleTabVal(newVal));
     dispatch(actionCreators.updateSourcesWithPage(resetSourcesWithPage));
+    if (newVal === 0) {
+      dispatch(
+        actionCreators.getTopHeadlines(
+          searchProps.keywords,
+          resetSourcesWithPage
+        )
+      );
+    } else {
+      dispatch(
+        actionCreators.getEverything(
+          searchProps.keywords,
+          moment(searchProps.fromDate).format("YYYY-MM-DD"),
+          moment(searchProps.toDate).format("YYYY-MM-DD"),
+          resetSourcesWithPage,
+          searchProps.filter
+        )
+      );
+    }
   };
 
   const handleSearch = () => {

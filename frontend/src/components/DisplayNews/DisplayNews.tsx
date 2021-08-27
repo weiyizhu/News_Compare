@@ -42,9 +42,6 @@ const DisplayNews = () => {
     searchProps;
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(actionCreators.getTopHeadlines("", sourcesWithPage));
-  }, [dispatch]);
 
   useEffect(() => {
     if (tabVal === 0) {
@@ -60,7 +57,24 @@ const DisplayNews = () => {
         )
       );
     }
-  }, [dispatch, sourcesWithPage, tabVal, filter]);
+  }, [dispatch, sourcesWithPage]);
+
+  const handleFilterChange = (newFilter: Filters) => {
+    const resetSourcesWithPage = searchProps.sourcesWithPage.map(
+      (sourceWithPage) => ({ source: sourceWithPage.source, page: 1 })
+    );
+    dispatch(actionCreators.updateFilter(newFilter));
+    dispatch(actionCreators.updateSourcesWithPage(resetSourcesWithPage));
+    dispatch(
+      actionCreators.getEverything(
+        keywords,
+        moment(fromDate).format("YYYY-MM-DD"),
+        moment(toDate).format("YYYY-MM-DD"),
+        resetSourcesWithPage,
+        newFilter
+      )
+    );
+  };
 
   const news = useSelector<RootState, NewsActionPayload>((state) => state.news);
   const loading = useSelector<RootState, boolean>(
@@ -106,7 +120,8 @@ const DisplayNews = () => {
                       const filterEnum = filterString
                         ? (filterString as Filters)
                         : Filters.publishedAt;
-                      dispatch(actionCreators.updateFilter(filterEnum));
+
+                      handleFilterChange(filterEnum);
                       setAnchorEl(null);
                     }}
                   >
