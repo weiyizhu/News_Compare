@@ -13,8 +13,6 @@ import { Link as RouterLink, useHistory, useParams } from "react-router-dom";
 import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
 
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
 interface Params {
   email: string;
   resetToken: string;

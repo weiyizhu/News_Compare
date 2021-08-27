@@ -13,8 +13,6 @@ import {
   savedSearches,
 } from "../action-types/userActionTypes";
 
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
 interface LoginStatus {
   isLoggedIn: boolean;
   email: string;

@@ -10,8 +10,6 @@ import {
   StatusActionType,
 } from "../action-types/statusActionTypes";
 
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
 export const isInvalidInput = (
   sourcesWithPage: sourceWithPage[],
   fromDate?: ParsableDate,

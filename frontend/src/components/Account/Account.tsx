@@ -16,8 +16,6 @@ import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
 import { RootState } from "../../state/reducers";
 
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
 const Account = () => {
   const password = useRef<TextFieldProps>();
   const confirmPassword = useRef<TextFieldProps>();

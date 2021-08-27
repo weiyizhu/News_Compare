@@ -19,7 +19,6 @@ export const isValidEmail = (email: string) => {
   return re.test(email);
 };
 
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 const SignUp = () => {
   const email = useRef<TextFieldProps>();
   const password = useRef<TextFieldProps>();

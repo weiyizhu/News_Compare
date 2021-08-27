@@ -16,8 +16,6 @@ import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
 import { isValidEmail } from "../SignUp/SignUp";
 
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
-
 const ForgotPassword = () => {
   const email = useRef<TextFieldProps>();
   const [open, setOpen] = useState(false);
