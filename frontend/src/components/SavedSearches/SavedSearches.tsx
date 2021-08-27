@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { ArrowRightAlt, Close, Filter, Search, SearchOutlined } from "@material-ui/icons";
+import { Close, SearchOutlined } from "@material-ui/icons";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";

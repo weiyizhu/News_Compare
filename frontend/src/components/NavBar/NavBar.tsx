@@ -3,21 +3,13 @@ import {
   AppBar,
   Avatar,
   Button,
-  ClickAwayListener,
   Divider,
-  Grow,
   IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
-  Menu,
-  MenuItem,
-  MenuList,
-  Paper,
   Popover,
-  Popper,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -26,27 +18,14 @@ import { RootState } from "../../state/reducers";
 import { actionCreators } from "../../state";
 import {
   AccountCircle,
-  Apps,
-  ChromeReaderMode,
-  Dashboard,
   Description,
-  Drafts,
   ExitToApp,
-  Inbox,
   Search,
-  Send,
 } from "@material-ui/icons";
-import { Link, NavLink, useHistory } from "react-router-dom";
-import { id } from "date-fns/locale";
+import { NavLink, useHistory } from "react-router-dom";
 import { UserTabVal } from "../../state/action-types/userActionTypes";
-const useStyles = makeStyles({
-  title: {
-    flexGrow: 1,
-  },
-});
 
 const NavBar: React.FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoggedIn = useSelector<RootState, boolean>(
@@ -62,7 +41,7 @@ const NavBar: React.FC = () => {
 
   useEffect(() => {
     dispatch(actionCreators.initialize());
-  }, []);
+  }, [dispatch]);
 
   const handleUserMenuClick = (tabVal: UserTabVal) => {
     setAnchorEl(null);
@@ -78,7 +57,11 @@ const NavBar: React.FC = () => {
   return (
     <AppBar position="sticky" style={{ marginBottom: "1em" }}>
       <Toolbar>
-        <Typography variant="h6" className={classes.title} onClick={() => history.push("/")} style={{cursor: "pointer"}}>
+        <Typography
+          variant="h6"
+          style={{ flexGrow: 1, cursor: "pointer" }}
+          onClick={() => history.push("/")}
+        >
           News Compare
         </Typography>
         {isLoggedIn ? (

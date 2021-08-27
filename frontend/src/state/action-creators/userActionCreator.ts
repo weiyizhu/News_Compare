@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
 import { Dispatch } from "react";
-import { actionCreators } from "..";
 import {
   Status,
   StatusAction,
@@ -179,7 +178,7 @@ export const login = (email: string, password: string, remembered: boolean) => {
 
 export const logout = () => {
   return async (dispatch: Dispatch<UserAction>) => {
-    const res = await axios
+    await axios
       .get(url + "/users/logout", {
         withCredentials: true,
       })

@@ -33,19 +33,23 @@ const userSchema = new Schema<IUser>(
       minlength: 6,
     },
     savedSearches: {
-      type: [{
-        keywords: String,
-        sources: [String]
-      }],
+      type: [
+        {
+          keywords: String,
+          sources: [String],
+        },
+      ],
       required: false,
     },
     savedNews: {
-      type: [{
-        title: String,
-        date: String,
-        imgUrl: String,
-        newsUrl: String
-      }],
+      type: [
+        {
+          title: String,
+          date: String,
+          imgUrl: String,
+          newsUrl: String,
+        },
+      ],
       required: false,
     },
   },

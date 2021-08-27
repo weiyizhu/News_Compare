@@ -4,7 +4,6 @@ import {
   TextField,
   Typography,
   Button,
-  makeStyles,
   Grid,
   Link,
   Checkbox,
@@ -12,24 +11,13 @@ import {
   TextFieldProps,
 } from "@material-ui/core";
 import { Link as RouterLink, useHistory } from "react-router-dom";
-import axios, { AxiosError } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import { isValidEmail } from "../SignUp/SignUp";
 import { Status } from "../../state/action-types/statusActionTypes";
 import { RootState } from "../../state/reducers";
 
-const useStyle = makeStyles(() => ({
-  outerContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-}));
-
-const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 const Login: React.FC = () => {
-  const classes = useStyle();
   const email = useRef<TextFieldProps>();
   const pwd = useRef<TextFieldProps>();
   const [checked, setChecked] = useState(false);

@@ -1,7 +1,6 @@
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import axios from "axios";
 import { Dispatch } from "redux";
-import { actionCreators } from "..";
 import { NewsAction, NewsActionType } from "../action-types/newsActionTypes";
 import { Filters } from "../action-types/searchActionTypes";
 import {

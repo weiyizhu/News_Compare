@@ -10,10 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
-import {
-  savedNews,
-  savedSearches,
-} from "../../state/action-types/userActionTypes";
+import { savedSearches } from "../../state/action-types/userActionTypes";
 import { RootState } from "../../state/reducers";
 
 interface Props {
@@ -35,12 +32,14 @@ const SearchBox: React.FC<Props> = ({ handleSearch }: Props) => {
   );
 
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   const handleSavedSearch = () => {
     if (!isLoggedIn) {
-      dispatch(actionCreators.updateStatus(Status.ERROR, "You have to log in first"));
-      history.push("/login")
+      dispatch(
+        actionCreators.updateStatus(Status.ERROR, "You have to log in first")
+      );
+      history.push("/login");
       return;
     }
     let errorMsg = "";

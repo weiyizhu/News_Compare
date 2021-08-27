@@ -8,18 +8,12 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import {
-  ArrowRightAlt,
-  Close,
-  Favorite,
-  FavoriteBorder,
-} from "@material-ui/icons";
+import { ArrowRightAlt, Close } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators } from "../../state";
 import { RootState } from "../../state/reducers";
 import { savedNews } from "../../state/action-types/userActionTypes";
 import moment from "moment";
-import { url } from "inspector";
 
 const SavedNews = () => {
   const savedNews = useSelector<RootState, savedNews[] | undefined>(

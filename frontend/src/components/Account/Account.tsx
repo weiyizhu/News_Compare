@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   CardActions,
@@ -7,7 +6,6 @@ import {
   CardHeader,
   Divider,
   Grid,
-  makeStyles,
   TextField,
   TextFieldProps,
 } from "@material-ui/core";
@@ -17,7 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
 import { RootState } from "../../state/reducers";
-import styles from "./styles";
 
 const url = process.env.REACT_APP_PORT || process.env.REACT_APP_EXPRESS_PORT;
 
@@ -26,7 +23,6 @@ const Account = () => {
   const confirmPassword = useRef<TextFieldProps>();
   const dispatch = useDispatch();
   const email = useSelector<RootState, string>((state) => state.user.email);
-  const classes = makeStyles(styles)();
   const changePassword = async () => {
     if (password.current && confirmPassword.current) {
       let errorMsg = "";
@@ -96,7 +92,7 @@ const Account = () => {
         </Grid>
       </CardContent>
       <Divider variant="middle" style={{ marginBottom: "1em" }} />
-      <CardActions className={classes.x}>
+      <CardActions style={{ justifyContent: "flex-end", padding: "1em" }}>
         <Button color="primary" variant="contained" onClick={changePassword}>
           Submit
         </Button>

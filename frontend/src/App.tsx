@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
-  Link,
   Switch,
   Route,
   Redirect,

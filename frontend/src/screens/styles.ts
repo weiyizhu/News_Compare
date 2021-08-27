@@ -2,7 +2,7 @@ import { createStyles } from "@material-ui/core";
 import theme from "../themes/theme";
 
 const styles = createStyles({
-  x: {
+  menu: {
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       marginBottom: "2em",

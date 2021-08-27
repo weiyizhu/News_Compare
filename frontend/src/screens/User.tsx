@@ -3,10 +3,6 @@ import {
   Container,
   Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   makeStyles,
   Paper,
   Tab,
@@ -15,7 +11,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { AccountCircle, Search, Description } from "@material-ui/icons";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "../components/Account";
 import SavedNews from "../components/SavedNews";
@@ -25,8 +20,6 @@ import { UserTabVal } from "../state/action-types/userActionTypes";
 import { RootState } from "../state/reducers";
 import userTheme from "../themes/userTheme";
 import styles from "./styles";
-
-const useStyles = makeStyles(styles);
 
 const User = () => {
   const classes = makeStyles(styles)();
@@ -65,7 +58,7 @@ const User = () => {
             </Grid>
           </Grid>
           <Grid item container>
-            <Grid item container justify="center" className={classes.x}>
+            <Grid item container justify="center" className={classes.menu}>
               <Grid item>
                 <Paper elevation={3}>
                   <Tabs

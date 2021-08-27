@@ -44,7 +44,7 @@ const DisplayNews = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actionCreators.getTopHeadlines("", sourcesWithPage));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (tabVal === 0) {
@@ -60,7 +60,7 @@ const DisplayNews = () => {
         )
       );
     }
-  }, [sourcesWithPage, tabVal, filter]);
+  }, [dispatch, sourcesWithPage, tabVal, filter]);
 
   const news = useSelector<RootState, NewsActionPayload>((state) => state.news);
   const loading = useSelector<RootState, boolean>(
@@ -72,10 +72,10 @@ const DisplayNews = () => {
       <Grid container alignItems="center">
         <Grid item xs>
           <Typography variant="h4" paragraph>
-            {tabVal == 0 ? "Top Headlines" : "Everything"}
+            {tabVal === 0 ? "Top Headlines" : "Everything"}
           </Typography>
         </Grid>
-        {tabVal == 1 && (
+        {tabVal === 1 && (
           <>
             <Grid item>
               <Typography>Sort by</Typography>
