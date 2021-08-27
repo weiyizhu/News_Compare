@@ -55,7 +55,6 @@ const NavBar: React.FC = () => {
   const email = useSelector<RootState, string>((state) => state.user.email);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  console.log(anchorEl);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

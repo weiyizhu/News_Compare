@@ -36,7 +36,6 @@ export const isInvalidInput = (
 export const getTopHeadlines =
   (keywords: string, sourcesWithPage: sourceWithPage[]) =>
   async (dispatch: Dispatch<StatusAction | NewsAction>) => {
-    console.log("top headlines", keywords, sourcesWithPage);
     // check if input is valid
     const errorMsg = isInvalidInput(sourcesWithPage);
     if (errorMsg) {
@@ -81,7 +80,6 @@ export const getTopHeadlines =
         });
 
       const data = res && (await res.data);
-      console.log("data from api call", data);
       data && newsResponseArr.push(data);
     }
     dispatch({
@@ -152,7 +150,6 @@ export const getEverything =
           return;
         });
       const data = res && (await res.data);
-      console.log(data);
       data && newsResponseArr.push(data);
     }
     dispatch({

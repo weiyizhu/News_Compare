@@ -59,7 +59,6 @@ router.post("/sources", (req, res) => {
   axios
     .get(url, getConfig(params))
     .then((result) => {
-      console.log(result.data);
       res.json(result.data.sources);
     })
     .catch((err) => {

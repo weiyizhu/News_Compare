@@ -209,8 +209,6 @@ const areSetsEqual = (a: Set<string>, b: Set<string>) =>
 
 router.post("/addSavedSearches", authenticateToken, async (req, res) => {
   const { keywords, sources } = req.body;
-  console.log(keywords, sources);
-  console.log(req.user);
   if (req.isLoggedIn) {
     try {
       const savedSearches = req.user.savedSearches;
@@ -245,7 +243,6 @@ router.post("/addSavedSearches", authenticateToken, async (req, res) => {
           { savedSearches: [{ keywords, sources }] },
           { new: true }
         );
-        console.log(updatedUser);
         if (updatedUser)
           return res.json({ savedSearches: updatedUser.savedSearches });
         else return res.status(500).json({ savedSearches });
@@ -381,7 +378,6 @@ router.post("/deleteSavedNews", authenticateToken, async (req, res) => {
 });
 
 router.get("/savedNews", authenticateToken, async (req, res) => {
-  console.log(req);
   if (req.isLoggedIn) {
     return res.json({ savedSearches: req.user.savedNews });
   } else {

@@ -49,7 +49,6 @@ export const initialize = () => {
         email: email,
       },
     });
-    console.log(isLoggedIn)
     if (isLoggedIn) {
       const searchRes = await axios
         .get(url + "/users/savedSearches", { withCredentials: true })
@@ -69,7 +68,6 @@ export const initialize = () => {
       const newSavedSearches = searchData
         ? searchData.savedSearches
         : undefined;
-      console.log('lol',searchData)
       dispatch({
         type: UserActionType.UPDATE_SAVED_SEARCHES,
         payload: newSavedSearches,
@@ -150,7 +148,6 @@ export const login = (email: string, password: string, remembered: boolean) => {
       const newSavedSearches = searchData
         ? searchData.savedSearches
         : undefined;
-      console.log("lol", searchData);
       dispatch({
         type: UserActionType.UPDATE_SAVED_SEARCHES,
         payload: newSavedSearches,
@@ -182,7 +179,6 @@ export const login = (email: string, password: string, remembered: boolean) => {
 
 export const logout = () => {
   return async (dispatch: Dispatch<UserAction>) => {
-    console.log("object");
     const res = await axios
       .get(url + "/users/logout", {
         withCredentials: true,
@@ -378,7 +374,6 @@ export const addSavedNews = (
       });
 
     const data = res && (await res.data);
-    console.log(data)
     const newSavedNews = data ? data.savedNews : savedNews;
     dispatch({
       type: UserActionType.UPDATE_SAVED_NEWS,

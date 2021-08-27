@@ -63,7 +63,6 @@ const DisplayNews = () => {
   }, [sourcesWithPage, tabVal, filter]);
 
   const news = useSelector<RootState, NewsActionPayload>((state) => state.news);
-  console.log(news, news.posts);
   const loading = useSelector<RootState, boolean>(
     (state) => state.status.status === Status.LOADING
   );
