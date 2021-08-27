@@ -64,6 +64,9 @@ const SourcesMenu = () => {
   const sourcesWithPage = useSelector<RootState, sourceWithPage[]>(
     (state) => state.searchProps.sourcesWithPage
   );
+  const news = useSelector<RootState, NewsResponseProps[] | null | undefined>(
+    (state) => state.news["posts"]
+  );
   const openMenu = useSelector<RootState, boolean>(
     (state) => state.searchProps.openMenu
   );
@@ -175,7 +178,22 @@ const SourcesMenu = () => {
             selectedSourcesObj.forEach((src) => {
               src && selectedSourcesArr.push({ source: src.id, page: 1 });
             });
+            let sources: string[] = [];
+            selectedSourcesObj.forEach((src) => {
+              src && sources.push(src.id);
+            });
             dispatch(actionCreators.updateSourcesWithPage(selectedSourcesArr));
+            dispatch(
+              actionCreators.updateNews(
+                news?.filter((newsEntry) => {
+                  return newsEntry.articles.length > 0
+                    ? newsEntry.articles[0].source
+                      ? sources.includes(newsEntry.articles[0].source.id)
+                      : false
+                    : false;
+                })
+              )
+            );
           }}
         />
       </DialogContent>
