@@ -146,7 +146,7 @@ const DisplayNews = () => {
                       color="primary"
                       style={{ paddingTop: "1em", paddingBottom: "1em" }}
                       classes={{ ul: classes.center }}
-                      count={Math.ceil(newsSrc.totalResults / 3)}
+                      count={Math.min(33, Math.ceil(newsSrc.totalResults / 3))}
                       getItemAriaLabel={() => sourcesWithPage[index].source}
                       boundaryCount={2}
                       page={sourcesWithPage[index].page}
