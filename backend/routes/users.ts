@@ -9,24 +9,13 @@ import nodemailer from "nodemailer";
 // User Model
 import User from "../models/user";
 import {
+  authenticateToken,
   generateAccessToken,
   generateRefreshToken,
   generateResetToken,
 } from "./auth";
-import { equal } from "assert";
-import { access } from "fs";
 
-export interface AccessRefreshToken {
-  email: string;
-}
-
-declare global {
-  namespace Express {
-    export interface Request {
-      user: AccessRefreshToken;
-    }
-  }
-}
+import { savedSearches, savedNews } from "../models/user";
 
 // @route POST /users/signup
 // @desc User Sign up
@@ -80,12 +69,8 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ msg: "Incorrect account" });
     }
 
-    const dataStoredInToken: AccessRefreshToken = {
-      email: email,
-    };
-
-    const accessToken = generateAccessToken(dataStoredInToken);
-    const refreshToken = generateRefreshToken(dataStoredInToken, remembered);
+    const accessToken = generateAccessToken({ email });
+    const refreshToken = generateRefreshToken({ email }, remembered);
 
     res.cookie("rt", refreshToken, {
       httpOnly: true,
@@ -198,60 +183,11 @@ router.post("/reset", async (req, res) => {
   }
 });
 
-router.get("/checkLoggedInStatus", (req, res) => {
-  const cookies = req.cookies;
-  if ("at" in cookies && "rt" in cookies) {
-    const accessToken = cookies["at"];
-    const refreshToken = cookies["rt"];
-
-    try {
-      const decoded: any = jwt.verify(
-        accessToken,
-        process.env.ACCESS_TOKEN_SECRET
-      );
-      return res.json({ isLoggedIn: true, email: decoded.email });
-    } catch (err) {
-      try {
-        const decoded: any = jwt.verify(
-          refreshToken,
-          process.env.REFRESH_TOKEN_SECRET
-        );
-        const newAccessToken = generateAccessToken({
-          email: decoded.email,
-        });
-        res.cookie("at", newAccessToken);
-        res.json({ isLoggedIn: true, email: decoded.email });
-      } catch (err) {
-        console.log(err.message);
-        res.json({ isLoggedIn: false });
-      }
-    }
-    // jwt.verify(
-    //   accessToken,
-    //   process.env.ACCESS_TOKEN_SECRET,
-    //   (err: VerifyErrors, decoded: jwt.JwtPayload) => {
-    //     if (!err) loggedIn = true;
-    //     else {
-    //       jwt.verify(
-    //         refreshToken,
-    //         process.env.REFRESH_TOKEN_SECRET,
-    //         (err: VerifyErrors, decoded: jwt.JwtPayload) => {
-    //           if (!err) {
-    //             console.log(decoded);
-    //             const newAccessToken = generateAccessToken({
-    //               email: decoded.email,
-    //             });
-    //             res.cookie("at", newAccessToken);
-    //             loggedIn = true;
-    //           }
-    //         }
-    //       );
-    //     }
-    //   }
-    // );
-    // res.json({ isLoggedIn: loggedIn });
+router.get("/checkLoggedInStatus", authenticateToken, (req, res) => {
+  if (req.isLoggedIn) {
+    return res.json({ isLoggedIn: true, email: req.user.email });
   } else {
-    res.json({ isLoggedIn: false });
+    return res.json({ isLoggedIn: false });
   }
 });
 
@@ -259,6 +195,188 @@ router.get("/logout", (req: Request, res: Response) => {
   res.clearCookie("at");
   res.clearCookie("rt");
   res.end();
+});
+
+const areSetsEqual = (a: Set<string>, b: Set<string>) =>
+  a.size === b.size && [...a].every((value) => b.has(value));
+
+router.post("/addSavedSearches", authenticateToken, async (req, res) => {
+  const { keywords, sources } = req.body;
+  console.log(keywords, sources);
+  console.log(req.user);
+  if (req.isLoggedIn) {
+    try {
+      const savedSearches = req.user.savedSearches;
+      const sourcesSet: Set<string> = new Set(sources);
+      // check if the search already exists
+      if (savedSearches) {
+        savedSearches.forEach((savedSearch) => {
+          if (
+            savedSearch.keywords == keywords &&
+            areSetsEqual(sourcesSet, new Set(savedSearch.sources))
+          ) {
+            return res.sendStatus(200);
+          }
+        });
+
+        const updatedUser = await User.findOneAndUpdate(
+          { email: req.user.email },
+          { savedSearches: [...savedSearches, { keywords, sources }] },
+          { new: true }
+        );
+        if (updatedUser)
+          return res.json({ savedSearches: updatedUser.savedSearches });
+        else return res.status(500).json({ savedSearches });
+      } else {
+        const updatedUser = await User.findOneAndUpdate(
+          { email: req.user.email },
+          { savedSearches: [{ keywords, sources }] },
+          { new: true }
+        );
+        console.log(updatedUser);
+        if (updatedUser)
+          return res.json({ savedSearches: updatedUser.savedSearches });
+        else return res.status(500).json({ savedSearches });
+      }
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({ savedSearches: req.body.savedSearches });
+    }
+  } else {
+    return res.sendStatus(403);
+  }
+});
+
+router.post("/deleteSavedSearches", authenticateToken, async (req, res) => {
+  const { keywords, sources } = req.body;
+  if (req.isLoggedIn) {
+    try {
+      const savedSearches = req.user.savedSearches;
+      const sourcesSet: Set<string> = new Set(sources);
+      // delete search
+      if (savedSearches) {
+        const newSavedSearches = savedSearches.filter((savedSearch) => {
+          return (
+            savedSearch.keywords !== keywords ||
+            !areSetsEqual(sourcesSet, new Set(savedSearch.sources))
+          );
+        });
+
+        const updatedUser = await User.findOneAndUpdate(
+          { email: req.user.email },
+          { savedSearches: newSavedSearches },
+          { new: true }
+        );
+        if (updatedUser)
+          return res.json({ savedSearches: updatedUser.savedSearches });
+        else return res.status(500).json({ savedSearches });
+      } else {
+        return res.json({ savedSearches: req.body.savedSearches });
+      }
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({ savedSearches: req.body.savedSearches });
+    }
+  } else {
+    return res.sendStatus(403);
+  }
+});
+
+router.get("/savedSearches", authenticateToken, async (req, res) => {
+  if (req.isLoggedIn) {
+    return res.json({ savedSearches: req.user.savedSearches });
+  } else {
+    return res.sendStatus(403);
+  }
+});
+
+router.post("/addSavedNews", authenticateToken, async (req, res) => {
+  const { title, date, imgUrl, newsUrl } = req.body;
+  if (req.isLoggedIn) {
+    try {
+      const savedNews = req.user.savedNews;
+      // check if the news already exists
+      if (savedNews) {
+        savedNews.forEach((news) => {
+          if (
+            news.date === date &&
+            news.imgUrl === imgUrl &&
+            news.title === title &&
+            news.newsUrl === newsUrl
+          ) {
+            return res.json({ savedNews });
+          }
+        });
+
+        const updatedUser = await User.findOneAndUpdate(
+          { email: req.user.email },
+          { savedNews: [...savedNews, { title, date, imgUrl, newsUrl }] },
+          { new: true }
+        );
+        console.log("updated", updatedUser);
+        if (updatedUser) return res.json({ savedNews: updatedUser.savedNews });
+        else return res.status(500).json({ savedNews });
+      } else {
+        const updatedUser = await User.findOneAndUpdate(
+          { email: req.user.email },
+          { savedNews: [{ title, date, imgUrl, newsUrl }] },
+          { new: true }
+        );
+        console.log(updatedUser);
+        if (updatedUser) return res.json({ savedNews: updatedUser.savedNews });
+        else return res.status(500).json({ savedNews });
+      }
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({ savedNews: req.user.savedNews });
+    }
+  } else {
+    return res.sendStatus(403);
+  }
+});
+
+router.post("/deleteSavedNews", authenticateToken, async (req, res) => {
+  const { title, date, imgUrl, newsUrl } = req.body;
+  if (req.isLoggedIn) {
+    try {
+      const savedNews = req.user.savedNews;
+      // delete news
+      if (savedNews) {
+        const newSavedNews = savedNews.filter((news) => {
+          return (
+            news.date !== date ||
+            news.imgUrl !== imgUrl ||
+            news.title !== title ||
+            news.newsUrl !== newsUrl
+          );
+        });
+
+        const updatedUser = await User.findOneAndUpdate(
+          { email: req.user.email },
+          { savedNews: newSavedNews },
+          { new: true }
+        );
+        if (updatedUser) return res.json({ savedNews: updatedUser.savedNews });
+        else return res.status(500).json({ savedNews });
+      } else {
+        return res.json({ savedNews: req.user.savedNews });
+      }
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({ savedNews: req.user.savedNews });
+    }
+  } else {
+    return res.sendStatus(403);
+  }
+});
+
+router.get("/savedNews", authenticateToken, async (req, res) => {
+  console.log(req);
+  if (req.isLoggedIn) {
+    return res.json({ savedSearches: req.user.savedNews });
+  } else {
+    return res.sendStatus(403);
+  }
 });
 
 export default router;

@@ -1,8 +1,22 @@
 import { Schema, model } from "mongoose";
 
-interface IUser {
+export interface savedNews {
+  title: string;
+  date: string;
+  imgUrl: string;
+  newsUrl: string;
+}
+
+export interface savedSearches {
+  keywords: string;
+  sources: string[];
+}
+
+export interface IUser {
   email: string;
   password: string;
+  savedSearches?: savedSearches[] | null;
+  savedNews?: savedNews[] | null;
 }
 
 const userSchema = new Schema<IUser>(
@@ -17,6 +31,22 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       minlength: 6,
+    },
+    savedSearches: {
+      type: [{
+        keywords: String,
+        sources: [String]
+      }],
+      required: false,
+    },
+    savedNews: {
+      type: [{
+        title: String,
+        date: String,
+        imgUrl: String,
+        newsUrl: String
+      }],
+      required: false,
     },
   },
   {
