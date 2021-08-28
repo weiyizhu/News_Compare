@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node server.ts",
+    "start": "NODE_ENV=development nodemon --exec ts-node server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "fix:style": "npx prettier --write .",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
