@@ -7,6 +7,4 @@
     "moduleResolution": "node",
     "sourceMap": true
   },
-  "include": ["/**/*.ts"],
-  "exclude": ["node_modules" ]
 }
