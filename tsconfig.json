@@ -7,4 +7,5 @@
     "moduleResolution": "node",
     "sourceMap": true
   },
+  "exclude": ["node_modules"]
 }

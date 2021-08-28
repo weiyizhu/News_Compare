@@ -7,7 +7,8 @@
     "start": "nodemon server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "fix:style": "npx prettier --write .",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm install --prefix frontend && npm run build --prefix frontend",
+    "publish": "tsc -p ."
   },
   "keywords": [],
   "author": "",
