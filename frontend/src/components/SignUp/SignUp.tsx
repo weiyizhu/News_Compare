@@ -13,6 +13,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
+import React from "react";
 
 export const isValidEmail = (email: string) => {
   const re = /\S+@\S+\.\S+/;

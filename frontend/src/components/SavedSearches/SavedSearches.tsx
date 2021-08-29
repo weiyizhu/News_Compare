@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { Close, SearchOutlined } from "@material-ui/icons";
 import moment from "moment";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { actionCreators } from "../../state";

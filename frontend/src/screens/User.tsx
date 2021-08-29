@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { AccountCircle, Search, Description } from "@material-ui/icons";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "../components/Account";
 import SavedNews from "../components/SavedNews";

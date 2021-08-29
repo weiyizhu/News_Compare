@@ -16,6 +16,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import { Status } from "./state/action-types/statusActionTypes";
 import User from "./screens/User";
 import notFound from "./screens/notFound";
+import React from "react";
 
 function App() {
   const showStatus = useSelector<RootState, boolean>(

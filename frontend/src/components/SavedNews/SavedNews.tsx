@@ -14,6 +14,7 @@ import { actionCreators } from "../../state";
 import { RootState } from "../../state/reducers";
 import { savedNews } from "../../state/action-types/userActionTypes";
 import moment from "moment";
+import React from "react";
 
 const SavedNews = () => {
   const savedNews = useSelector<RootState, savedNews[] | undefined>(
