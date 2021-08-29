@@ -19,6 +19,7 @@
     "axios": "^0.21.1",
     "date-fns": "^2.22.1",
     "moment": "^2.29.1",
+    "prettier": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
@@ -35,7 +36,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "fix:style": "npx prettier --write ."
+    "fix:style": "npx prettier --write .",
+    "fix:style2": "prettier --ignore-path .gitignore --write \"src/**/*.{js,ts,jsx,tsx}\"",
+    "check:lint": "eslint --ignore-path .gitignore \"src/**/*.{js,ts,jsx,tsx}\""
   },
   "eslintConfig": {
     "extends": [
