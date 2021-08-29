@@ -1,8 +1,0 @@
-6/21-6/27 search box (news sources), backend typescript
-6/28-7/4 display news (pagination, like and share)
-
-7/5-7/11 login/signup/forgot/jwt; google oauth
-7/12-7/18 redux
-7/19-7/25 react routing
-7/26-8/1 dashboard (save searches, articles)
-8/2-8/6 xc (auto complete past searches) (web socket to display real time request change)
