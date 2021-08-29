@@ -5,6 +5,7 @@ import {
   CardMedia,
   Grid,
   IconButton,
+  makeStyles,
   Tooltip,
   Typography,
 } from "@material-ui/core";
@@ -18,6 +19,7 @@ import { Status } from "../../state/action-types/statusActionTypes";
 import { savedNews } from "../../state/action-types/userActionTypes";
 import { RootState } from "../../state/reducers";
 import { NewsArticle } from "../../types";
+import styles from "./styles";
 
 const NewsEntry: React.FC<NewsArticle> = ({
   description,
@@ -26,6 +28,7 @@ const NewsEntry: React.FC<NewsArticle> = ({
   url,
   urlToImage,
 }: NewsArticle) => {
+  const classes = makeStyles(styles)();
   const [clicked, setClicked] = useState(false);
   const dispatch = useDispatch();
   const savedNews = useSelector<RootState, savedNews[] | undefined>(
@@ -68,7 +71,7 @@ const NewsEntry: React.FC<NewsArticle> = ({
     setClicked(!clicked);
   };
   return (
-    <Card raised style={{ height: "35em", marginTop: "2em" }}>
+    <Card raised className={classes.card}>
       <CardHeader
         titleTypographyProps={{ variant: "h6" }}
         subheaderTypographyProps={{ variant: "body2" }}
@@ -76,7 +79,7 @@ const NewsEntry: React.FC<NewsArticle> = ({
         style={{ paddingBottom: 0, display: "block" }}
       />
       <CardContent style={{ paddingTop: 0, paddingBottom: 5 }}>
-        <Grid container alignItems="center" justify="space-between">
+        <Grid container alignItems  ="center" justify="space-between">
           <Grid item xs>
             <Typography variant="body2" color="textSecondary">
               {moment(publishedAt).format("MMMM Do YYYY, h:mm:ss a")}
