@@ -173,7 +173,7 @@ const SourcesMenu = () => {
           )}
           defaultValue={defaultValues}
           limitTags={3}
-          onChange={(event, selectedSourcesObj) => {
+          onChange={(event, selectedSourcesObj: (ISource | undefined)[]) => {
             let selectedSourcesArr: sourceWithPage[] = [];
             selectedSourcesObj.forEach((src) => {
               src && selectedSourcesArr.push({ source: src.id, page: 1 });

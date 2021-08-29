@@ -1,5 +1,15 @@
 // https://www.adfontesmedia.com/rankings-by-individual-news-source/
-export const allSources = [
+export interface ISource {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  category: string;
+  language: string;
+  country: string;
+  bias: number
+}
+export const allSources: ISource[] = [
   {
     id: "abc-news",
     name: "ABC News",
