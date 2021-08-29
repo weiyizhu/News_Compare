@@ -1,3 +1,5 @@
+import { NewsResponseProps } from "../../types";
+
 export enum NewsActionType {
   UPDATE_NEWS = "UPDATE_NEWS",
 }

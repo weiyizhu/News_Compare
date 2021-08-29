@@ -1,4 +1,5 @@
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
+import { sourceWithPage } from "../../types";
 
 export enum SearchActionType {
   TOGGLE_TAB_VAL = "TOGGLE_TAB_VAL",

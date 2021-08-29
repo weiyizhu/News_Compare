@@ -17,6 +17,7 @@ import { Filters } from "../../state/action-types/searchActionTypes";
 import { savedSearches } from "../../state/action-types/userActionTypes";
 import { RootState } from "../../state/reducers";
 import { allSources } from "../../static/allSources";
+import { sourceWithPage } from "../../types";
 
 const SavedSearches = () => {
   const savedSearches = useSelector<RootState, savedSearches[] | undefined>(

@@ -17,6 +17,7 @@ import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
 import { savedNews } from "../../state/action-types/userActionTypes";
 import { RootState } from "../../state/reducers";
+import { NewsArticle } from "../../types";
 
 const NewsEntry: React.FC<NewsArticle> = ({
   description,

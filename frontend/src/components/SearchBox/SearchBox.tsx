@@ -12,6 +12,7 @@ import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
 import { savedSearches } from "../../state/action-types/userActionTypes";
 import { RootState } from "../../state/reducers";
+import { sourceWithPage } from "../../types";
 
 interface Props {
   handleSearch: () => void;

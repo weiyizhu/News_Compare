@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
 import { actionCreators } from "../../state";
 import React from "react";
+import { sourceWithPage, NewsResponseProps } from "../../types";
 
 const marks = [
   {

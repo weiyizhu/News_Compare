@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from "../../state";
 import { RootState } from "../../state/reducers";
 import { allSources } from "../../static/allSources";
+import { NewsResponseProps, sourceWithPage } from "../../types";
 
 const PickSources = () => {
   const news = useSelector<RootState, NewsResponseProps[] | null | undefined>(

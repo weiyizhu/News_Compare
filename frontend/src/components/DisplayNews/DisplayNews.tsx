@@ -24,6 +24,7 @@ import {
 import { Status } from "../../state/action-types/statusActionTypes";
 import { RootState } from "../../state/reducers";
 import { allSources } from "../../static/allSources";
+import { sourceWithPage } from "../../types";
 import NewsEntry from "../NewsEntry";
 
 const useStyles = makeStyles({
