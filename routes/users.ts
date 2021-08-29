@@ -49,7 +49,8 @@ router.post("/signup", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      msg: "Error saving user",
+      // msg: "Error saving user",
+      msg: err.message
     });
   }
 });
@@ -81,7 +82,8 @@ router.post("/login", async (req, res) => {
 
     res.sendStatus(200);
   } catch (err) {
-    res.status(500).json({ msg: "Server error" });
+    // res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ msg: err.message });
   }
 });
 
