@@ -9,7 +9,7 @@ import {
   TextFieldProps,
 } from "@material-ui/core";
 import { Link as RouterLink, useHistory } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { actionCreators } from "../../state";
 import { Status } from "../../state/action-types/statusActionTypes";
@@ -45,9 +45,11 @@ const SignUp = () => {
             email: email.current.value,
             password: password.current.value,
           })
-          .catch((err) => {
+          .catch((err: AxiosError) => {
             console.log(err.message);
-            dispatch(actionCreators.updateStatus(Status.ERROR, err.message));
+            dispatch(
+              actionCreators.updateStatus(Status.ERROR, err.response?.data.msg)
+            );
           });
         if (res) {
           dispatch(

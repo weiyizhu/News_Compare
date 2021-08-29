@@ -7,7 +7,7 @@ export interface ISource {
   category: string;
   language: string;
   country: string;
-  bias: number
+  bias: number;
 }
 export const allSources: ISource[] = [
   {

@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 // Get News API configs
 const newsAPIUrl = process.env.NEWS_API_URI;
@@ -32,9 +32,9 @@ router.post("/everything", (req, res) => {
     .then((result) => {
       res.json(result.data);
     })
-    .catch((err) => {
-      console.log(err.response.data);
-      res.status(err.response.status).json(err.response.data);
+    .catch((err: AxiosError) => {
+      console.log(err.response?.data);
+      res.status(err.response.status).json(err.message);
     });
 });
 
@@ -48,7 +48,7 @@ router.post("/top-headlines", (req, res) => {
       res.json(result.data);
     })
     .catch((err) => {
-      res.status(err.response.status).json(err.response.data);
+      res.status(500).json(err.message);
     });
 });
 
@@ -62,7 +62,7 @@ router.post("/sources", (req, res) => {
       res.json(result.data.sources);
     })
     .catch((err) => {
-      res.status(err.response.status).json(err.response.data);
+      res.status(500).json(err.message);
     });
 });
 

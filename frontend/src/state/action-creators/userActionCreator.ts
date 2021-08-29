@@ -175,7 +175,7 @@ export const login = (email: string, password: string, remembered: boolean) => {
 };
 
 export const logout = () => {
-  return async (dispatch: Dispatch<UserAction>) => {
+  return async (dispatch: Dispatch<UserAction | StatusAction>) => {
     await axios
       .get("/users/logout", {
         withCredentials: true,
@@ -189,6 +189,13 @@ export const logout = () => {
       payload: {
         isLoggedIn: false,
         email: "",
+      },
+    });
+    dispatch({
+      type: StatusActionType.UPDATE_STATUS,
+      payload: {
+        status: Status.SUCCESS,
+        msg: "Log out successful!",
       },
     });
   };
