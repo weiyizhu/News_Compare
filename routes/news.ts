@@ -34,7 +34,9 @@ router.post("/everything", (req, res) => {
     })
     .catch((err: AxiosError) => {
       console.log(err.response?.data);
-      res.status(err.response.status).json(err.message);
+      res
+        .status(err.response?.status ?? 500)
+        .json(err.response?.data ?? err.message);
     });
 });
 
@@ -47,8 +49,11 @@ router.post("/top-headlines", (req, res) => {
     .then((result) => {
       res.json(result.data);
     })
-    .catch((err) => {
-      res.status(500).json(err.message);
+    .catch((err: AxiosError) => {
+      console.log(err.response?.data);
+      res
+        .status(err.response?.status ?? 500)
+        .json(err.response?.data ?? err.message);
     });
 });
 
