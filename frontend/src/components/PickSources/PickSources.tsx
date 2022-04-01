@@ -45,7 +45,7 @@ const PickSources = () => {
             dispatch(actionCreators.toggleOpenMenu(true));
           }}
         >
-          Sources:{" "}
+          Edit Sources:{" "}
         </Button>
       </Grid>
       {sourcesWithPage &&
