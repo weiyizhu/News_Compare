@@ -59,7 +59,7 @@ const DisplayNews = () => {
         )
       );
     }
-  }, [dispatch, sourcesWithPage]);
+  }, [dispatch, filter, fromDate, keywords, sourcesWithPage, tabVal, toDate]);
 
   const handleFilterChange = (newFilter: Filters) => {
     const resetSourcesWithPage = searchProps.sourcesWithPage.map(
